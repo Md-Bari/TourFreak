@@ -28,7 +28,25 @@
       top: 0;
       z-index: 1000;
     }
-
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.8rem;
+    }
+    .navbar ul {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+    .navbar-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+  
   </style>
 </head>
 <body>
