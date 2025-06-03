@@ -46,6 +46,53 @@
       display: flex;
       gap: 0.5rem;
     }
+    /* Footer */
+.footer {
+  background: #f8f8f8;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  border-top: 1px solid #ddd;
+  margin-top: 3rem;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer p {
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap; /* allow wrapping */
+  justify-content: center;
+  gap: 1rem;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+
+
   
   </style>
 </head>
@@ -94,6 +141,24 @@
       <button type="submit">Submit</button>
     </form>
   </div>
+
+    <!-- Footer -->
+  
+<footer class="footer">
+  <div class="footer-container">
+    <p>&copy; 2025 Tour Freak. All rights reserved.</p>
+    <ul class="footer-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Contact Us</a></li>
+      <li><a href="#">Support</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Service</a></li>
+    </ul>
+  </div>
+</footer>
+
+
 
 </body>
 </html>
