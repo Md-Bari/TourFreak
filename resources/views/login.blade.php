@@ -15,7 +15,7 @@
     <nav class="navbar">
         <div class="navbar-brand">TourFreak</div>
         <ul>
-            <li><a href="{{ url('/') }}">Home</a></li>
+            <li><a href="{{ url('/welcome') }}">welcome</a></li>
             <li><a href="#">Rooms</a></li>
             <li><a href="#">Facilities</a></li>
             <li><a href="#">Contact</a></li>
