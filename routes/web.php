@@ -30,4 +30,15 @@ Route::get('/register', [RegisterController::class, 'show'])->name('register.for
 // Handle form submission (POST)
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
+use App\Http\Controllers\AuthController;
+
+Route::get('/login', function() {
+    return view('login');
+})->name('login');
+
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+
+Route::get('/dashboard', function () {
+    return 'Welcome to your dashboard!';
+})->middleware('auth.custom');
 
