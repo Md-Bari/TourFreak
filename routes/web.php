@@ -22,3 +22,12 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+use App\Http\Controllers\RegisterController;
+
+// Show register page (GET)
+Route::get('/register', [RegisterController::class, 'show'])->name('register.form');
+
+// Handle form submission (POST)
+Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+
+

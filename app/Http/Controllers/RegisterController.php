@@ -8,28 +8,25 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    // Show the registration page
     public function show()
     {
-        return view('register'); // this loads register.blade.php
+        return view('register');
     }
 
-    // Handle registration form submission
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
             'password' => 'required|confirmed|min:6',
         ]);
 
-        // Save user
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect('/login')->with('success', 'Registered successfully. Please log in.');
+        return redirect('/login')->with('success', 'Registration successful. Please log in.');
     }
 }

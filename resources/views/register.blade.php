@@ -17,7 +17,7 @@
         <button type="submit">Register</button>
     </form>
     <div class="login-link">
-        Already have an account? <a href="/login">Login</a>
+        Already have an account? <a href="{{ url('/login') }}">Login</a>
     </div>
 </div>
 
