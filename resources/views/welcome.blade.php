@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tour Freak</title>
   <style>
-    
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    html, body {
+    html,
+    body {
       height: 100%;
     }
 
@@ -29,14 +30,14 @@
       flex: 1;
     }
 
-    
+
     .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
       background: linear-gradient(to right, #2e8b57, #3cb371);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       position: sticky;
       top: 0;
       z-index: 1000;
@@ -80,7 +81,7 @@
       gap: 0.5rem;
     }
 
-    
+
     .hero img {
       width: 100%;
       height: auto;
@@ -89,7 +90,7 @@
       background-color: #ccc;
     }
 
-    
+
     .booking-box {
       padding: 2rem;
       text-align: center;
@@ -134,7 +135,7 @@
       background-color: #276c4a;
     }
 
-    
+
     .footer {
       background: #2e8b57;
       padding: 1.5rem 2rem;
@@ -172,10 +173,11 @@
     }
   </style>
 </head>
+
 <body>
 
   <div class="content">
-    
+
     <nav class="navbar">
       <div class="navbar-brand">TourFreak</div>
       <ul>
@@ -191,31 +193,36 @@
       </div>
     </nav>
 
-    
+
     <section class="hero">
       <div>
         <img src="" alt="Hero image placeholder">
       </div>
     </section>
 
-    
+
     <div class="booking-box">
       <h2>Tour Plan</h2>
-      <form class="booking-form">
-        <input type="date" placeholder="Check-In" />
-        <input type="date" placeholder="Check-Out" />
-        <select>
-          <option>One Adult</option>
-          <option>Two Adults</option>
-          <option>Three Adults</option>
+      <form class="booking-form" action="{{ route('booking.store') }}" method="POST">
+        @csrf
+        <input type="date" name="check_in" required />
+        <input type="date" name="check_out" required />
+
+        <select name="adults" required>
+          <option value="1">One Adult</option>
+          <option value="2">Two Adults</option>
+          <option value="3">Three Adults</option>
         </select>
-        <select>
-          <option>One Child</option>
-          <option>Two Children</option>
-          <option>Three Children</option>
+
+        <select name="children" required>
+          <option value="1">One Child</option>
+          <option value="2">Two Children</option>
+          <option value="3">Three Children</option>
         </select>
+
         <button type="submit">Submit</button>
       </form>
+
     </div>
   </div>
 
@@ -235,4 +242,5 @@
   </footer>
 
 </body>
+
 </html>
