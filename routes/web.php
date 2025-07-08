@@ -1,44 +1,37 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-Route::get('/', function () {
-    return view('welcome');
-})->name('login');
-Route::view('/login', 'login');
-
-
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BookingController;
 
-Route::get('/booking', function () {
-    return view('booking');
-});
-
-Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
-
+// Home route
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-use App\Http\Controllers\RegisterController;
-
-// Show register page (GET)
-Route::get('/register', [RegisterController::class, 'show'])->name('register.form');
-
-// Handle form submission (POST)
+// Register routes
+Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+Route::get('/register', [RegisterController::class, 'create'])->name('register.show');
+// Login routes
+Route::get('/login', [LoginController::class, 'create'])->name('login');
+Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 
-use App\Http\Controllers\AuthController;
+// Logout route
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/login', function() {
-    return view('login');
-})->name('login');
+// Booking routes
+Route::get('/booking', function () {
+    return view('booking');
+});
+Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+// Dashboard route (requires auth)
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
 
-Route::get('/dashboard', function () {
-    return 'Welcome to your dashboard!';
-})->middleware('auth.custom');
+
 

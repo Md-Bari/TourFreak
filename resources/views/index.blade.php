@@ -2,54 +2,67 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Tour Freak</title>
-  <link rel="stylesheet" href="{{ asset('style.css') }}">
-  @stack('style')
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tour Freak - Home</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
 
-  <div class="content">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{ route('home') }}">TourFreak</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <nav class="navbar">
-      <div class="navbar-brand">TourFreak</div>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Rooms</a></li>
-        <li><a href="#">Facilities</a></li>
-        <li><a href="#">Contact</a></li>
-        <li><a href="#">About</a></li>
-      </ul>
-      <div class="navbar-buttons">
-        <a href="{{ url('/login') }}" class="btn">Login</a>
-        <a href="{{ url('/register') }}" class="btn">Register</a>
-      </div>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Rooms</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Facilities</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('dashboard') }}">{{ auth()->user()->name }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-link nav-link" style="display:inline; padding:0;">Logout</button>
+                        </form>
+                    </li>
+                    @else
+                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('register.show') }}">Register</a></li>
+                    @endauth
+                </ul>
+            </div>
+        </div>
     </nav>
 
-    <div>
-      @yield('content')
-    </div>
+    <!-- Main content -->
+    <main class="container py-5">
+        <div>
+            @yield('content')
+        </div>
+    </main>
 
-  </div>
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3">
+        &copy; 2025 Tour Freak. All rights reserved.
+    </footer>
 
-  <footer class="footer">
-    <div class="footer-container">
-      <p>&copy; 2025 Tour Freak. All rights reserved.</p>
-      <ul class="footer-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Contact Us</a></li>
-        <li><a href="#">Support</a></li>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Terms of Service</a></li>
-      </ul>
-    </div>
-  </footer>
-
-  @stack('java')
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
