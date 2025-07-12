@@ -5,7 +5,7 @@
 @section('content')
 <section class="hero">
       <div>
-        <img src="" alt="Hero image placeholder">
+        <img src="" alt="Hero image">
       </div>
     </section>
 
