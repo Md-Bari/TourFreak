@@ -2,24 +2,14 @@
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-<style>
-.hero {
-    height: 100vh;
-    background-image: url("/assets/images/beach.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-</style>
-
 @endpush
 
 @section('content')
 <section class="hero">
     <div class="booking-container">
         <div class="tab-buttons">
-            <button class="tab-btn active" onclick="showTab('flight')">✈️ Flight</button>
-            <button class="tab-btn" onclick="showTab('bus')">🚌 Bus</button>
+            <button class="tab-btn active" onclick="showTab('flight', event)">✈️ Flight</button>
+            <button class="tab-btn" onclick="showTab('bus', event)">🚌 Bus</button>
         </div>
 
         <!-- Flight Booking -->
@@ -66,12 +56,25 @@
 </section>
 
 <script>
-function showTab(tab) {
+function showTab(tab, event) {
     document.getElementById('flight').style.display = (tab === 'flight') ? 'flex' : 'none';
     document.getElementById('bus').style.display = (tab === 'bus') ? 'flex' : 'none';
 
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
     event.target.classList.add('active');
 }
+
+// Slideshow
+const backgrounds = [
+    "/assets/images/beach.jpg",
+    "/assets/images/bangladesh.jpeg",
+    "/assets/images/sajek.jpeg"
+];
+let current = 0;
+setInterval(() => {
+    current = (current + 1) % backgrounds.length;
+    document.querySelector(".hero").style.backgroundImage = `url('${backgrounds[current]}')`;
+}, 5000);
+
 </script>
 @endsection
