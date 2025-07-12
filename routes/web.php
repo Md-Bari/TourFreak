@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\FlightController;
+use App\Http\Controllers\BusController;
 
 // Home route
 Route::get('/', function () {
@@ -32,6 +34,10 @@ Route::post('/booking', [BookingController::class, 'store'])->name('booking.stor
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
 
-
+Route::get('/search-flight', [FlightController::class, 'search'])->name('flight.search');
+Route::get('/bus-search', [BusController::class, 'search'])->name('bus.search');
 
