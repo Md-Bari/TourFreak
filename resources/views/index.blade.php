@@ -56,7 +56,7 @@
     </nav>
 
     <!-- Main content -->
-    <main class="full-width py-5" style="margin-top: 80px;">
+    <main class="full-width p-0 m-0"> style="margin-top: 80px;">
         @yield('content')
     </main>
 

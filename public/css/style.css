@@ -33,6 +33,16 @@ html, body {
     background: rgba(0, 0, 0, 0.3);
     z-index: 1;
 }
+
+body {
+    margin: 0;
+}
+
+/* Ensure navbar doesn't leave space */
+main.full-width {
+    margin: 0 !important;
+    padding: 0 !important;
+}
 .full-width {
     width: 100%;
     max-width: 100%;
@@ -145,9 +155,12 @@ html, body {
     transform: translateY(-2px);
 }
 .navbar {
-    background: rgba(0, 0, 0, 0.6) !important;
-    backdrop-filter: blur(6px);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    background-color: rgba(0, 123, 255, 0.75); 
+    backdrop-filter: blur(8px);
 }
 
 .navbar.scrolled {
@@ -155,13 +168,24 @@ html, body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 .bg-ocean {
-    background-color: #7bc4ec !important; /* Ocean blue */
+    background-color: #7bc4ec !important; 
 }
 
 
 .navbar.scrolled {
-    background-color: #023e8a !important; /* Darker ocean blue on scroll */
+    background-color: #023e8a !important; 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.navbar-nav .nav-link {
+    font-size: 1.1rem;      
+    font-weight: 600;         
+    letter-spacing: 0.5px;    
+    text-transform: capitalize;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffd700 !important; 
 }
 /* RESPONSIVE */
 @media (max-width: 768px) {
