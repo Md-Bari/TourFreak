@@ -27,12 +27,12 @@
             </button>
 
             <div class="collapse navbar-collapse justify-content-end" id="navMenu">
-                <ul class="navbar-nav gap-3">
+                <ul class="navbar-nav gap-3 fs-5 fw-semibold">
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('home') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="#">Rooms</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="#">Facilities</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="#">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ route('room') }}">Rooms</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ route('facilities') }}">Facilities</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ route('contact') }}">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ route('about') }}">About</a></li>
                 </ul>
 
                 <ul class="navbar-nav ms-4 gap-2">
@@ -56,7 +56,7 @@
     </nav>
 
     <!-- Main content -->
-    <main class="full-width p-0 m-0"> style="margin-top: 80px;">
+    <main class="full-width p-0 m-0" style="margin-top: 80px;">
         @yield('content')
     </main>
 
@@ -86,6 +86,7 @@
             }
         });
     </script>
+    
 </body>
 
 </html>
