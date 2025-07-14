@@ -17,7 +17,7 @@
 <body>
 
     <!-- Classy Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent py-3 fixed-top shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-ocean py-3 fixed-top shadow-sm">
         <div class="container-fluid px-5">
             <a class="navbar-brand fw-bold text-light fs-4" href="{{ route('home') }}">
                 Tour<span class="text-primary">Freak</span>
