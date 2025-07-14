@@ -1,0 +1,105 @@
+.rooms-hero {
+    position: relative;
+    height: 50vh;
+    background: url('/assets/images/r3.jpg') center center / cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.rooms-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 1;
+}
+
+.rooms-hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.rooms-hero-content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.rooms-hero-content p {
+    font-size: 1.2rem;
+}
+
+.room-card {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-align: center;
+    padding: 15px;
+}
+
+.room-card:hover {
+    background-color: #87ceeb; /* Sky blue on hover */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    color: #fff; /* Make text white on hover for contrast */
+}
+
+.room-card:hover .room-title,
+.room-card:hover .room-price,
+.room-card:hover .room-description {
+    color: #fff;
+}
+
+.room-card:hover .price {
+    color: #ffd700; /* Optional: gold color for price on hover */
+}
+
+
+
+.room-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.room-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+}
+
+.room-price {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+.room-price .price {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.room-description {
+    font-size: 0.9rem;
+    color: #555;
+    flex-grow: 1;
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    background-color: #000000;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #f7fff9;
+}
