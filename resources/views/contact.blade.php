@@ -6,7 +6,7 @@
 @endpush
 
 @section('content')
-<div class="py-10 px-4">
+<div class="py-10 px-4 mt-5 mb-5 d-flex justify-content-center">
     <div class="contact-container">
 
         <!-- Left Column: Office Info -->

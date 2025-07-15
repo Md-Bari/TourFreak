@@ -1,6 +1,6 @@
 /* Container background */
 body {
-    background-color: #d9f99d; /* lime-300 equivalent */
+    background-color: #d9eef3; /* lime-300 equivalent */
 }
 
 /* Contact Card Container */
@@ -14,7 +14,12 @@ body {
     flex-direction: column;
     overflow: hidden;
 }
-
+.contact-page-wrapper {
+    margin-top: 100px; /* adjust according to your navbar height */
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
 @media (min-width: 768px) {
     .contact-container {
         flex-direction: row;
