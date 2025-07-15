@@ -73,3 +73,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 });
 Route::get('/home', [HomeController::class, 'index'])->middleware('auth');
 
+use App\Http\Controllers\AdminController;
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+});

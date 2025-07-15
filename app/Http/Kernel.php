@@ -17,6 +17,7 @@ class Kernel extends HttpKernel
     // other middleware ...
     'auth.custom' => \App\Http\Middleware\CustomAuthMiddleware::class,
     'auth' => \App\Http\Middleware\Authenticate::class,
+    'admin' => \App\Http\Middleware\AdminMiddleware::class,
 ];
 
     protected $middleware = [
@@ -72,6 +73,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
+
 
     ];
 }
