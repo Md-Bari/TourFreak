@@ -75,3 +75,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 Route::get('/home', [HomeController::class, 'index'])->middleware('auth');
 Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
 
+
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
