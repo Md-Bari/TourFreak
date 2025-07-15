@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,15 +7,15 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-    <!-- Custom CSS pushed from pages -->
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @stack('style')
-</head>
 
+</head>
 <body>
 
-    <!-- Classy Navbar -->
+    <!-- Fixed Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-ocean py-3 fixed-top shadow-sm">
         <div class="container-fluid px-5">
             <a class="navbar-brand fw-bold text-light fs-4" href="{{ route('home') }}">
@@ -55,13 +54,13 @@
         </div>
     </nav>
 
-    <!-- Main content -->
-    <main class="full-width p-0 m-0" style="margin-top: 80px;">
+    <!-- Main Content -->
+    <main class="full-width p-0 m-0">
         @yield('content')
     </main>
 
-    <!-- Classy Footer -->
-    <footer class="bg-dark text-light py-4 mt-5">
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4">
         <div class="container text-center">
             <p class="mb-1 fw-light">&copy; 2025 <strong>TourFreak</strong>. All rights reserved.</p>
             <div class="small">
@@ -75,7 +74,7 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Optional Navbar Scroll Behavior -->
+    <!-- Optional scroll behavior -->
     <script>
         window.addEventListener('scroll', function () {
             const navbar = document.querySelector('.navbar');
@@ -86,7 +85,7 @@
             }
         });
     </script>
-    
-</body>
 
+    @stack('script')
+</body>
 </html>

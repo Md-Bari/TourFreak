@@ -57,5 +57,9 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/search-flight', [FlightController::class, 'search'])->name('flight.search');
-Route::get('/bus-search', [BusController::class, 'search'])->name('bus.search');
 
+Route::get('/bus-search', [BusController::class, 'search'])->name('tour.search');
+
+
+// Add this route
+Route::get('/search/bus', [BusController::class, 'search'])->name('bus.search');

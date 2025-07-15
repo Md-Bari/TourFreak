@@ -1,11 +1,78 @@
-@import 'tailwindcss';
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+html, body {
+    width: 100%;
+    height: 100%;
+    scroll-behavior: smooth;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f1f5f9;
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* Add padding to body to offset fixed navbar height */
+body {
+    padding-top: 80px; /* Adjust if navbar height changes */
+}
+
+/* Full-width container reset */
+.full-width {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/* Navbar custom */
+.bg-ocean {
+    background-color: #c8e5f6 !important;
+}
+
+.navbar {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    z-index: 9999;
+}
+
+.navbar.scrolled {
+    background-color: #023e8a !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-brand span {
+    color: #90e0ef;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1.4rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffd700 !important;
+}
+
+/* Footer */
+footer {
+    margin-top: 50px;
+    font-size: 0.95rem;
+}
+
+footer .small a {
+    transition: color 0.3s;
+}
+
+footer .small a:hover {
+    color: #f8f9fa;
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar-nav {
+        gap: 0.5rem;
+    }
 }
