@@ -29,7 +29,7 @@
                 <ul class="navbar-nav gap-3 fs-5 fw-semibold">
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('home') }}">Home</a></li>
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('room') }}">Rooms</a></li>
-                    
+
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('contact') }}">Contact</a></li>
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('about') }}">About</a></li>
                 </ul>
@@ -54,10 +54,7 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="full-width p-0 m-0">
-        @yield('content')
-    </main>
+
 
    <!-- Footer -->
 <footer class="bg-dark text-light pt-5 pb-3">
@@ -116,7 +113,10 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Optional scroll behavior -->
+ <!-- Main Content -->
+    <main class="full-width p-0 m-0">
+        @yield('content')
+    </main>    <!-- Optional scroll behavior -->
     <script>
         window.addEventListener('scroll', function () {
             const navbar = document.querySelector('.navbar');

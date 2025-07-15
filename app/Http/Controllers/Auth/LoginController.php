@@ -46,4 +46,12 @@ class LoginController extends Controller
 
         return redirect('/');
     }
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->role === 'admin') {
+            return redirect('/admin/dashboard');
+        }
+
+        return redirect('/dashboard');
+    }
 }
