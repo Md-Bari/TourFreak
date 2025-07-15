@@ -63,3 +63,13 @@ Route::get('/bus-search', [BusController::class, 'search'])->name('tour.search')
 
 // Add this route
 Route::get('/search/bus', [BusController::class, 'search'])->name('bus.search');
+
+
+// Admin Routes
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+});
+Route::get('/home', [HomeController::class, 'index'])->middleware('auth');
+

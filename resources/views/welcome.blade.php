@@ -13,9 +13,9 @@
             <button class="tab-btn" onclick="showTab('bus', event)">🚌 Bus</button>
 
         </div>
-<!-- Tour Page -->
+        <!-- Tour Page -->
 
- <form id="bus" class="booking-form horizontal-booking" action="{{ route('tour.search') }}" method="GET" style="display: none;">
+        <form id="bus" class="booking-form horizontal-booking" action="{{ route('tour.search') }}" method="GET" style="display: none;">
             @csrf
             <input type="text" name="from" placeholder="From: Dhaka" required>
             <input type="text" name="to" placeholder="To: Chittagong" required>
@@ -73,6 +73,39 @@
 
     </div>
 </section>
+<div class="Upper-package">
+        <h1> Packages Around Bangladesh</h1>
+    </div>
+<section class="tour-packages">
+
+    <div class="package">
+        <img src="/assets/images/sundorban.jpg" alt="Sundarbans Forest">
+        <h2>Journey To Sundarbans Forest</h2>
+        <p class="features">Features: <span>6 Days & 5 Nights / Adventure / Road & Boat Trip / Sightseeing</span></p>
+        <p class="description">Journey to Sundarban is full of exciting & adventurous safari. Sundarban is the world's largest mangrove forest and a UNESCO World Heritage Site.</p>
+        <p class="price">Price Per Person: Starting Price <br><span>$1,500.00</span></p>
+        <button>Tour Details ➤</button>
+    </div>
+
+    <div class="package">
+        <img src="/assets/images/kaptai.jpg" alt="Hill Districts & Sea Beach">
+        <h2>Hill Districts & World’s Longest Sea Beach</h2>
+        <p class="features">Features: <span>11 Days & 10 Nights / Road Trip / Sightseeing</span></p>
+        <p class="description">Rangamati and Bandarban hill districts including Cox’s Bazar the World's Longest Sea beach is the best tourist attraction in Bangladesh.</p>
+        <p class="price">Price Per Person: Starting Price <br><span>$2,200.00</span></p>
+        <button>Tour Details ➤</button>
+    </div>
+
+    <div class="package">
+        <img src="/assets/images/cbazar.jpg" alt="Cox’s Bazar Sea Beach">
+        <h2>World’s Longest Sea Beach</h2>
+        <p class="features">Features: <span>8 Days & 7 Nights / Road Trip / Sightseeing</span></p>
+        <p class="description">World Longest Sea Beach 100 k.m. long sea beach is Cox’s Bazar, one of the most attractive tourist spots in the world, enjoy moon boats and sea fishing.</p>
+        <p class="price">Price Per Person: Starting Price <br><span>$1,800.00</span></p>
+        <button>Tour Details ➤</button>
+    </div>
+</section>
+
 @endsection
 
 @push('script')
