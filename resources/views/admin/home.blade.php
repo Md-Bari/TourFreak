@@ -68,10 +68,7 @@
       <p>Show daily sales/order graph or summary here (use Laravel data).</p>
     </section>
   </div>
- <!-- Main Content -->
-    <main class="full-width p-0 m-0">
-        @yield('admincontent')
-    </main>
+
   <script src="admin.js"></script>
 </body>
 </html>
