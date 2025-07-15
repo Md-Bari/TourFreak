@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\BusController;
+use App\Http\Controllers\ContactController;
 
 
 // Home route
@@ -72,6 +73,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     })->name('admin.dashboard');
 });
 Route::get('/home', [HomeController::class, 'index'])->middleware('auth');
+Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
 
 use App\Http\Controllers\AdminController;
 
