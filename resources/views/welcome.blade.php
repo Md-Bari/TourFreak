@@ -6,7 +6,9 @@
 @endpush
 
 @section('content')
+
 <section class="hero">
+
     <div class="booking-container">
         <div class="tab-buttons">
             <button class="tab-btn" onclick="showTab('tour',event)">🏞️ Tour</button>
@@ -230,11 +232,11 @@
         event.target.classList.add('active');
     }
 
-    const backgrounds = [
-        "/assets/images/beach.jpg",
-        "/assets/images/bangladesh.jpeg",
-        "/assets/images/sajek.jpeg"
-    ];
+    // const backgrounds = [
+    //     "/assets/images/beach.jpg",
+    //     "/assets/images/bangladesh.jpeg",
+    //     "/assets/images/sajek.jpeg"
+    // ];
     let current = 0;
     setInterval(() => {
         current = (current + 1) % backgrounds.length;
