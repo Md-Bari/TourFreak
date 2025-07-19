@@ -53,7 +53,7 @@
 </section>
 
 <section class="container py-5 text-center">
-    <h2 class="mb-4">Meet the Team</h2>
+    <h2 class="mb-4">Meet the Team Members</h2>
     <div class="team">
         <div class="team-member">
             <img src="{{ asset('images/bg-img.jpg') }}" alt="Team Member 1">
