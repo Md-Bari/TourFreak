@@ -80,86 +80,44 @@
     <h1> Packages Around Bangladesh</h1>
 </div>
 <section class="tour-packages">
-
     <div class="package">
-        <img src="/assets/images/sundorban.jpg" alt="Sundarbans Forest">
+        <img src="/assets/images/sundorban.jpg" alt="Sundarbans Forest" width="300">
         <h2>Journey To Sundarbans Forest</h2>
         <p class="features">Features: <span>6 Days & 5 Nights / Adventure / Road & Boat Trip / Sightseeing</span></p>
         <p class="description">Journey to Sundarban is full of exciting & adventurous safari. Sundarban is the world's largest mangrove forest and a UNESCO World Heritage Site.</p>
         <p class="price">Price Per Person: Starting Price <br><span>$1,500.00</span></p>
-        <button>Tour Details ➤</button>
+        <button onclick="openPopup('Sundarbans')">Tour Details ➤</button>
     </div>
 
     <div class="package">
-        <img src="/assets/images/kaptai.jpg" alt="Hill Districts & Sea Beach">
-        <h2>Hill Districts & World’s Longest Sea Beach</h2>
+        <img src="/assets/images/kaptai.jpg" alt="Hill Districts" width="300">
+        <h2>Hill Districts & Sea Beach</h2>
         <p class="features">Features: <span>11 Days & 10 Nights / Road Trip / Sightseeing</span></p>
         <p class="description">Rangamati and Bandarban hill districts including Cox’s Bazar the World's Longest Sea beach is the best tourist attraction in Bangladesh.</p>
         <p class="price">Price Per Person: Starting Price <br><span>$2,200.00</span></p>
-        <button>Tour Details ➤</button>
+        <button onclick="openPopup('Hill')">Tour Details ➤</button>
     </div>
 
     <div class="package">
-        <img src="/assets/images/cbazar.jpg" alt="Cox’s Bazar Sea Beach">
+        <img src="/assets/images/cbazar.jpg" alt="Cox’s Bazar Sea Beach" width="300">
         <h2>World’s Longest Sea Beach</h2>
         <p class="features">Features: <span>8 Days & 7 Nights / Road Trip / Sightseeing</span></p>
-        <p class="description">World Longest Sea Beach 100 k.m. long sea beach is Cox’s Bazar, one of the most attractive tourist spots in the world, enjoy moon boats and sea fishing.</p>
+        <p class="description">Cox’s Bazar is 100 km long and one of the most attractive sea beaches in the world. Enjoy moon boats and sea fishing.</p>
         <p class="price">Price Per Person: Starting Price <br><span>$1,800.00</span></p>
-        <button>Tour Details ➤</button>
-    </div>
-    <div class="package">
-        <img src="/assets/images/sundorban.jpg" alt="Sundarbans Forest">
-        <h2>Journey To Sundarbans Forest</h2>
-        <p class="features">Features: <span>6 Days & 5 Nights / Adventure / Road & Boat Trip / Sightseeing</span></p>
-        <p class="description">Journey to Sundarban is full of exciting & adventurous safari. Sundarban is the world's largest mangrove forest and a UNESCO World Heritage Site.</p>
-        <p class="price">Price Per Person: Starting Price <br><span>$1,500.00</span></p>
-        <button>Tour Details ➤</button>
-    </div>
-
-    <div class="package">
-        <img src="/assets/images/kaptai.jpg" alt="Hill Districts & Sea Beach">
-        <h2>Hill Districts & World’s Longest Sea Beach</h2>
-        <p class="features">Features: <span>11 Days & 10 Nights / Road Trip / Sightseeing</span></p>
-        <p class="description">Rangamati and Bandarban hill districts including Cox’s Bazar the World's Longest Sea beach is the best tourist attraction in Bangladesh.</p>
-        <p class="price">Price Per Person: Starting Price <br><span>$2,200.00</span></p>
-        <button>Tour Details ➤</button>
-    </div>
-
-    <div class="package">
-        <img src="/assets/images/cbazar.jpg" alt="Cox’s Bazar Sea Beach">
-        <h2>World’s Longest Sea Beach</h2>
-        <p class="features">Features: <span>8 Days & 7 Nights / Road Trip / Sightseeing</span></p>
-        <p class="description">World Longest Sea Beach 100 k.m. long sea beach is Cox’s Bazar, one of the most attractive tourist spots in the world, enjoy moon boats and sea fishing.</p>
-        <p class="price">Price Per Person: Starting Price <br><span>$1,800.00</span></p>
-        <button>Tour Details ➤</button>
-    </div>
-    <div class="package">
-        <img src="/assets/images/sundorban.jpg" alt="Sundarbans Forest">
-        <h2>Journey To Sundarbans Forest</h2>
-        <p class="features">Features: <span>6 Days & 5 Nights / Adventure / Road & Boat Trip / Sightseeing</span></p>
-        <p class="description">Journey to Sundarban is full of exciting & adventurous safari. Sundarban is the world's largest mangrove forest and a UNESCO World Heritage Site.</p>
-        <p class="price">Price Per Person: Starting Price <br><span>$1,500.00</span></p>
-        <button>Tour Details ➤</button>
-    </div>
-
-    <div class="package">
-        <img src="/assets/images/kaptai.jpg" alt="Hill Districts & Sea Beach">
-        <h2>Hill Districts & World’s Longest Sea Beach</h2>
-        <p class="features">Features: <span>11 Days & 10 Nights / Road Trip / Sightseeing</span></p>
-        <p class="description">Rangamati and Bandarban hill districts including Cox’s Bazar the World's Longest Sea beach is the best tourist attraction in Bangladesh.</p>
-        <p class="price">Price Per Person: Starting Price <br><span>$2,200.00</span></p>
-        <button>Tour Details ➤</button>
-    </div>
-
-    <div class="package">
-        <img src="/assets/images/cbazar.jpg" alt="Cox’s Bazar Sea Beach">
-        <h2>World’s Longest Sea Beach</h2>
-        <p class="features">Features: <span>8 Days & 7 Nights / Road Trip / Sightseeing</span></p>
-        <p class="description">World Longest Sea Beach 100 k.m. long sea beach is Cox’s Bazar, one of the most attractive tourist spots in the world, enjoy moon boats and sea fishing.</p>
-        <p class="price">Price Per Person: Starting Price <br><span>$1,800.00</span></p>
-        <button>Tour Details ➤</button>
+        <button onclick="openPopup('CoxsBazar')">Tour Details ➤</button>
     </div>
 </section>
+
+<!-- ===== Popup Modal ===== -->
+<div id="tourPopup" class="popup-overlay">
+    <div class="popup-content">
+        <span class="close-btn" onclick="closePopup()">×</span>
+        <h2 id="popupTitle">Tour Title</h2>
+        <p id="popupDetails">Package details will appear here.</p>
+        <a href="order.html" class="order-btn">Order Now</a>
+    </div>
+</div>
+
 <div class="Upper-package">
     <h1> Hotels In Bangladesh</h1>
 </div>
@@ -242,5 +200,35 @@
         current = (current + 1) % backgrounds.length;
         document.querySelector(".hero").style.backgroundImage = `url('${backgrounds[current]}')`;
     }, 5000);
+
+    function openPopup(packageName) {
+        const details = {
+            'Sundarbans': {
+                title: 'Journey To Sundarbans Forest',
+                description: '6 Days & 5 Nights / Adventure / Road & Boat Trip / Sightseeing<br><br>Journey to Sundarban is full of exciting & adventurous safari. Sundarban is the world\'s largest mangrove forest and a UNESCO World Heritage Site.<br><br>Price Per Person: $1,500.00'
+            },
+            'Hill': {
+                title: 'Hill Districts & Sea Beach',
+                description: '11 Days & 10 Nights / Road Trip / Sightseeing<br><br>Rangamati and Bandarban hill districts including Cox’s Bazar the World\'s Longest Sea beach is the best tourist attraction in Bangladesh.<br><br>Price Per Person: $2,200.00'
+            },
+            'CoxsBazar': {
+                title: 'World’s Longest Sea Beach',
+                description: '8 Days & 7 Nights / Road Trip / Sightseeing<br><br>Enjoy the 100 km long sandy beach, moon boats, sea fishing, and relaxing sunsets.<br><br>Price Per Person: $1,800.00'
+            }
+        };
+
+        const popup = document.getElementById('tourPopup');
+        const data = details[packageName];
+
+        if (data) {
+            document.getElementById('popupTitle').innerHTML = data.title;
+            document.getElementById('popupDetails').innerHTML = data.description;
+            popup.style.display = 'block';
+        }
+    }
+
+    function closePopup() {
+        document.getElementById('tourPopup').style.display = 'none';
+    }
 </script>
 @endpush
