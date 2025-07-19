@@ -62,18 +62,18 @@
         </div>
         <div class="team-member">
             <img src="{{ asset('images/team2.jpg') }}" alt="Team Member 2">
-            <h5>Rima Akter</h5>
-            <p>Travel Consultant</p>
+            <h5>MD.Rofiqul Bari</h5>
+            <p></p>
         </div>
         <div class="team-member">
             <img src="{{ asset('images/team3.jpg') }}" alt="Team Member 3">
-            <h5>Hasan Kabir</h5>
-            <p>Content Strategist</p>
+            <h5>Jannatul Ferdaus</h5>
+            <p></p>
         </div>
         <div class="team-member">
             <img src="{{ asset('images/team3.jpg') }}" alt="Team Member 4">
-            <h5>Hasan Kabir</h5>
-            <p>Content Strategist</p>
+            <h5>Mim Khan</h5>
+            <p></p>
         </div>
     </div>
 </section>
