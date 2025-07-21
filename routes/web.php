@@ -77,3 +77,9 @@ Route::post('/contact/submit', [ContactController::class, 'submit'])->name('cont
 
 
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+use App\Http\Controllers\AdminController;
+
+Route::get('/admin/home', [AdminController::class, 'index'])
+    ->name('admin.home')
+    ->middleware(['auth', 'is_admin']);
+

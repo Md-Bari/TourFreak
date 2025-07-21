@@ -28,7 +28,13 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate(); // Prevent session fixation
-            return redirect()->route('dashboard');
+
+            // Redirect based on user type
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin.home');
+            } else {
+                return redirect()->route('dashboard');
+            }
         }
 
         return back()->withErrors([
