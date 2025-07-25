@@ -29,9 +29,10 @@
                 <ul class="navbar-nav gap-3 fs-5 fw-semibold">
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('home') }}">Home</a></li>
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('room') }}">Rooms</a></li>
-                    
+
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('contact') }}">Contact</a></li>
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('about') }}">About</a></li>
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ route('admin.packages') }}">Update</a></li>
                 </ul>
 
                 <ul class="navbar-nav ms-4 gap-2">
@@ -63,7 +64,7 @@
 <footer class="bg-dark text-light pt-5 pb-3">
     <div class="container">
         <div class="row text-center text-md-start">
-            
+
             <!-- Logo & About -->
             <div class="col-md-4 mb-4">
                 <h5 class="text-uppercase fw-bold mb-3">TourFreak</h5>

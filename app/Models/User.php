@@ -10,14 +10,11 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'role', // Added to allow mass assignment of the role column
+        'role',
     ];
 
     /**

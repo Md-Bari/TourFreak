@@ -83,3 +83,10 @@ Route::get('/admin/home', [AdminController::class, 'index'])
     ->name('admin.home')
     ->middleware(['auth', 'is_admin']);
 
+use App\Http\Controllers\TourPackageController;
+
+Route::get('/', [TourPackageController::class, 'index'])->name('home');
+Route::get('/admin/packages', [TourPackageController::class, 'admin']);
+Route::post('/admin/packages/store', [TourPackageController::class, 'store']);
+Route::delete('/admin/packages/delete/{id}', [TourPackageController::class, 'destroy']);
+Route::get('/admin/packages', [TourPackageController::class, 'admin'])->name('admin.packages');

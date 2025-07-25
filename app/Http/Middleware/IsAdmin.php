@@ -8,10 +8,10 @@ class IsAdmin
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role === 'admin') {
+        if (Auth::check() && Auth::user()->is_admin) {
             return $next($request);
         }
 
-        return redirect()->route('dashboard')->with('error', 'Unauthorized access.');
+        return redirect('/')->with('error', 'Unauthorized access.');
     }
 }
