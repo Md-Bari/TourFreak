@@ -90,3 +90,6 @@ Route::get('/admin/packages', [TourPackageController::class, 'admin']);
 Route::post('/admin/packages/store', [TourPackageController::class, 'store']);
 Route::delete('/admin/packages/delete/{id}', [TourPackageController::class, 'destroy']);
 Route::get('/admin/packages', [TourPackageController::class, 'admin'])->name('admin.packages');
+use App\Http\Controllers\TourSearchController;
+
+Route::get('/tour/search', [TourSearchController::class, 'search'])->name('tour.search');
