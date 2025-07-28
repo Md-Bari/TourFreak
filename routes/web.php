@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\BusController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\RoomController;
 
 
 // Home route
@@ -16,69 +16,42 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/room', function () {
-    return view('room');
-})->name('room');
+Route::get('/room', fn() => view('room'))->name('room');
+Route::get('/facilities', fn() => view('facilities'))->name('facilities');
+Route::get('/contact', fn() => view('contact'))->name('contact');
+Route::get('/about', fn() => view('about'))->name('about');
 
-Route::get('/facilities', function () {
-    return view('facilities');
-})->name('facilities');
-
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
-
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
-
-
-// Register routes
+// -------------------- Auth --------------------
+// Register
 Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
-Route::get('/register', [RegisterController::class, 'create'])->name('register.show');
-// Login routes
+
+// Login
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 Route::post('/login', [LoginController::class, 'store'])->name('login.store');
-
-// Logout route
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Booking routes
-Route::get('/booking', function () {
-    return view('booking');
-});
+// -------------------- Booking --------------------
+Route::get('/booking', fn() => view('booking'))->name('booking');
 Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 
-// Dashboard route (requires auth)
+// -------------------- Dashboard --------------------
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::get('/bookings', [UserController::class, 'bookings'])->name('bookings');
 });
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
 
+// -------------------- Flight & Bus Search --------------------
 Route::get('/search-flight', [FlightController::class, 'search'])->name('flight.search');
-
 Route::get('/bus-search', [BusController::class, 'search'])->name('tour.search');
-
-
-// Add this route
 Route::get('/search/bus', [BusController::class, 'search'])->name('bus.search');
+Route::get('/tour/search', [TourSearchController::class, 'search'])->name('tour.search');
 
-
-// Admin Routes
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-});
-Route::get('/home', [HomeController::class, 'index'])->middleware('auth');
-Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');
-
-
+// -------------------- Contact --------------------
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
-use App\Http\Controllers\AdminController;
+
+
 
 Route::get('/admin/home', [AdminController::class, 'index'])
     ->name('admin.home')
@@ -102,5 +75,3 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::get('/bookings', [UserController::class, 'bookings'])->name('bookings');
 });
-Route::get('/room', [RoomController::class, 'index'])->name('room');
-Route::get('/room/{id}', [RoomController::class, 'show'])->name('room.show');

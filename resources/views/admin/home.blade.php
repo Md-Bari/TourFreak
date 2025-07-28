@@ -1,74 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="admin.css"/>
-</head>
-<body>
-  <div class="sidebar">
-    <h2>Admin Panel</h2>
-    <ul>
-      <li onclick="showSection('dashboard')">Dashboard</li>
-      <li onclick="showSection('addTour')">Add Tour Package</li>
-      <li onclick="showSection('updateImages')">Update Photos</li>
-      <li onclick="showSection('updatePricing')">Change Pricing</li>
-      <li onclick="showSection('viewBookings')">View Bookings</li>
-      <li onclick="showSection('dailyOrders')">Daily Orders</li>
-    </ul>
-  </div>
+@extends('admin.admin') {{-- Assuming this is your main layout file --}}
 
-  <div class="main-content">
-    <section id="dashboard" class="content-section">
-      <h1>Welcome, Admin</h1>
-      <p>Manage your tour website content from this panel.</p>
-    </section>
+@section('title', 'Admin Dashboard - Tour Freak')
 
-    <section id="addTour" class="content-section hidden">
-      <h2>Add Tour Package</h2>
-      <form>
-        <input type="text" placeholder="Tour Title" required />
-        <textarea placeholder="Description" required></textarea>
-        <input type="number" placeholder="Price" required />
-        <input type="file" />
-        <button type="submit">Add Package</button>
-      </form>
-    </section>
+@push('style')
+<style>
+    .admin-card {
+        border-left: 5px solid #0d6efd;
+        transition: all 0.3s ease;
+    }
+    .admin-card:hover {
+        transform: scale(1.02);
+    }
+</style>
+@endpush
 
-    <section id="updateImages" class="content-section hidden">
-      <h2>Update Main Section Photos</h2>
-      <form>
-        <input type="file" required />
-        <button type="submit">Upload Photo</button>
-      </form>
-    </section>
+@section('content')
+<div class="container mt-5 pt-5">
+    <h2 class="mb-4 fw-bold">Welcome, Admin</h2>
 
-    <section id="updatePricing" class="content-section hidden">
-      <h2>Change Tour Pricing</h2>
-      <form>
-        <select>
-          <option>Select Tour</option>
-          <option>Hill Districts</option>
-          <option>Sundarbans</option>
-          <option>Sea Beach</option>
-        </select>
-        <input type="number" placeholder="New Price" required />
-        <button type="submit">Update Price</button>
-      </form>
-    </section>
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm admin-card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Packages</h5>
+                    <p class="card-text fs-4 fw-bold text-primary">12</p>
+                    <a href="{{ route('admin.packages') }}" class="btn btn-sm btn-outline-primary">Manage Packages</a>
+                </div>
+            </div>
+        </div>
 
-    <section id="viewBookings" class="content-section hidden">
-      <h2>User Bookings</h2>
-      <p>Display user tour bookings here (connect with Laravel backend).</p>
-    </section>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm admin-card">
+                <div class="card-body">
+                    <h5 class="card-title">Available Rooms</h5>
+                    <p class="card-text fs-4 fw-bold text-success">24</p>
+                    <a href="{{ route('room') }}" class="btn btn-sm btn-outline-success">Manage Rooms</a>
+                </div>
+            </div>
+        </div>
 
-    <section id="dailyOrders" class="content-section hidden">
-      <h2>Daily Orders Summary</h2>
-      <p>Show daily sales/order graph or summary here (use Laravel data).</p>
-    </section>
-  </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm admin-card">
+                <div class="card-body">
+                    <h5 class="card-title">User Accounts</h5>
+                    <p class="card-text fs-4 fw-bold text-dark">108</p>
+                    <a href="#" class="btn btn-sm btn-outline-dark">View Users</a>
+                </div>
+            </div>
+        </div>
 
-  <script src="admin.js"></script>
-</body>
-</html>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm admin-card">
+                <div class="card-body">
+                    <h5 class="card-title">Bookings</h5>
+                    <p class="card-text fs-4 fw-bold text-warning">45</p>
+                    <a href="#" class="btn btn-sm btn-outline-warning">View Bookings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
