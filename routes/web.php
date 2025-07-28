@@ -8,6 +8,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\BusController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\RoomController;
 
 
 // Home route
@@ -101,3 +102,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::get('/bookings', [UserController::class, 'bookings'])->name('bookings');
 });
+Route::get('/room', [RoomController::class, 'index'])->name('room');
+Route::get('/room/{id}', [RoomController::class, 'show'])->name('room.show');
