@@ -82,6 +82,8 @@ use App\Http\Controllers\AdminController;
 Route::get('/admin/home', [AdminController::class, 'index'])
     ->name('admin.home')
     ->middleware(['auth', 'is_admin']);
+   
+
 
 use App\Http\Controllers\TourPackageController;
 
@@ -93,3 +95,9 @@ Route::get('/admin/packages', [TourPackageController::class, 'admin'])->name('ad
 use App\Http\Controllers\TourSearchController;
 
 Route::get('/tour/search', [TourSearchController::class, 'search'])->name('tour.search');
+use App\Http\Controllers\UserController;
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::get('/bookings', [UserController::class, 'bookings'])->name('bookings');
+});
