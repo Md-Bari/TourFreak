@@ -32,7 +32,7 @@
 
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('contact') }}">Contact</a></li>
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('about') }}">About</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="{{ route('admin.packages') }}">Update</a></li>
+
                 </ul>
 
                 <ul class="navbar-nav ms-4 gap-2">
@@ -48,7 +48,7 @@
                         </li>
                     @else
                         <li class="nav-item"><a class="btn btn-outline-light btn-sm" href="{{ route('login') }}">Login</a></li>
-                        <li class="nav-item"><a class="btn btn-primary btn-sm" href="{{ route('register.show') }}">Register</a></li>
+                        <li class="nav-item"><a class="btn btn-primary btn-sm" href="{{ route('register.create') }}">Register</a></li>
                     @endauth
                 </ul>
             </div>
