@@ -56,7 +56,3 @@ Route::post('/contact', [ContactController::class, 'submit'])->name('contact.sub
 // -------------------- admin --------------------
 Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home');
 Route::get('/admin/packages', [TourPackageController::class, 'index'])->name('admin.packages');
-Route::post('/admin/packages/store', [TourPackageController::class, 'store'])->name('admin.packages.store');
-Route::get('/admin/packages/edit/{id}', [TourPackageController::class, 'edit'])->name('admin.packages.edit');
-Route::delete('/admin/packages/delete/{id}', [TourPackageController::class, 'destroy'])->name('admin.packages.delete');
-Route::put('/admin/packages/update/{id}', [TourPackageController::class, 'update'])->name('admin.packages.update');
