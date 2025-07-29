@@ -1,4 +1,4 @@
-@extends('index')
+@extends('admin.admin')
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('css/package.css') }}">
