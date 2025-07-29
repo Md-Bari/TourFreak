@@ -57,3 +57,6 @@ Route::post('/contact', [ContactController::class, 'submit'])->name('contact.sub
 
 Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home');
 Route::get('/admin/packages', [TourPackageController::class, 'index'])->name('admin.packages');
+use App\Http\Controllers\RoomController;
+
+Route::get('/room-details/{type}', [RoomController::class, 'show'])->name('room.details');
