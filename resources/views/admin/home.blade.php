@@ -1,4 +1,4 @@
-@extends('admin.admin') {{-- Assuming this is your main layout file --}}
+@extends('admin.admin')
 
 @section('title', 'Admin Dashboard - Tour Freak')
 

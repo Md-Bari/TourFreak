@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Models\TourPackage;
@@ -10,13 +11,11 @@ class TourPackageController extends Controller
     public function index()
     {
         $packages = TourPackage::all();
+        // Show admin package management if on admin route, else show welcome
+        if (request()->routeIs('admin.packages')) {
+            return view('admin.packages', compact('packages'));
+        }
         return view('welcome', compact('packages'));
-    }
-
-    public function admin()
-    {
-        $packages = TourPackage::all();
-        return view('admin.packages', compact('packages'));
     }
 
     public function store(Request $request)
@@ -33,6 +32,29 @@ class TourPackageController extends Controller
         TourPackage::create($request->all());
 
         return redirect()->back()->with('success', 'Package added successfully');
+    }
+
+    public function edit($id)
+    {
+        $package = TourPackage::findOrFail($id);
+        return view('admin.edit_package', compact('package'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'class' => 'required|in:mountain,sea,normal',
+            'image' => 'required',
+            'features' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+        ]);
+
+        $package = TourPackage::findOrFail($id);
+        $package->update($request->all());
+
+        return redirect()->route('admin.packages')->with('success', 'Package updated successfully');
     }
 
     public function destroy($id)
