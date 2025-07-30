@@ -13,7 +13,7 @@ use App\Http\Controllers\TourPackageController;
 use App\Http\Controllers\TourSearchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\RoomController;
 
 // -------------------- Static Pages --------------------
 Route::get('/', [TourPackageController::class, 'index'])->name('home');
@@ -60,6 +60,11 @@ Route::post('/admin/packages/store', [TourPackageController::class, 'store'])->n
 Route::get('/admin/packages/edit/{id}', [TourPackageController::class, 'edit'])->name('admin.packages.edit');
 Route::delete('/admin/packages/delete/{id}', [TourPackageController::class, 'destroy'])->name('admin.packages.delete');
 Route::put('/admin/packages/update/{id}', [TourPackageController::class, 'update'])->name('admin.packages.update');
-use App\Http\Controllers\RoomController;
+
 
 Route::get('/room-details/{type}', [RoomController::class, 'show'])->name('room.details');
+
+// Room Add Page
+Route::get('/admin/room_add', [RoomController::class, 'create'])->name('admin.rooms.add');
+Route::post('/admin/room/store', [RoomController::class, 'store'])->name('admin.rooms.store');
+Route::get('/room', [RoomController::class, 'index'])->name('room');

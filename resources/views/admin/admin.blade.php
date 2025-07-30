@@ -19,7 +19,7 @@
                     <a class="nav-link" href="{{ route('admin.packages') }}">Update Package</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('room') }}">Update Room</a>
+                    <a class="nav-link" href="{{ route('admin.rooms.add') }}">Update Room</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Available</a>
