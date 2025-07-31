@@ -30,6 +30,14 @@
         <div class="mb-3">
             <textarea name="description" class="form-control" placeholder="Description" required></textarea>
         </div>
+        <div class="mb-3 row">
+            <div class="col">
+                <input type="number" name="duration_day" class="form-control" placeholder="Days" min="0" required>
+            </div>
+            <div class="col">
+                <input type="number" name="duration_night" class="form-control" placeholder="Nights" min="0" required>
+            </div>
+        </div>
         <div class="mb-3">
             <input type="number" name="price" class="form-control" placeholder="Price" step="0.01" required>
         </div>
@@ -44,6 +52,9 @@
                     <strong>{{ $package->title }}</strong>
                     <span class="badge bg-secondary">{{ ucfirst($package->class) }}</span>
                     <span class="text-muted ms-2">${{ number_format($package->price, 2) }}</span>
+                    @if(isset($package->duration_day) && isset($package->duration_night))
+                        <span class="badge bg-info ms-2">{{ $package->duration_day }} Day {{ $package->duration_night }} Night</span>
+                    @endif
                 </div>
                 <div>
                     <a href="{{ url('/admin/packages/edit/' . $package->id) }}" class="btn btn-sm btn-outline-info me-2">
@@ -61,3 +72,4 @@
         @endforeach
     </div>
 </div>
+@endsection

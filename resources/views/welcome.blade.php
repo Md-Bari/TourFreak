@@ -93,14 +93,30 @@
     </div>
     <section class="tour-packages">
         @foreach($packages as $package)
-            <div class="package">
-                <img src="{{ asset($package->image) }}" alt="{{ $package->title }}" width="300">
-                <h2>{{ $package->title }}</h2>
-                <p class="features">Features: <span>{{ $package->features }}</span></p>
-                <p class="description">{{ $package->description }}</p>
-                <p class="price">Price Per Person: Starting Price <br><span>${{ number_format($package->price, 2) }}</span></p>
-                <button onclick="openPopup('{{ $package->title }}')">Tour Details ➤</button>
-            </div>
+                <div class="package">
+                    <img src="{{ asset($package->image) }}" alt="{{ $package->title }}" width="300">
+                    <h2>{{ $package->title }}</h2>
+                    <p class="features">Features: <span>{{ $package->features }}</span></p>
+                    <p class="description">{{ $package->description }}</p>
+                    @if(isset($package->duration_day) && isset($package->duration_night))
+                        <p class="duration">
+                            <strong>Duration:</strong>
+                            {{ $package->duration_day }} Day{{ $package->duration_day > 1 ? 's' : '' }},
+                            {{ $package->duration_night }} Night{{ $package->duration_night > 1 ? 's' : '' }}
+                        </p>
+                    @endif
+                    <p class="price">Price Per Person: Starting Price <br><span>${{ number_format($package->price, 2) }}</span></p>
+                    <button onclick="openPopup(
+                '{{ addslashes($package->title) }}',
+                '{{ addslashes($package->description) }}',
+                '{{ number_format($package->price, 2) }}',
+                '{{ asset($package->image) }}',
+                '{{ $package->duration_day }}',
+                '{{ $package->duration_night }}'
+            )">
+                        Tour Details ➤
+                    </button>
+                </div>
         @endforeach
     </section>
 
@@ -109,9 +125,13 @@
     <div id="tourPopup" class="popup-overlay">
         <div class="popup-content">
             <span class="close-btn" onclick="closePopup()">×</span>
+            <img id="popupImage" src="" alt="Tour Image"
+                style="width:100%;max-width:400px;min-height:220px;max-height:260px;border-radius:12px;margin-bottom:18px;object-fit:cover;" />
             <h2 id="popupTitle">Tour Title</h2>
+            <p id="popupDuration" style="font-weight:600;color:#0d6efd;margin-bottom:10px;"></p>
+
             <p id="popupDetails">Package details will appear here.</p>
-            <a href="order.html" class="order-btn">Order Now</a>
+            <a href="order.html" class="order-btn" id="orderBtn">Order Now</a>
         </div>
     </div>
 
@@ -119,62 +139,71 @@
         <h1> Hotels In Bangladesh</h1>
     </div>
     <section class="container py-5">
-    <div class="row g-4">
+        <div class="row g-4">
 
-        <!-- Single Room -->
-        <div class="col-md-6 col-lg-3">
-            <div class="room-card">
-                <img src="/assets/images/s.jpg" alt="Single Room" class="room-img">
-                <h5 class="room-title">SINGLE ROOM</h5>
-                <p class="room-price">start from <span class="price">$110</span></p>
-                <p class="room-description">
-                    Our single room is the perfect choice for travellers seeking comfortable and convenient accommodations. The room features a comfortable single bed, a desk and chair, and a private bathroom with a shower.
-                </p>
-                <a href="{{ route('room.details', ['type' => 'single']) }}" class="btn btn-primary w-100">View Details</a>
+            <!-- Single Room -->
+            <div class="col-md-6 col-lg-3">
+                <div class="room-card">
+                    <img src="/assets/images/s.jpg" alt="Single Room" class="room-img">
+                    <h5 class="room-title">SINGLE ROOM</h5>
+                    <p class="room-price">start from <span class="price">$110</span></p>
+                    <p class="room-description">
+                        Our single room is the perfect choice for travellers seeking comfortable and convenient
+                        accommodations. The room features a comfortable single bed, a desk and chair, and a private bathroom
+                        with a shower.
+                    </p>
+                    <a href="{{ route('room.details', ['type' => 'single']) }}" class="btn btn-primary w-100">View
+                        Details</a>
+                </div>
             </div>
-        </div>
 
-        <!-- Double Room -->
-        <div class="col-md-6 col-lg-3">
-            <div class="room-card">
-                <img src="/assets/images/d.jpg" alt="Double Room" class="room-img">
-                <h5 class="room-title">DOUBLE ROOM</h5>
-                <p class="room-price">start from <span class="price">$90</span></p>
-                <p class="room-description">
-                    Our double room is perfect for couples or friends travelling together, featuring two comfortable double beds, a desk and chair, and a private bathroom with a shower.
-                </p>
-                <a href="{{ route('room.details', ['type' => 'double']) }}" class="btn btn-primary w-100">View Details</a>
+            <!-- Double Room -->
+            <div class="col-md-6 col-lg-3">
+                <div class="room-card">
+                    <img src="/assets/images/d.jpg" alt="Double Room" class="room-img">
+                    <h5 class="room-title">DOUBLE ROOM</h5>
+                    <p class="room-price">start from <span class="price">$90</span></p>
+                    <p class="room-description">
+                        Our double room is perfect for couples or friends travelling together, featuring two comfortable
+                        double beds, a desk and chair, and a private bathroom with a shower.
+                    </p>
+                    <a href="{{ route('room.details', ['type' => 'double']) }}" class="btn btn-primary w-100">View
+                        Details</a>
+                </div>
             </div>
-        </div>
 
-        <!-- Family Room -->
-        <div class="col-md-6 col-lg-3">
-            <div class="room-card">
-                <img src="/assets/images/f.jpeg" alt="Family Room" class="room-img">
-                <h5 class="room-title">FAMILY ROOM</h5>
-                <p class="room-price">start from <span class="price">$160</span></p>
-                <p class="room-description">
-                    Our family room is ideal for families, featuring two comfortable double beds, a sofa bed, a desk and chair, and a private bathroom with a shower.
-                </p>
-                <a href="{{ route('room.details', ['type' => 'family']) }}" class="btn btn-primary w-100">View Details</a>
+            <!-- Family Room -->
+            <div class="col-md-6 col-lg-3">
+                <div class="room-card">
+                    <img src="/assets/images/f.jpeg" alt="Family Room" class="room-img">
+                    <h5 class="room-title">FAMILY ROOM</h5>
+                    <p class="room-price">start from <span class="price">$160</span></p>
+                    <p class="room-description">
+                        Our family room is ideal for families, featuring two comfortable double beds, a sofa bed, a desk and
+                        chair, and a private bathroom with a shower.
+                    </p>
+                    <a href="{{ route('room.details', ['type' => 'family']) }}" class="btn btn-primary w-100">View
+                        Details</a>
+                </div>
             </div>
-        </div>
 
-        <!-- Apartment -->
-        <div class="col-md-6 col-lg-3">
-            <div class="room-card">
-                <img src="/assets/images/ap.jpg" alt="Apartment" class="room-img">
-                <h5 class="room-title">APARTMENT</h5>
-                <p class="room-price">start from <span class="price">$230</span></p>
-                <p class="room-description">
-                    Our 2-bed apartment offers space and privacy, featuring two comfortable bedrooms, a double bed, and plenty of storage space.
-                </p>
-                <a href="{{ route('room.details', ['type' => 'apartment']) }}" class="btn btn-primary w-100">View Details</a>
+            <!-- Apartment -->
+            <div class="col-md-6 col-lg-3">
+                <div class="room-card">
+                    <img src="/assets/images/ap.jpg" alt="Apartment" class="room-img">
+                    <h5 class="room-title">APARTMENT</h5>
+                    <p class="room-price">start from <span class="price">$230</span></p>
+                    <p class="room-description">
+                        Our 2-bed apartment offers space and privacy, featuring two comfortable bedrooms, a double bed, and
+                        plenty of storage space.
+                    </p>
+                    <a href="{{ route('room.details', ['type' => 'apartment']) }}" class="btn btn-primary w-100">View
+                        Details</a>
+                </div>
             </div>
-        </div>
 
-    </div>
-</section>
+        </div>
+    </section>
 
 @endsection
 
@@ -200,32 +229,14 @@
             document.querySelector(".hero").style.backgroundImage = `url('${backgrounds[current]}')`;
         }, 5000);
 
-        function openPopup(packageName) {
-            const details = {
-                'Sundarbans': {
-                    title: 'Journey To Sundarbans Forest',
-                    description: '6 Days & 5 Nights / Adventure / Road & Boat Trip / Sightseeing<br><br>Journey to Sundarban is full of exciting & adventurous safari. Sundarban is the world\'s largest mangrove forest and a UNESCO World Heritage Site.<br><br>Price Per Person: $1,500.00'
-                },
-                'Hill': {
-                    title: 'Hill Districts & Sea Beach',
-                    description: '11 Days & 10 Nights / Road Trip / Sightseeing<br><br>Rangamati and Bandarban hill districts including Cox’s Bazar the World\'s Longest Sea beach is the best tourist attraction in Bangladesh.<br><br>Price Per Person: $2,200.00'
-                },
-                'CoxsBazar': {
-                    title: 'World’s Longest Sea Beach',
-                    description: '8 Days & 7 Nights / Road Trip / Sightseeing<br><br>Enjoy the 100 km long sandy beach, moon boats, sea fishing, and relaxing sunsets.<br><br>Price Per Person: $1,800.00'
-                }
-            };
-
-            const popup = document.getElementById('tourPopup');
-            const data = details[packageName];
-
-            if (data) {
-                document.getElementById('popupTitle').innerHTML = data.title;
-                document.getElementById('popupDetails').innerHTML = data.description;
-                popup.style.display = 'block';
-            }
+        function openPopup(title, description, price, image, day, night) {
+            document.getElementById('popupTitle').innerHTML = title;
+            document.getElementById('popupDetails').innerHTML = description + '<br><br>Price Per Person: $' + price;
+            document.getElementById('popupImage').src = image;
+            document.getElementById('popupDuration').innerHTML =
+                `<strong>Duration:</strong> ${day} Day${day > 1 ? 's' : ''}, ${night} Night${night > 1 ? 's' : ''}`;
+            document.getElementById('tourPopup').style.display = 'flex';
         }
-
         function closePopup() {
             document.getElementById('tourPopup').style.display = 'none';
         }
