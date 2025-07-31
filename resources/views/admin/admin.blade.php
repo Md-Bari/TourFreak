@@ -9,44 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .sidebar {
-            height: 100vh;
-            background-color: #343a40;
-            padding-top: 20px;
-            position: fixed;
-            width: 220px;
-        }
-
-        .sidebar a {
-            color: #fff;
-            padding: 12px 20px;
-            display: block;
-            text-decoration: none;
-        }
-
-        .sidebar a:hover, .sidebar .active {
-            background-color: #495057;
-        }
-
-        .main-content {
-            margin-left: 220px;
-            padding: 30px;
-        }
-
-        .sidebar-header {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #fff;
-            padding: 10px 20px;
-            border-bottom: 1px solid #495057;
-            margin-bottom: 10px;
-        }
-    </style>
+   <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 
     @stack('style')
 </head>
