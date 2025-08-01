@@ -112,10 +112,12 @@
                 '{{ number_format($package->price, 2) }}',
                 '{{ asset($package->image) }}',
                 '{{ $package->duration_day }}',
-                '{{ $package->duration_night }}'
+                '{{ $package->duration_night }}',
+                '{{ $package->id }}'
             )">
                         Tour Details ➤
                     </button>
+
                 </div>
         @endforeach
     </section>
@@ -129,10 +131,13 @@
                 style="width:100%;max-width:400px;min-height:220px;max-height:260px;border-radius:12px;margin-bottom:18px;object-fit:cover;" />
             <h2 id="popupTitle">Tour Title</h2>
             <p id="popupDuration" style="font-weight:600;color:#0d6efd;margin-bottom:10px;"></p>
-
             <p id="popupDetails">Package details will appear here.</p>
-            <a href="order.html" class="order-btn" id="orderBtn">Order Now</a>
+            <a href="#" id="popupOrderBtn" class="btn btn-success">Order Now</a>
         </div>
+    </div>
+
+
+    </div>
     </div>
 
     <div class="Upper-package">
@@ -229,12 +234,18 @@
             document.querySelector(".hero").style.backgroundImage = `url('${backgrounds[current]}')`;
         }, 5000);
 
-        function openPopup(title, description, price, image, day, night) {
-            document.getElementById('popupTitle').innerHTML = title;
-            document.getElementById('popupDetails').innerHTML = description + '<br><br>Price Per Person: $' + price;
-            document.getElementById('popupImage').src = image;
-            document.getElementById('popupDuration').innerHTML =
-                `<strong>Duration:</strong> ${day} Day${day > 1 ? 's' : ''}, ${night} Night${night > 1 ? 's' : ''}`;
+        function openPopup(title, description, price, imageUrl, durationDay, durationNight, packageId) {
+            document.getElementById('popupTitle').textContent = title;
+            document.getElementById('popupDetails').textContent = description;
+            document.getElementById('popupImage').src = imageUrl;
+            document.getElementById('popupDuration').textContent = `${durationDay} Day(s), ${durationNight} Night(s)`;
+
+            // Set the "Order Now" button href dynamically
+            const orderBtn = document.getElementById('popupOrderBtn');
+            orderBtn.href = `/order/${packageId}`;
+
+            // Show the popup
+            document.getElementById('tourPopup').style.display = 'block';
             document.getElementById('tourPopup').style.display = 'flex';
         }
         function closePopup() {

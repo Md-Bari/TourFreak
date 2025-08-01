@@ -68,3 +68,16 @@ Route::get('/room-details/{type}', [RoomController::class, 'show'])->name('room.
 Route::get('/admin/room_add', [RoomController::class, 'create'])->name('admin.rooms.add');
 Route::post('/admin/room/store', [RoomController::class, 'store'])->name('admin.rooms.store');
 Route::get('/room', [RoomController::class, 'index'])->name('room');
+
+
+
+//order page
+
+use App\Http\Controllers\OrderController;
+
+Route::get('/order/{id}', [OrderController::class, 'showOrderForm'])->name('order.page');  // Show order form
+Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+Route::middleware('auth')->group(function () {
+    Route::get('/order/{id}', [OrderController::class, 'showOrderForm'])->name('order.form');
+    Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
+});
