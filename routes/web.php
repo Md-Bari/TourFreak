@@ -77,3 +77,4 @@ Route::post('/contact/submit', [ContactController::class, 'submit'])->name('cont
 
 
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

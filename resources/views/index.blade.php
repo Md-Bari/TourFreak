@@ -32,6 +32,9 @@
                     
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('contact') }}">Contact</a></li>
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('about') }}">About</a></li>
+                    <li class="nav-item">
+        <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+
                 </ul>
 
                 <ul class="navbar-nav ms-4 gap-2">
@@ -88,6 +91,7 @@
                     <li class="mb-2"><a href="{{ route('facilities') }}" class="text-secondary text-decoration-none">Facilities</a></li>
                     <li class="mb-2"><a href="{{ route('contact') }}" class="text-secondary text-decoration-none">Contact</a></li>
                     <li><a href="{{ route('about') }}" class="text-secondary text-decoration-none">About</a></li>
+                    <li><a href="{{ route('dashboard') }}" class="text-secondary text-decoration-none">dashboard</a></li>
                 </ul>
             </div>
 
