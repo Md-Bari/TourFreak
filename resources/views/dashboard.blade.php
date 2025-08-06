@@ -13,7 +13,7 @@
     background-color: #f4f6f9;
 }
 
-/* ✅ Fixed Sidebar */
+
 .sidebar {
     position: fixed;
     top: 0;
@@ -37,7 +37,7 @@
     background-color: #1ab394;
 }
 
-/* ✅ Fixed Topbar */
+
 .topbar {
     position: fixed;
     top: 0;
@@ -53,14 +53,13 @@
     z-index: 1000;
 }
 
-/* ✅ Main Content Area */
 .main-content {
     margin-left: 200px; /* push right of sidebar */
     margin-top: 80px;   /* push below topbar */
     padding: 20px;
 }
 
-/* ✅ Header card */
+
 .dashboard-header {
     background: linear-gradient(to right, #00c6ff, #0072ff);
     color: white;
