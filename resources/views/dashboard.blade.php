@@ -19,7 +19,7 @@
     top: 0;
     bottom: 0;
     left: 0;
-    width: 200px;
+    width: 201px;
     background-color: #2f4050;
     padding-top: 80px;
     z-index: 999;
