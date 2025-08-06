@@ -37,7 +37,7 @@
 
     .admin-card-value {
         font-size: 2rem;
-        font-weight: 70;
+        font-weight: 702;
     }
 
     .btn-sm {
