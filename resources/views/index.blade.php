@@ -29,11 +29,13 @@
                 <ul class="navbar-nav gap-3 fs-5 fw-semibold">
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('home') }}">Home</a></li>
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('room') }}">Rooms</a></li>
-                    
+
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('contact') }}">Contact</a></li>
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('about') }}">About</a></li>
-                    <li class="nav-item">
-        <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+
+                    <li class="nav-item"><a class="nav-link text-light" href="{{ route('dashboard') }}">Dashboard</a></li
+
+
 
                 </ul>
 
@@ -50,7 +52,7 @@
                         </li>
                     @else
                         <li class="nav-item"><a class="btn btn-outline-light btn-sm" href="{{ route('login') }}">Login</a></li>
-                        <li class="nav-item"><a class="btn btn-primary btn-sm" href="{{ route('register.show') }}">Register</a></li>
+                        <li class="nav-item"><a class="btn btn-primary btn-sm" href="{{ route('register.create') }}">Register</a></li>
                     @endauth
                 </ul>
             </div>
@@ -66,7 +68,7 @@
 <footer class="bg-dark text-light pt-5 pb-3">
     <div class="container">
         <div class="row text-center text-md-start">
-            
+
             <!-- Logo & About -->
             <div class="col-md-4 mb-4">
                 <h5 class="text-uppercase fw-bold mb-3">TourFreak</h5>

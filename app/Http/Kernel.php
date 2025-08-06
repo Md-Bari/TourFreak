@@ -13,12 +13,6 @@ class Kernel extends HttpKernel
      *
      * @var array<int, class-string|string>
      */
-    protected $routeMiddleware = [
-    // other middleware ...
-    'auth.custom' => \App\Http\Middleware\CustomAuthMiddleware::class,
-    'auth' => \App\Http\Middleware\Authenticate::class,
-];
-
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
@@ -27,6 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\IsAdmin::class,
 
     ];
 
@@ -71,7 +66,7 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        'is_admin' => \App\Http\Middleware\IsAdmin::class,
 
     ];
 }

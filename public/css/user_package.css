@@ -1,0 +1,76 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f8fa;
+    padding: 2rem;
+    margin: 0;
+}
+
+h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.tour-packages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.package {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
+}
+
+.package:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+}
+
+.package img {
+    border-radius: 12px;
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+.package h2 {
+    color: #333;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.package .features,
+.package .description,
+.package .price {
+    color: #555;
+    font-size: 0.95rem;
+    margin: 0.5rem 0;
+}
+
+.package .price span {
+    color: #27ae60;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.package button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s;
+}
+
+.package button:hover {
+    background-color: #2980b9;
+}
