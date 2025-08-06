@@ -33,10 +33,6 @@
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('contact') }}">Contact</a></li>
                     <li class="nav-item"><a class="nav-link text-light" href="{{ route('about') }}">About</a></li>
 
-                    <li class="nav-item"><a class="nav-link text-light" href="{{ route('dashboard') }}">Dashboard</a></li
-
-
-
                 </ul>
 
                 <ul class="navbar-nav ms-4 gap-2">
