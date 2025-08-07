@@ -238,6 +238,18 @@ button:hover {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
+.tour-scroll-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 40px 40px 40px;
+    scroll-behavior: smooth;
+}
+
+/* Force horizontal flex */
+.tour-scroll-wrapper .tour-packages {
+    flex-wrap: nowrap !important;
+    width: max-content;
+}
 /* Popup Overlay */
 .popup-overlay {
     display: none;

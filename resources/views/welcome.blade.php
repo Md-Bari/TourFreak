@@ -91,36 +91,49 @@
     <div class="Upper-package">
         <h1> Packages Around Bangladesh</h1>
     </div>
-    <section class="tour-packages">
+   <section class="tour-packages-wrapper">
+    <!-- Tour Packages Section -->
+<div class="tour-scroll-wrapper">
+    <div class="tour-packages">
         @foreach($packages as $package)
-                <div class="package">
-                    <img src="{{ asset($package->image) }}" alt="{{ $package->title }}" width="300">
-                    <h2>{{ $package->title }}</h2>
-                    <p class="features">Features: <span>{{ $package->features }}</span></p>
-                    <p class="description">{{ $package->description }}</p>
-                    @if(isset($package->duration_day) && isset($package->duration_night))
-                        <p class="duration">
-                            <strong>Duration:</strong>
-                            {{ $package->duration_day }} Day{{ $package->duration_day > 1 ? 's' : '' }},
-                            {{ $package->duration_night }} Night{{ $package->duration_night > 1 ? 's' : '' }}
-                        </p>
-                    @endif
-                    <p class="price">Price Per Person: Starting Price <br><span>${{ number_format($package->price, 2) }}</span></p>
-                    <button onclick="openPopup(
-                '{{ addslashes($package->title) }}',
-                '{{ addslashes($package->description) }}',
-                '{{ number_format($package->price, 2) }}',
-                '{{ asset($package->image) }}',
-                '{{ $package->duration_day }}',
-                '{{ $package->duration_night }}',
-                '{{ $package->id }}'
-            )">
-                        Tour Details ➤
-                    </button>
+            <div class="package">
+                <img src="{{ asset($package->image) }}" alt="{{ $package->title }}">
+                <h2>{{ $package->title }}</h2>
 
-                </div>
+                <p class="features">Features: <span>{{ $package->features }}</span></p>
+                <p class="description">{{ $package->description }}</p>
+
+                @if(isset($package->duration_day) && isset($package->duration_night))
+                    <p class="duration">
+                        <strong>Duration:</strong>
+                        {{ $package->duration_day }} Day{{ $package->duration_day > 1 ? 's' : '' }},
+                        {{ $package->duration_night }} Night{{ $package->duration_night > 1 ? 's' : '' }}
+                    </p>
+                @endif
+
+                <p class="price">
+                    Price Per Person: <br>
+                    <span>${{ number_format($package->price, 2) }}</span>
+                </p>
+
+                <button onclick="openPopup(
+                    '{{ addslashes($package->title) }}',
+                    '{{ addslashes($package->description) }}',
+                    '{{ number_format($package->price, 2) }}',
+                    '{{ asset($package->image) }}',
+                    '{{ $package->duration_day }}',
+                    '{{ $package->duration_night }}',
+                    '{{ $package->id }}'
+                )">
+                    Tour Details ➤
+                </button>
+            </div>
         @endforeach
-    </section>
+    </div>
+</div>
+</section>
+
+
 
 
     <!-- ===== Popup Modal ===== -->

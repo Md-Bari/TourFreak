@@ -7,7 +7,7 @@ use App\Models\Room;
 
 class RoomController extends Controller
 {
-
+    // Show all rooms (frontend)
     public function index()
     {
         $rooms = Room::latest()->get(); // Fetch all rooms, newest first
@@ -36,18 +36,23 @@ class RoomController extends Controller
             'description' => 'required|string',
         ]);
 
-        // Save the uploaded image to public storage
-        $imagePath = $request->file('image')->store('uploads/rooms', 'public');
+        // Handle the image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName(); // unique filename
+            $image->move(public_path('assets/images'), $imageName); // move to /public/assets/images
+        } else {
+            $imageName = null; // or use a default image name
+        }
 
-        // Save room data to database
+        // Save room to DB
         Room::create([
             'title' => $request->title,
-            'image' => $imagePath,
+            'image' => $imageName, // only the filename
             'price' => $request->price,
             'description' => $request->description,
         ]);
 
-        // Redirect back with success message
         return redirect()->route('admin.rooms.add')->with('success', 'Room added successfully.');
     }
 }

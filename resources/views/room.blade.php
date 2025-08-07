@@ -17,7 +17,7 @@
         @forelse ($rooms as $room)
         <div class="col-md-6 col-lg-3">
             <div class="room-card">
-                <img src="{{ asset('assets/images/' . $room->image) }}" alt="{{ $room->title }}" class="room-img">
+                <img src="{{ asset('assets/images/' . $room->image) }}" alt="{{ $room->image }}" class="room-img">
                 <h5 class="room-title">{{ strtoupper($room->title) }}</h5>
                 <p class="room-price">start from <span class="price">${{ $room->price }}</span></p>
                 <p class="room-description">
