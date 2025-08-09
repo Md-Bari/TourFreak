@@ -20,4 +20,34 @@
     <p>No packages found in this class.</p>
     @endforelse
 </section>
+<div id="tourPopup" class="popup-overlay">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">×</span>
+            <img id="popupImage" src="" alt="Tour Image"
+                style="width:100%;max-width:400px;min-height:220px;max-height:260px;border-radius:12px;margin-bottom:18px;object-fit:cover;" />
+            <h2 id="popupTitle">Tour Title</h2>
+            <p id="popupDuration" style="font-weight:600;color:#0d6efd;margin-bottom:10px;"></p>
+            <p id="popupDetails">Package details will appear here.</p>
+            <a href="#" id="popupOrderBtn" class="btn btn-success">Order Now</a>
+        </div>
+    </div>
+    <script>
+        function openPopup(title, description, price, imageUrl, durationDay, durationNight, packageId) {
+            document.getElementById('popupTitle').textContent = title;
+            document.getElementById('popupDetails').textContent = description;
+            document.getElementById('popupImage').src = imageUrl;
+            document.getElementById('popupDuration').textContent = `${durationDay} Day(s), ${durationNight} Night(s)`;
+
+            // Set the "Order Now" button href dynamically
+            const orderBtn = document.getElementById('popupOrderBtn');
+            orderBtn.href = `/order/${packageId}`;
+
+            // Show the popup
+            document.getElementById('tourPopup').style.display = 'block';
+            document.getElementById('tourPopup').style.display = 'flex';
+        }
+        function closePopup() {
+            document.getElementById('tourPopup').style.display = 'none';
+        }
+    </script>
 @endsection

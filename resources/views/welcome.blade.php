@@ -8,14 +8,13 @@
 @section('content')
 
     <section class="hero">
-
         <div class="booking-container">
             <div class="tab-buttons">
                 <button class="tab-btn" onclick="showTab('tour',event)">🏞️ Tour</button>
                 <button class="tab-btn active" onclick="showTab('flight', event)">✈️ Flight</button>
                 <button class="tab-btn" onclick="showTab('bus', event)">🚌 Bus</button>
-
             </div>
+
             <!-- Tour Page -->
             <form action="{{ route('tour.search') }}" method="GET">
                 <select name="class" required>
@@ -27,19 +26,16 @@
                 <button type="submit">Search</button>
             </form>
 
-
-            <form id="bus" class="booking-form horizontal-booking" action="{{ route('tour.search') }}" method="GET"
-                style="display: none;">
+            <!-- Bus Booking -->
+            <form id="bus" class="booking-form horizontal-booking" action="{{ route('tour.search') }}" method="GET" style="display: none;">
                 @csrf
                 <input type="text" name="from" placeholder="From: Dhaka" required>
                 <input type="text" name="to" placeholder="To: Chittagong" required>
                 <input type="date" name="journey_date" required>
-
                 <select name="seat_class" required>
                     <option value="AC">AC</option>
                     <option value="Non-AC">Non-AC</option>
                 </select>
-
                 <button type="submit" class="search-btn">Search</button>
             </form>
 
@@ -68,73 +64,52 @@
 
                 <button type="submit" class="search-btn">Search</button>
             </form>
-
-            <!-- Bus Booking -->
-            <form id="bus" class="booking-form horizontal-booking" action="{{ route('bus.search') }}" method="GET"
-                style="display: none;">
-                @csrf
-                <input type="text" name="from" placeholder="From: Dhaka" required>
-                <input type="text" name="to" placeholder="To: Chittagong" required>
-                <input type="date" name="journey_date" required>
-
-                <select name="seat_class" required>
-                    <option value="AC">AC</option>
-                    <option value="Non-AC">Non-AC</option>
-                </select>
-
-                <button type="submit" class="search-btn">Search</button>
-            </form>
-
-
         </div>
     </section>
+
     <div class="Upper-package">
         <h1> Packages Around Bangladesh</h1>
     </div>
-   <section class="tour-packages-wrapper">
-    <!-- Tour Packages Section -->
-<div class="tour-scroll-wrapper">
-    <div class="tour-packages">
-        @foreach($packages as $package)
-            <div class="package">
-                <img src="{{ asset($package->image) }}" alt="{{ $package->title }}">
-                <h2>{{ $package->title }}</h2>
 
-                <p class="features">Features: <span>{{ $package->features }}</span></p>
-                <p class="description">{{ $package->description }}</p>
+    <section class="tour-packages-wrapper">
+        <div class="tour-scroll-wrapper">
+            <div class="tour-packages">
+                @foreach($packages as $package)
+                    <div class="package">
+                        <img src="{{ asset($package->image) }}" alt="{{ $package->title }}">
+                        <h2>{{ $package->title }}</h2>
+                        <p class="features">Features: <span>{{ $package->features }}</span></p>
+                        <p class="description">{{ $package->description }}</p>
 
-                @if(isset($package->duration_day) && isset($package->duration_night))
-                    <p class="duration">
-                        <strong>Duration:</strong>
-                        {{ $package->duration_day }} Day{{ $package->duration_day > 1 ? 's' : '' }},
-                        {{ $package->duration_night }} Night{{ $package->duration_night > 1 ? 's' : '' }}
-                    </p>
-                @endif
+                        @if(isset($package->duration_day) && isset($package->duration_night))
+                            <p class="duration">
+                                <strong>Duration:</strong>
+                                {{ $package->duration_day }} Day{{ $package->duration_day > 1 ? 's' : '' }},
+                                {{ $package->duration_night }} Night{{ $package->duration_night > 1 ? 's' : '' }}
+                            </p>
+                        @endif
 
-                <p class="price">
-                    Price Per Person: <br>
-                    <span>${{ number_format($package->price, 2) }}</span>
-                </p>
+                        <p class="price">
+                            Price Per Person: <br>
+                            <span>${{ number_format($package->price, 2) }}</span>
+                        </p>
 
-                <button onclick="openPopup(
-                    '{{ addslashes($package->title) }}',
-                    '{{ addslashes($package->description) }}',
-                    '{{ number_format($package->price, 2) }}',
-                    '{{ asset($package->image) }}',
-                    '{{ $package->duration_day }}',
-                    '{{ $package->duration_night }}',
-                    '{{ $package->id }}'
-                )">
-                    Tour Details ➤
-                </button>
+                        <button onclick="openPopup(
+                            '{{ addslashes($package->title) }}',
+                            '{{ addslashes($package->description) }}',
+                            '{{ number_format($package->price, 2) }}',
+                            '{{ asset($package->image) }}',
+                            '{{ $package->duration_day }}',
+                            '{{ $package->duration_night }}',
+                            '{{ $package->id }}'
+                        )">
+                            Tour Details ➤
+                        </button>
+                    </div>
+                @endforeach
             </div>
-        @endforeach
-    </div>
-</div>
-</section>
-
-
-
+        </div>
+    </section>
 
     <!-- ===== Popup Modal ===== -->
     <div id="tourPopup" class="popup-overlay">
@@ -149,120 +124,67 @@
         </div>
     </div>
 
-
-    </div>
-    </div>
-
     <div class="Upper-package">
         <h1> Hotels In Bangladesh</h1>
     </div>
+
+    {{-- Dynamic Rooms Section --}}
     <section class="container py-5">
         <div class="row g-4">
-
-            <!-- Single Room -->
-            <div class="col-md-6 col-lg-3">
-                <div class="room-card">
-                    <img src="/assets/images/s.jpg" alt="Single Room" class="room-img">
-                    <h5 class="room-title">SINGLE ROOM</h5>
-                    <p class="room-price">start from <span class="price">$110</span></p>
-                    <p class="room-description">
-                        Our single room is the perfect choice for travellers seeking comfortable and convenient
-                        accommodations. The room features a comfortable single bed, a desk and chair, and a private bathroom
-                        with a shower.
-                    </p>
-                    <a href="{{ route('room.details', ['type' => 'single']) }}" class="btn btn-primary w-100">View
-                        Details</a>
+            @forelse ($rooms as $room)
+                <div class="col-md-6 col-lg-3">
+                    <div class="room-card">
+                        <img src="{{ asset('assets/images/' . $room->image) }}" alt="{{ $room->image }}" class="room-img">
+                        <h5 class="room-title">{{ strtoupper($room->title) }}</h5>
+                        <p class="room-price">start from <span class="price">${{ $room->price }}</span></p>
+                        <p class="room-description">
+                            {{ Str::limit($room->description, 150) }}
+                        </p>
+                        <a href="{{ route('room.details', ['type' => strtolower($room->title)]) }}" class="btn btn-primary w-100">View Details</a>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Double Room -->
-            <div class="col-md-6 col-lg-3">
-                <div class="room-card">
-                    <img src="/assets/images/d.jpg" alt="Double Room" class="room-img">
-                    <h5 class="room-title">DOUBLE ROOM</h5>
-                    <p class="room-price">start from <span class="price">$90</span></p>
-                    <p class="room-description">
-                        Our double room is perfect for couples or friends travelling together, featuring two comfortable
-                        double beds, a desk and chair, and a private bathroom with a shower.
-                    </p>
-                    <a href="{{ route('room.details', ['type' => 'double']) }}" class="btn btn-primary w-100">View
-                        Details</a>
+            @empty
+                <div class="col-12">
+                    <p class="text-center">No rooms available at the moment.</p>
                 </div>
-            </div>
-
-            <!-- Family Room -->
-            <div class="col-md-6 col-lg-3">
-                <div class="room-card">
-                    <img src="/assets/images/f.jpeg" alt="Family Room" class="room-img">
-                    <h5 class="room-title">FAMILY ROOM</h5>
-                    <p class="room-price">start from <span class="price">$160</span></p>
-                    <p class="room-description">
-                        Our family room is ideal for families, featuring two comfortable double beds, a sofa bed, a desk and
-                        chair, and a private bathroom with a shower.
-                    </p>
-                    <a href="{{ route('room.details', ['type' => 'family']) }}" class="btn btn-primary w-100">View
-                        Details</a>
-                </div>
-            </div>
-
-            <!-- Apartment -->
-            <div class="col-md-6 col-lg-3">
-                <div class="room-card">
-                    <img src="/assets/images/ap.jpg" alt="Apartment" class="room-img">
-                    <h5 class="room-title">APARTMENT</h5>
-                    <p class="room-price">start from <span class="price">$230</span></p>
-                    <p class="room-description">
-                        Our 2-bed apartment offers space and privacy, featuring two comfortable bedrooms, a double bed, and
-                        plenty of storage space.
-                    </p>
-                    <a href="{{ route('room.details', ['type' => 'apartment']) }}" class="btn btn-primary w-100">View
-                        Details</a>
-                </div>
-            </div>
-
+            @endforelse
         </div>
     </section>
 
 @endsection
 
 @push('script')
-    <script>
-        function showTab(tab, event) {
-            document.getElementById('flight').style.display = (tab === 'flight') ? 'flex' : 'none';
-            document.getElementById('bus').style.display = (tab === 'bus') ? 'flex' : 'none';
-            document.getElementById('tour').style.display = (tab === 'tour') ? 'flex' : 'none';
+<script>
+    function showTab(tab, event) {
+        document.getElementById('flight').style.display = (tab === 'flight') ? 'flex' : 'none';
+        document.getElementById('bus').style.display = (tab === 'bus') ? 'flex' : 'none';
+        document.getElementById('tour').style.display = (tab === 'tour') ? 'flex' : 'none';
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+    }
 
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-        }
+    const backgrounds = [
+        "/assets/images/beach.jpg",
+        "/assets/images/bangladesh.jpeg",
+        "/assets/images/sajek.jpeg"
+    ];
+    let current = 0;
+    setInterval(() => {
+        current = (current + 1) % backgrounds.length;
+        document.querySelector(".hero").style.backgroundImage = `url('${backgrounds[current]}')`;
+    }, 5000);
 
-        // const backgrounds = [
-        //     "/assets/images/beach.jpg",
-        //     "/assets/images/bangladesh.jpeg",
-        //     "/assets/images/sajek.jpeg"
-        // ];
-        let current = 0;
-        setInterval(() => {
-            current = (current + 1) % backgrounds.length;
-            document.querySelector(".hero").style.backgroundImage = `url('${backgrounds[current]}')`;
-        }, 5000);
+    function openPopup(title, description, price, imageUrl, durationDay, durationNight, packageId) {
+        document.getElementById('popupTitle').textContent = title;
+        document.getElementById('popupDetails').textContent = description;
+        document.getElementById('popupImage').src = imageUrl;
+        document.getElementById('popupDuration').textContent = `${durationDay} Day(s), ${durationNight} Night(s)`;
+        document.getElementById('popupOrderBtn').href = `/order/${packageId}`;
+        document.getElementById('tourPopup').style.display = 'flex';
+    }
 
-        function openPopup(title, description, price, imageUrl, durationDay, durationNight, packageId) {
-            document.getElementById('popupTitle').textContent = title;
-            document.getElementById('popupDetails').textContent = description;
-            document.getElementById('popupImage').src = imageUrl;
-            document.getElementById('popupDuration').textContent = `${durationDay} Day(s), ${durationNight} Night(s)`;
-
-            // Set the "Order Now" button href dynamically
-            const orderBtn = document.getElementById('popupOrderBtn');
-            orderBtn.href = `/order/${packageId}`;
-
-            // Show the popup
-            document.getElementById('tourPopup').style.display = 'block';
-            document.getElementById('tourPopup').style.display = 'flex';
-        }
-        function closePopup() {
-            document.getElementById('tourPopup').style.display = 'none';
-        }
-    </script>
+    function closePopup() {
+        document.getElementById('tourPopup').style.display = 'none';
+    }
+</script>
 @endpush

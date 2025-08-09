@@ -4,29 +4,50 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Room;
+use App\Models\TourPackage;
 
 class RoomController extends Controller
 {
-    // Show all rooms (frontend)
+    /**
+     * Homepage view (welcome.blade.php)
+     */
+    public function welcome()
+    {
+        $rooms = Room::latest()->take(8)->get(); // 8 latest rooms
+        $packages = TourPackage::latest()->get(); // all packages
+
+        return view('welcome', compact('rooms', 'packages'));
+    }
+
+    /**
+     * Show all rooms (room.blade.php)
+     */
     public function index()
     {
-        $rooms = Room::latest()->get(); // Fetch all rooms, newest first
+        $rooms = Room::latest()->get();
         return view('room', compact('rooms'));
     }
 
-    // Show room detail by type (frontend)
+    /**
+     * Show single room by type
+     */
     public function show($type)
     {
-        return view('room-details', ['type' => $type]);
+        $room = Room::whereRaw('LOWER(title) = ?', [strtolower($type)])->firstOrFail();
+        return view('room-details', compact('room'));
     }
 
-    // Show the room add form (admin)
+    /**
+     * Admin room add form
+     */
     public function create()
     {
         return view('admin.room_add');
     }
 
-    // Store the room in database (admin)
+    /**
+     * Store a new room
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -36,19 +57,15 @@ class RoomController extends Controller
             'description' => 'required|string',
         ]);
 
-        // Handle the image upload
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName(); // unique filename
-            $image->move(public_path('assets/images'), $imageName); // move to /public/assets/images
-        } else {
-            $imageName = null; // or use a default image name
-        }
+        // Upload image
+        $image = $request->file('image');
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $image->move(public_path('assets/images'), $imageName);
 
-        // Save room to DB
+        // Save room
         Room::create([
             'title' => $request->title,
-            'image' => $imageName, // only the filename
+            'image' => $imageName,
             'price' => $request->price,
             'description' => $request->description,
         ]);
