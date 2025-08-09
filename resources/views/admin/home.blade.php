@@ -3,101 +3,186 @@
 @section('title', 'Admin Dashboard - Tour Freak')
 
 @push('style')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
     body {
         background-color: #f4f6f9;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
-    .admin-card {
-        border: none;
-        border-radius: 15px;
-        background: linear-gradient(135deg, #ffffff, #f9f9f9);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s ease-in-out;
+    .dashboard-card {
+        border-radius: 12px;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        height: 100%;
     }
-
-    .admin-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+    .card-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #777;
     }
-
-    .admin-icon {
-        font-size: 2rem;
-        margin-bottom: 10px;
-        color: #0d6efd;
+    .card-value {
+        font-size: 24px;
+        font-weight: 700;
+        margin-top: 8px;
     }
-
-    .admin-card-title {
-        font-size: 1rem;
-        color: #555;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+    .card-change {
+        font-size: 12px;
+        color: #28a745;
     }
-
-    .admin-card-value {
-        font-size: 2rem;
-        font-weight: 702;
-    }
-
-    .btn-sm {
-        margin-top: 10px;
-        border-radius: 50px;
-        font-size: 0.8rem;
-        padding: 5px 15px;
+    .chart-container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        height: 100%;
     }
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 @endpush
 
 @section('content')
-<div class="container mt-5 pt-5">
-    <h2 class="mb-4 fw-bold text-dark">Welcome, Admin</h2>
+<div class="container-fluid mt-4">
+    <h4 class="mb-4 fw-bold">Admin Dashboard</h4>
 
-    <div class="row g-4">
-        <div class="col-md-6 col-lg-3">
-            <div class="card admin-card text-center p-3">
-                <div class="card-body">
-                    <div class="admin-icon"><i class="fas fa-boxes"></i></div>
-                    <div class="admin-card-title">Total Packages</div>
-                    <div class="admin-card-value text-primary">12</div>
-                    <a href="{{ route('admin.packages') }}" class="btn btn-sm btn-outline-primary">Manage</a>
-                </div>
+    <!-- Top Stat Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="dashboard-card">
+                <i class="fas fa-boxes fa-2x text-primary"></i>
+                <div class="card-title mt-2">Total Packages</div>
+                <div class="card-value text-primary">{{ $totalPackages }}</div>
+                <canvas id="packageChart" height="60"></canvas>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="dashboard-card">
+                <i class="fas fa-bed fa-2x text-success"></i>
+                <div class="card-title mt-2">Total Rooms</div>
+                <div class="card-value text-success">{{ $totalRooms }}</div>
+                <canvas id="roomChart" height="60"></canvas>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="dashboard-card">
+                <i class="fas fa-calendar-check fa-2x text-warning"></i>
+                <div class="card-title mt-2">Total Bookings</div>
+                <div class="card-value text-warning">{{ $totalBookings }}</div>
+                <canvas id="bookingChart" height="60"></canvas>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="dashboard-card">
+                <i class="fas fa-users fa-2x text-danger"></i>
+                <div class="card-title mt-2">User Accounts</div>
+                <div class="card-value text-danger">{{ $totalUsers }}</div>
+                <canvas id="userChart" height="60"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Orders & Charts -->
+    <div class="row g-3">
+        <div class="col-md-8">
+            <div class="chart-container">
+                <h6>Recent Bookings</h6>
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Booking ID</th>
+                            <th>Package</th>
+                            <th>User</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($recentBookings as $index => $booking)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $booking->id }}</td>
+                                <td>{{ $booking->package->name ?? 'N/A' }}</td>
+                                <td>{{ $booking->user->name ?? 'N/A' }}</td>
+                                <td>{{ $booking->created_at->format('d-m-Y') }}</td>
+                                <td>
+                                    <span class="badge bg-{{ $booking->status === 'confirmed' ? 'success' : 'warning' }}">
+                                        {{ ucfirst($booking->status) }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center">No recent bookings</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div class="col-md-6 col-lg-3">
-            <div class="card admin-card text-center p-3">
-                <div class="card-body">
-                    <div class="admin-icon"><i class="fas fa-bed"></i></div>
-                    <div class="admin-card-title">Available Rooms</div>
-                    <div class="admin-card-value text-success">24</div>
-                    <a href="{{ route('room') }}" class="btn btn-sm btn-outline-success">Manage</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card admin-card text-center p-3">
-                <div class="card-body">
-                    <div class="admin-icon"><i class="fas fa-users"></i></div>
-                    <div class="admin-card-title">User Accounts</div>
-                    <div class="admin-card-value text-dark">108</div>
-                    <a href="#" class="btn btn-sm btn-outline-dark">View</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card admin-card text-center p-3">
-                <div class="card-body">
-                    <div class="admin-icon"><i class="fas fa-calendar-check"></i></div>
-                    <div class="admin-card-title">Bookings</div>
-                    <div class="admin-card-value text-warning">45</div>
-                    <a href="#" class="btn btn-sm btn-outline-warning">View</a>
-                </div>
+        <div class="col-md-4">
+            <div class="chart-container">
+                <h6>Customer Acquisition</h6>
+                <canvas id="customerChart" height="200"></canvas>
             </div>
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Small stat charts
+    const smallChart = (id, color) => {
+        new Chart(document.getElementById(id), {
+            type: 'line',
+            data: {
+                labels: ["Mon","Tue","Wed","Thu","Fri"],
+                datasets: [{
+                    data: [12, 19, 3, 5, 2],
+                    borderColor: color,
+                    backgroundColor: 'transparent',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                plugins: { legend: { display: false } },
+                scales: { x: { display: false }, y: { display: false } }
+            }
+        });
+    };
+    smallChart('packageChart', '#0d6efd');
+    smallChart('roomChart', '#198754');
+    smallChart('bookingChart', '#ffc107');
+    smallChart('userChart', '#dc3545');
+
+    // Customer acquisition chart
+    new Chart(document.getElementById('customerChart'), {
+        type: 'line',
+        data: {
+            labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+            datasets: [
+                {
+                    label: 'Returning',
+                    data: [2, 4, 5, 3, 6, 8, 7],
+                    borderColor: '#0d6efd',
+                    fill: false,
+                    tension: 0.4
+                },
+                {
+                    label: 'First Time',
+                    data: [1, 3, 4, 6, 5, 7, 9],
+                    borderColor: '#dc3545',
+                    fill: false,
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
+</script>
+@endpush
 @endsection

@@ -91,8 +91,3 @@ Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
 
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 //SSLCOMMERZ END
-Route::post('/order', [OrderController::class, 'store'])->name('order.store');
-Route::post('/payment/success', [OrderController::class, 'success'])->name('payment.success');
-Route::post('/payment/fail', [OrderController::class, 'fail'])->name('payment.fail');
-Route::post('/payment/cancel', [OrderController::class, 'cancel'])->name('payment.cancel');
-Route::post('/payment/ipn', [OrderController::class, 'ipn'])->name('payment.ipn');
