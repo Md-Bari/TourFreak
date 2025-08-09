@@ -36,8 +36,6 @@
                 <form action="{{ route('order.store') }}" method="POST" class="mt-3">
                     @csrf
                     <input type="hidden" name="package_id" value="{{ $package->id }}">
-                    <input type="hidden" name="user_name" value="{{ Auth::user()->name }}">
-                    <input type="hidden" name="user_phone" value="{{ Auth::user()->phone }}">
 
                     <div class="form-group mb-2">
                         <label for="person_count">Number of Persons</label>

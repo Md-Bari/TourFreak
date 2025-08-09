@@ -2,248 +2,158 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Library\SslCommerz\SslCommerzNotification;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class SslCommerzPaymentController extends Controller
 {
-    public function exampleEasyCheckout()
+    /**
+     * Show the hosted payment form (exampleHosted.blade.php)
+     */
+    public function showPaymentForm(Request $request)
     {
-        return view('exampleEasycheckout');
+        // You should pass the package info and amount to the view from the previous page
+        // Assuming $request has package_id and amount, or you get the package here by id
+        // For example:
+        // $package = TourPackage::findOrFail($request->package_id);
+        // return view('exampleHosted', compact('package'));
+
+        // But for demo, just pass request data:
+        return view('exampleHosted', [
+            'package_id' => $request->package_id,
+            'amount' => $request->amount,
+            'customer_name' => Auth::user()->name ?? '',
+            'customer_mobile' => Auth::user()->phone ?? '',
+            'customer_email' => Auth::user()->email ?? '',
+        ]);
     }
 
-    public function exampleHostedCheckout()
+    /**
+     * Process the payment request from the form and initiate SSLCommerz payment
+     */
+    public function pay(Request $request)
     {
-        return view('exampleHosted');
-    }
+        // Validate inputs including package_id
+        $request->validate([
+            'package_id'       => 'required|integer|exists:tour_packages,id',
+            'customer_name'    => 'required|string|max:255',
+            'customer_mobile'  => 'required|string|max:20',
+            'customer_email'   => 'nullable|email|max:255',
+            'amount'           => 'required|numeric|min:1',
+        ]);
 
-    public function index(Request $request)
-    {
-        $post_data = array();
-        $post_data['total_amount'] = '10'; # You can't pay less than 10
-        $post_data['currency'] = "BDT";
-        $post_data['tran_id'] = uniqid(); // tran_id must be unique
+        // Generate unique transaction ID
+        $transaction_id = Str::uuid()->toString();
 
-        # CUSTOMER INFORMATION
-        $post_data['cus_name'] = 'Customer Name';
-        $post_data['cus_email'] = 'customer@mail.com';
-        $post_data['cus_add1'] = 'Customer Address';
-        $post_data['cus_add2'] = "";
-        $post_data['cus_city'] = "";
-        $post_data['cus_state'] = "";
-        $post_data['cus_postcode'] = "";
-        $post_data['cus_country'] = "Bangladesh";
-        $post_data['cus_phone'] = '8801XXXXXXXXX';
-        $post_data['cus_fax'] = "";
+        // Save order info to DB with package_id included
+        $order = Order::create([
+            'package_id'      => $request->package_id,
+            'user_name'       => $request->customer_name,
+            'user_phone'      => $request->customer_mobile,
+            'user_email'      => $request->customer_email ?? 'noemail@example.com',
+            'total_price'     => $request->amount,
+            'transaction_id'  => $transaction_id,
+            'status'          => 'Pending',
+            'user_id'         => Auth::id() ?? null,
+        ]);
 
-        # SHIPMENT INFORMATION
-        $post_data['ship_name'] = "Store Test";
-        $post_data['ship_add1'] = "Dhaka";
-        $post_data['ship_add2'] = "Dhaka";
-        $post_data['ship_city'] = "Dhaka";
-        $post_data['ship_state'] = "Dhaka";
-        $post_data['ship_postcode'] = "1000";
-        $post_data['ship_phone'] = "";
-        $post_data['ship_country'] = "Bangladesh";
+        // Prepare data for SSLCommerz
+        $post_data = [
+            'total_amount'    => $order->total_price,
+            'currency'        => "BDT",
+            'tran_id'         => $transaction_id,
 
-        $post_data['shipping_method'] = "NO";
-        $post_data['product_name'] = "Computer";
-        $post_data['product_category'] = "Goods";
-        $post_data['product_profile'] = "physical-goods";
+            // Customer Information
+            'cus_name'        => $order->user_name,
+            'cus_email'       => $order->user_email,
+            'cus_add1'        => $request->address ?? 'N/A',
+            'cus_add2'        => $request->address2 ?? '',
+            'cus_city'        => $request->state ?? 'N/A',
+            'cus_state'       => $request->state ?? 'N/A',
+            'cus_postcode'    => $request->zip ?? '1000',
+            'cus_country'     => $request->country ?? 'Bangladesh',
+            'cus_phone'       => $order->user_phone,
+            'cus_fax'         => '',
 
-        # OPTIONAL PARAMETERS
-        $post_data['value_a'] = "ref001";
-        $post_data['value_b'] = "ref002";
-        $post_data['value_c'] = "ref003";
-        $post_data['value_d'] = "ref004";
+            // Shipping Information (can be same as billing)
+            'ship_name'       => $order->user_name,
+            'ship_add1'       => $request->address ?? 'N/A',
+            'ship_add2'       => $request->address2 ?? '',
+            'ship_city'       => $request->state ?? 'N/A',
+            'ship_state'      => $request->state ?? 'N/A',
+            'ship_postcode'   => $request->zip ?? '1000',
+            'ship_country'    => $request->country ?? 'Bangladesh',
 
-        # Before going to initiate the payment order status need to insert or update as Pending.
-        $update_product = DB::table('laravel_db.orders_ssl')
-            ->where('transaction_id', $post_data['tran_id'])
-            ->updateOrInsert([
-                'name' => $post_data['cus_name'],
-                'email' => $post_data['cus_email'],
-                'phone' => $post_data['cus_phone'],
-                'amount' => $post_data['total_amount'],
-                'status' => 'Pending',
-                'address' => $post_data['cus_add1'],
-                'transaction_id' => $post_data['tran_id'],
-                'currency' => $post_data['currency']
-            ]);
+            // URLs to handle payment response
+            'success_url'     => route('payment.success'),
+            'fail_url'        => route('payment.fail'),
+            'cancel_url'      => route('payment.cancel'),
 
-        $sslc = new SslCommerzNotification();
-        # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
+            // Product Info
+            'product_name'    => 'Tour Package',
+            'product_category'=> 'Tour',
+            'product_profile' => 'general',
+        ];
+
+        // Initialize SSLCommerz payment gateway library
+        $sslc = new \App\Library\SslCommerz\SslCommerzNotification();
+
+        // Make payment request (hosted checkout)
         $payment_options = $sslc->makePayment($post_data, 'hosted');
 
         if (!is_array($payment_options)) {
-            print_r($payment_options);
-            $payment_options = array();
+            // Payment initialization failed - show error
+            return redirect()->back()->with('error', 'Payment initialization failed!');
         }
+
+        // Return payment redirect response (usually a redirect)
+        return $payment_options;
     }
 
-    public function payViaAjax(Request $request)
+    /**
+     * Success callback URL
+     */
+    public function paymentSuccess(Request $request)
     {
-        $post_data = array();
-        $post_data['total_amount'] = '10'; # You can't pay less than 10
-        $post_data['currency'] = "BDT";
-        $post_data['tran_id'] = uniqid(); // tran_id must be unique
+        $order = Order::where('transaction_id', $request->tran_id)->first();
 
-        # CUSTOMER INFORMATION
-        $post_data['cus_name'] = 'Customer Name';
-        $post_data['cus_email'] = 'customer@mail.com';
-        $post_data['cus_add1'] = 'Customer Address';
-        $post_data['cus_add2'] = "";
-        $post_data['cus_city'] = "";
-        $post_data['cus_state'] = "";
-        $post_data['cus_postcode'] = "";
-        $post_data['cus_country'] = "Bangladesh";
-        $post_data['cus_phone'] = '8801XXXXXXXXX';
-        $post_data['cus_fax'] = "";
-
-        # SHIPMENT INFORMATION
-        $post_data['ship_name'] = "Store Test";
-        $post_data['ship_add1'] = "Dhaka";
-        $post_data['ship_add2'] = "Dhaka";
-        $post_data['ship_city'] = "Dhaka";
-        $post_data['ship_state'] = "Dhaka";
-        $post_data['ship_postcode'] = "1000";
-        $post_data['ship_phone'] = "";
-        $post_data['ship_country'] = "Bangladesh";
-
-        $post_data['shipping_method'] = "NO";
-        $post_data['product_name'] = "Computer";
-        $post_data['product_category'] = "Goods";
-        $post_data['product_profile'] = "physical-goods";
-
-        # OPTIONAL PARAMETERS
-        $post_data['value_a'] = "ref001";
-        $post_data['value_b'] = "ref002";
-        $post_data['value_c'] = "ref003";
-        $post_data['value_d'] = "ref004";
-
-        # Before going to initiate the payment order status need to update as Pending.
-        $update_product = DB::table('laravel_db.orders_ssl')
-            ->where('transaction_id', $post_data['tran_id'])
-            ->updateOrInsert([
-                'name' => $post_data['cus_name'],
-                'email' => $post_data['cus_email'],
-                'phone' => $post_data['cus_phone'],
-                'amount' => $post_data['total_amount'],
-                'status' => 'Pending',
-                'address' => $post_data['cus_add1'],
-                'transaction_id' => $post_data['tran_id'],
-                'currency' => $post_data['currency']
-            ]);
-
-        $sslc = new SslCommerzNotification();
-        # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
-        $payment_options = $sslc->makePayment($post_data, 'checkout', 'json');
-
-        if (!is_array($payment_options)) {
-            print_r($payment_options);
-            $payment_options = array();
+        if ($order) {
+            $order->status = 'Paid';
+            $order->save();
         }
+
+        return redirect()->route('home')->with('success', 'Payment successful! Thank you.');
     }
 
-    public function success(Request $request)
+    /**
+     * Fail callback URL
+     */
+    public function paymentFail(Request $request)
     {
-        echo "Transaction is Successful";
+        $order = Order::where('transaction_id', $request->tran_id)->first();
 
-        $tran_id = $request->input('tran_id');
-        $amount = $request->input('amount');
-        $currency = $request->input('currency');
-
-        $sslc = new SslCommerzNotification();
-
-        # Check order status in order table against the transaction id or order id.
-        $order_details = DB::table('laravel_db.orders_ssl')
-            ->where('transaction_id', $tran_id)
-            ->select('transaction_id', 'status', 'currency', 'amount')->first();
-
-        if ($order_details->status == 'Pending') {
-            $validation = $sslc->orderValidate($request->all(), $tran_id, $amount, $currency);
-
-            if ($validation) {
-                $update_product = DB::table('laravel_db.orders_ssl')
-                    ->where('transaction_id', $tran_id)
-                    ->update(['status' => 'Processing']);
-
-                echo "<br >Transaction is successfully Completed";
-            }
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
-            echo "Transaction is successfully Completed";
-        } else {
-            echo "Invalid Transaction";
+        if ($order) {
+            $order->status = 'Failed';
+            $order->save();
         }
+
+        return redirect()->route('home')->with('error', 'Payment failed! Please try again.');
     }
 
-    public function fail(Request $request)
+    /**
+     * Cancel callback URL
+     */
+    public function paymentCancel(Request $request)
     {
-        $tran_id = $request->input('tran_id');
+        $order = Order::where('transaction_id', $request->tran_id)->first();
 
-        $order_details = DB::table('laravel_db.orders_ssl')
-            ->where('transaction_id', $tran_id)
-            ->select('transaction_id', 'status', 'currency', 'amount')->first();
-
-        if ($order_details->status == 'Pending') {
-            $update_product = DB::table('laravel_db.orders_ssl')
-                ->where('transaction_id', $tran_id)
-                ->update(['status' => 'Failed']);
-            echo "Transaction is Failed";
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
-            echo "Transaction is already Successful";
-        } else {
-            echo "Transaction is Invalid";
+        if ($order) {
+            $order->status = 'Cancelled';
+            $order->save();
         }
-    }
 
-    public function cancel(Request $request)
-    {
-        $tran_id = $request->input('tran_id');
-
-        $order_details = DB::table('laravel_db.orders_ssl')
-            ->where('transaction_id', $tran_id)
-            ->select('transaction_id', 'status', 'currency', 'amount')->first();
-
-        if ($order_details->status == 'Pending') {
-            $update_product = DB::table('laravel_db.orders_ssl')
-                ->where('transaction_id', $tran_id)
-                ->update(['status' => 'Canceled']);
-            echo "Transaction is Canceled";
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
-            echo "Transaction is already Successful";
-        } else {
-            echo "Transaction is Invalid";
-        }
-    }
-
-    public function ipn(Request $request)
-    {
-        if ($request->input('tran_id')) {
-            $tran_id = $request->input('tran_id');
-
-            $order_details = DB::table('laravel_db.orders_ssl')
-                ->where('transaction_id', $tran_id)
-                ->select('transaction_id', 'status', 'currency', 'amount')->first();
-
-            if ($order_details->status == 'Pending') {
-                $sslc = new SslCommerzNotification();
-                $validation = $sslc->orderValidate($request->all(), $tran_id, $order_details->amount, $order_details->currency);
-                if ($validation == TRUE) {
-                    $update_product = DB::table('laravel_db.orders_ssl')
-                        ->where('transaction_id', $tran_id)
-                        ->update(['status' => 'Processing']);
-
-                    echo "Transaction is successfully Completed";
-                }
-            } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
-                echo "Transaction is already successfully Completed";
-            } else {
-                echo "Invalid Transaction";
-            }
-        } else {
-            echo "Invalid Data";
-        }
+        return redirect()->route('home')->with('error', 'Payment cancelled.');
     }
 }

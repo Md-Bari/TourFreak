@@ -10,14 +10,26 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'package_id',
-        'title',
-        'price',
-        'person_count',
-        'extra_package',
-        'total_price',
-        'user_name',
-        'user_phone',
         'user_id',
+        'package_id',
+        'name',
+        'email',
+        'phone',
+        'address',
+        'amount',
+        'currency',
+        'transaction_id',
+        'status',
     ];
+
+    // Relationships
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function package()
+    {
+        return $this->belongsTo(TourPackage::class, 'package_id');
+    }
 }
