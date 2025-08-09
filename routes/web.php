@@ -91,3 +91,9 @@ Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
 
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
 //SSLCOMMERZ END
+//admin home
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home');
+});
+
+
