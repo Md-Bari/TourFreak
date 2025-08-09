@@ -164,10 +164,10 @@
     }
 
     const backgrounds = [
-        "/assets/images/beach.jpg",
-        "/assets/images/bangladesh.jpeg",
-        "/assets/images/sajek.jpeg"
-    ];
+    //     "/assets/images/beach.jpg",
+    //     "/assets/images/bangladesh.jpeg",
+    //     "/assets/images/sajek.jpeg"
+    // ];
     let current = 0;
     setInterval(() => {
         current = (current + 1) % backgrounds.length;
