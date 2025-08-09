@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SslCommerzPaymentController;
 
 // Homepage: Show both rooms and tour packages
 Route::get('/', [RoomController::class, 'welcome'])->name('home');
@@ -76,3 +77,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/{id}', [OrderController::class, 'showOrderForm'])->name('order.form');
     Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
 });
+
+// SSLCOMMERZ Start
+Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
+Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
+
+Route::post('/pay', [SslCommerzPaymentController::class, 'index']);
+Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
+
+Route::post('/success', [SslCommerzPaymentController::class, 'success']);
+Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
+Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
+
+Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
+//SSLCOMMERZ END
