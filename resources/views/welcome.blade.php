@@ -27,7 +27,8 @@
             </form>
 
             <!-- Bus Booking -->
-            <form id="bus" class="booking-form horizontal-booking" action="{{ route('tour.search') }}" method="GET" style="display: none;">
+            <form id="bus" class="booking-form horizontal-booking" action="{{ route('tour.search') }}" method="GET"
+                style="display: none;">
                 @csrf
                 <input type="text" name="from" placeholder="From: Dhaka" required>
                 <input type="text" name="to" placeholder="To: Chittagong" required>
@@ -76,7 +77,7 @@
             <div class="tour-packages">
                 @foreach($packages as $package)
                     <div class="package">
-                        <img src="{{ asset($package->image) }}" alt="{{ $package->title }}">
+                        <img src="{{ asset('assets/images/' . $package->image) }}" alt="{{ $package->title }}">
                         <h2>{{ $package->title }}</h2>
                         <p class="features">Features: <span>{{ $package->features }}</span></p>
                         <p class="description">{{ $package->description }}</p>
@@ -95,16 +96,17 @@
                         </p>
 
                         <button onclick="openPopup(
-                            '{{ addslashes($package->title) }}',
-                            '{{ addslashes($package->description) }}',
-                            '{{ number_format($package->price, 2) }}',
-                            '{{ asset($package->image) }}',
-                            '{{ $package->duration_day }}',
-                            '{{ $package->duration_night }}',
-                            '{{ $package->id }}'
-                        )">
+                                            '{{ addslashes($package->title) }}',
+                                            '{{ addslashes($package->description) }}',
+                                            '{{ number_format($package->price, 2) }}',
+                                            '{{ asset(str_replace('\\', '/', ('assets/images/' . $package->image))) }}',
+                                            '{{ $package->duration_day }}',
+                                            '{{ $package->duration_night }}',
+                                            '{{ $package->id }}'
+                                        )">
                             Tour Details ➤
                         </button>
+
                     </div>
                 @endforeach
             </div>
@@ -120,10 +122,22 @@
             <h2 id="popupTitle">Tour Title</h2>
             <p id="popupDuration" style="font-weight:600;color:#0d6efd;margin-bottom:10px;"></p>
             <p id="popupDetails">Package details will appear here.</p>
+
+            <!-- Quantity Selection -->
+            <div style="margin:10px 0;">
+                <label for="travelerQuantity">Number of Travelers:</label>
+                <input type="number" id="travelerQuantity" value="1" min="1" style="width:60px; margin-left:5px;"
+                    oninput="updateTotalPrice()" />
+            </div>
+
+            <p><strong>Total Price: $<span id="totalPrice">0.00</span></strong></p>
+
             <a href="#" id="popupOrderBtn" class="btn btn-success">Order Now</a>
         </div>
     </div>
 
+
+    {{-- Dynamic Rooms Section --}}
     <div class="Upper-package">
         <h1> Hotels In Bangladesh</h1>
     </div>
@@ -140,7 +154,14 @@
                         <p class="room-description">
                             {{ Str::limit($room->description, 150) }}
                         </p>
-                        <a href="{{ route('room.details', ['type' => strtolower($room->title)]) }}" class="btn btn-primary w-100">View Details</a>
+                        <button class="btn btn-primary w-100" onclick="openRoomPopup(
+                                            '{{ addslashes($room->title) }}',
+                                            '{{ addslashes($room->description) }}',
+                                            '{{ $room->price }}',
+                                            '{{ asset(str_replace('\\', '/', 'assets/images/' . $room->image)) }}'
+                                        )">
+                            Room Details ➤
+                        </button>
                     </div>
                 </div>
             @empty
@@ -151,40 +172,89 @@
         </div>
     </section>
 
+    <!-- ===== Room Popup Modal ===== -->
+    <div id="roomPopup" class="popup-overlay">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closeRoomPopup()">×</span>
+            <img id="roomPopupImage" src="" alt="Room Image"
+                style="width:100%;max-width:400px;min-height:220px;max-height:260px;border-radius:12px;margin-bottom:18px;object-fit:cover;" />
+            <h2 id="roomPopupTitle">Room Title</h2>
+            <p id="roomPopupDetails">Room details will appear here.</p>
+            <p id="roomPopupPrice" style="font-weight:600;color:#0d6efd;margin-bottom:10px;"></p>
+            <a href="#" id="popupOrderBtn" class="btn btn-success">Order Now</a>
+        </div>
+    </div>
+
 @endsection
 
 @push('script')
-<script>
-    function showTab(tab, event) {
-        document.getElementById('flight').style.display = (tab === 'flight') ? 'flex' : 'none';
-        document.getElementById('bus').style.display = (tab === 'bus') ? 'flex' : 'none';
-        document.getElementById('tour').style.display = (tab === 'tour') ? 'flex' : 'none';
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
-    }
+    <script>
+        function showTab(tab, event) {
+            document.getElementById('flight').style.display = (tab === 'flight') ? 'flex' : 'none';
+            document.getElementById('bus').style.display = (tab === 'bus') ? 'flex' : 'none';
+            document.getElementById('tour').style.display = (tab === 'tour') ? 'flex' : 'none';
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
 
-    const backgrounds = [
-    //     "/assets/images/beach.jpg",
-    //     "/assets/images/bangladesh.jpeg",
-    //     "/assets/images/sajek.jpeg"
-    // ];
-    let current = 0;
-    setInterval(() => {
-        current = (current + 1) % backgrounds.length;
-        document.querySelector(".hero").style.backgroundImage = `url('${backgrounds[current]}')`;
-    }, 5000);
+        // const backgrounds = [
+        //     "/assets/images/beach.jpg",
+        //     "/assets/images/bangladesh.jpeg",
+        //     "/assets/images/sajek.jpeg"
+        // ];
+        let current = 0;
+        setInterval(() => {
+            current = (current + 1) % backgrounds.length;
+            document.querySelector(".hero").style.backgroundImage = `url('${backgrounds[current]}')`;
+        }, 5000);
 
-    function openPopup(title, description, price, imageUrl, durationDay, durationNight, packageId) {
-        document.getElementById('popupTitle').textContent = title;
-        document.getElementById('popupDetails').textContent = description;
-        document.getElementById('popupImage').src = imageUrl;
-        document.getElementById('popupDuration').textContent = `${durationDay} Day(s), ${durationNight} Night(s)`;
-        document.getElementById('popupOrderBtn').href = `/order/${packageId}`;
-        document.getElementById('tourPopup').style.display = 'flex';
-    }
+        let packagePrice = 0;
+        let packageId = 0;
 
-    function closePopup() {
-        document.getElementById('tourPopup').style.display = 'none';
-    }
-</script>
+        function openPopup(title, description, price, imageUrl, durationDay, durationNight, id) {
+            document.getElementById('popupTitle').textContent = title;
+            document.getElementById('popupDetails').textContent = description;
+            document.getElementById('popupImage').src = imageUrl;
+            document.getElementById('popupDuration').textContent = `${durationDay} Day(s), ${durationNight} Night(s)`;
+
+            // Set package price and ID for calculation & order
+            packagePrice = parseFloat(price);
+            packageId = id;
+
+            // Reset quantity and total price
+            document.getElementById('travelerQuantity').value = 1;
+            updateTotalPrice();
+
+            document.getElementById('tourPopup').style.display = 'flex';
+
+            // Update Order link
+            document.getElementById('popupOrderBtn').href = `/order/${id}?quantity=1`;
+        }
+
+        function updateTotalPrice() {
+            const qty = parseInt(document.getElementById('travelerQuantity').value) || 1;
+            const total = (packagePrice * qty).toFixed(2);
+            document.getElementById('totalPrice').textContent = total;
+
+            // Update order link with selected quantity
+            document.getElementById('popupOrderBtn').href = `/order/${packageId}?quantity=${qty}`;
+        }
+
+        function closePopup() {
+            document.getElementById('tourPopup').style.display = 'none';
+        }
+        function openRoomPopup(title, description, price, imageUrl) {
+            document.getElementById('roomPopupTitle').textContent = title;
+            document.getElementById('roomPopupDetails').textContent = description;
+            document.getElementById('roomPopupPrice').textContent = `Price: $${price}`;
+            document.getElementById('roomPopupImage').src = imageUrl;
+            document.getElementById('roomPopup').style.display = 'flex';
+            document.getElementById('popupOrderBtn').href = `/order/${packageId}`;
+        }
+
+        function closeRoomPopup() {
+            document.getElementById('roomPopup').style.display = 'none';
+        }
+
+    </script>
 @endpush

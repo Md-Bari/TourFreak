@@ -9,14 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    // Show order form for a tour package
+    // Show order form
     public function showOrderForm($id)
     {
         $package = TourPackage::findOrFail($id);
         return view('order.order', compact('package'));
     }
 
-    // Store order and redirect to hosted payment form
+    // Store order data
     public function store(Request $request)
     {
         $request->validate([
@@ -30,7 +30,7 @@ class OrderController extends Controller
 
         $total_price = $package->price * $request->person_count;
 
-        $order = Order::create([
+        Order::create([
             'package_id'     => $package->id,
             'title'          => $package->title,
             'price'          => $package->price,
@@ -40,16 +40,8 @@ class OrderController extends Controller
             'user_name'      => $user->name,
             'user_phone'     => $user->phone,
             'user_id'        => $user->id,
-            'status'         => 'Pending',
         ]);
 
-        // Redirect to payment page with order info
-        return redirect()->route('payment.form', [
-            'order_id'      => $order->id,
-            'amount'        => $total_price,
-            'customer_name' => $user->name,
-            'customer_mobile'=> $user->phone,
-            'customer_email'=> $user->email,
-        ]);
+        return redirect()->route('home')->with('success', 'Order placed successfully!');
     }
 }

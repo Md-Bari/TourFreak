@@ -22,7 +22,9 @@
             </select>
         </div>
         <div class="mb-3">
-            <input type="text" name="image" class="form-control" placeholder="Image Path" required>
+            <label for="image" class="form-label">Room Image</label>
+            <input type="file" name="image" class="form-control" required>
+            @error('image') <span class="text-danger">{{ $message }}</span> @enderror
         </div>
         <div class="mb-3">
             <input type="text" name="features" class="form-control" placeholder="Features" required>
