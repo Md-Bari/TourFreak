@@ -90,3 +90,6 @@ Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home');
 // Optional example routes for SSLCommerz demos (if needed)
 Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
 Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
+
+// My Ads route
+Route::get('/my-ads', [App\Http\Controllers\AdController::class, 'index'])->name('my.ads');
