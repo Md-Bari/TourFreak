@@ -21,10 +21,10 @@
             </div>
 
             {{-- Package Summary --}}
-            <div class="card p-3" style="border: 1px solid #ddd; border-radius: 10px;">
+            <div class="card p-3">
                 <h5>Package Details</h5>
                 <div style="display: flex; gap: 15px;">
-                    <img src="{{ asset($package->image) }}" alt="{{ $package->title }}" width="120" height="120" style="object-fit: cover; border-radius: 6px;">
+                    <img src="{{ asset('assets/images/' . $package->image) }}" alt="{{ $package->title }}" width="120" height="120" style="object-fit: cover; border-radius: 6px;">
                     <div>
                         <h6>{{ $package->title }}</h6>
                         <p style="margin: 0;"><strong>৳{{ $package->price }}</strong></p>
@@ -36,10 +36,12 @@
                 <form action="{{ route('order.store') }}" method="POST" class="mt-3">
                     @csrf
                     <input type="hidden" name="package_id" value="{{ $package->id }}">
+                    <input type="hidden" name="user_name" value="{{ Auth::user()->name }}">
+                    <input type="hidden" name="user_phone" value="{{ Auth::user()->phone }}">
 
                     <div class="form-group mb-2">
                         <label for="person_count">Number of Persons</label>
-                        <input type="number" name="person_count" id="person_count" class="form-control" required min="1" value="1">
+                        <input type="number" name="person_count" id="person_count" class="form-control" required min="1" value="1" oninput="updateSummary()">
                     </div>
 
                     <div class="form-group mb-3">
@@ -57,22 +59,38 @@
             <div class="card p-3" style="border: 1px solid #ddd; border-radius: 10px;">
                 <h5>Order Summary</h5>
                 <hr>
+                @php
+                    $vat = $package->price * 0.15;
+                    $total = $package->price + $vat;
+                @endphp
                 <div style="display: flex; justify-content: space-between;">
                     <span>Package Price</span>
                     <span>৳{{ $package->price }}</span>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
-                    <span>Delivery Fee</span>
-                    <span>৳60</span>
+                    <span>VAT (15%)</span>
+                    <span>৳{{ number_format($vat, 2) }}</span>
                 </div>
                 <hr>
                 <div style="display: flex; justify-content: space-between; font-weight: bold;">
                     <span>Total</span>
-                    <span>৳{{ $package->price + 60 }}</span>
+                    <span id="totalPrice">৳{{ number_format($total, 2) }}</span>
                 </div>
-                <p class="text-muted" style="font-size: 12px;">VAT included, where applicable</p>
+                <p class="text-muted" style="font-size: 12px;">VAT included</p>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    const packagePrice = {{ $package->price }};
+    const vatRate = 0.15;
+
+    function updateSummary() {
+        const persons = parseInt(document.getElementById('person_count').value) || 1;
+        const vat = packagePrice * vatRate * persons;
+        const total = (packagePrice * persons) + vat;
+        document.getElementById('totalPrice').textContent = '৳' + total.toFixed(2);
+    }
+</script>
 @endsection

@@ -2,8 +2,6 @@
 
 @push('style')
 <link rel="stylesheet" href="{{ asset('css/room.css') }}">
-<!-- Add Bootstrap CSS if not included globally -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -26,34 +24,16 @@
                     {{ Str::limit($room->description, 150) }}
                 </p>
 
-                <!-- Button to trigger modal -->
-                <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#roomModal{{ $room->id }}">
+                <!-- Button to trigger custom popup -->
+                <button class="btn btn-primary w-100"
+                    onclick="openRoomPopup(
+                        '{{ addslashes($room->title) }}',
+                        '{{ addslashes($room->description) }}',
+                        '{{ $room->price }}',
+                        '{{ asset('assets/images/' . $room->image) }}'
+                    )">
                     View Details
                 </button>
-
-                <!-- Modal -->
-                <div class="modal fade" id="roomModal{{ $room->id }}" tabindex="-1" aria-labelledby="roomModalLabel{{ $room->id }}" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="roomModalLabel{{ $room->id }}">{{ $room->title }}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <img src="{{ asset('assets/images/' . $room->image) }}" alt="{{ $room->title }}" class="img-fluid mb-3">
-                                <p>{{ $room->description }}</p>
-                                <p><strong>Price: ${{ $room->price }}</strong></p>
-                            </div>
-                            <div class="modal-footer">
-                                <a href="{{ route('order.page', ['type' => 'room', 'id' => $room->id]) }}" class="btn btn-success">Book Now</a>
-
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Modal -->
-
             </div>
         </div>
         @empty
@@ -63,9 +43,34 @@
         @endforelse
     </div>
 </section>
+
+<!-- ===== Room Popup Modal ===== -->
+<div id="roomPopup" class="popup-overlay" style="display:none;">
+    <div class="popup-content">
+        <span class="close-btn" onclick="closeRoomPopup()">×</span>
+        <img id="roomPopupImage" src="" alt="Room Image"
+            style="width:100%;max-width:400px;min-height:220px;max-height:260px;border-radius:12px;margin-bottom:18px;object-fit:cover;" />
+        <h2 id="roomPopupTitle">Room Title</h2>
+        <p id="roomPopupDetails">Room details will appear here.</p>
+        <p id="roomPopupPrice" style="font-weight:600;color:#0d6efd;margin-bottom:10px;"></p>
+        <a href="#" id="roomPopupOrderBtn" class="btn btn-success">Book Now</a>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
-<!-- Add Bootstrap JS Bundle if not included globally -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function openRoomPopup(title, description, price, imageUrl) {
+    document.getElementById('roomPopupTitle').textContent = title;
+    document.getElementById('roomPopupDetails').textContent = description;
+    document.getElementById('roomPopupPrice').textContent = `Price: $${price}`;
+    document.getElementById('roomPopupImage').src = imageUrl;
+    document.getElementById('roomPopupOrderBtn').href = `/order/room/${encodeURIComponent(title)}`;
+    document.getElementById('roomPopup').style.display = 'flex';
+}
+
+function closeRoomPopup() {
+    document.getElementById('roomPopup').style.display = 'none';
+}
+</script>
 @endpush
