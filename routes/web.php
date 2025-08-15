@@ -72,14 +72,6 @@ Route::post('/contact', [ContactController::class, 'submit'])->name('contact.sub
 // Admin home
 Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home');
 
-// SSLCommerz demo routes
-Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout'])->name('example1');
-Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout'])->name('example2');
-
-// SSLCommerz payment routes
-Route::post('/pay', [SslCommerzPaymentController::class, 'index'])->name('pay');
-Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax'])->name('pay.via.ajax');
-Route::match(['get', 'post'], '/success', [SslCommerzPaymentController::class, 'success'])->name('ssl.success');
-Route::post('/fail', [SslCommerzPaymentController::class, 'fail'])->name('fail');
-Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel'])->name('cancel');
-Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn'])->name('ipn');
+// Optional example routes for SSLCommerz demos (if needed)
+Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
+Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
