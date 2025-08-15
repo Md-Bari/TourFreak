@@ -42,6 +42,6 @@ class OrderController extends Controller
             'user_id'        => $user->id,
         ]);
 
-        return redirect()->route('home')->with('success', 'Order placed successfully!');
+        return redirect()->route('example1')->with('success', 'Order placed successfully!');
     }
 }
