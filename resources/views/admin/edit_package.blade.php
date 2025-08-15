@@ -20,8 +20,11 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Current Image:</label><br>
-            <img src="{{ asset($package->image) }}" alt="Package Image" class="img-thumbnail mb-2" style="max-width: 200px;">
-            <input type="text" name="image" class="form-control mt-2" value="{{ $package->image }}" required>
+            <img src="{{ asset('assets/images/' . $package->image) }}" alt="Package Image" class="img-thumbnail mb-2" style="max-width: 200px;">
+            <div class="mb-3">
+            <input type="file" name="image" class="form-control" required>
+            @error('image') <span class="text-danger">{{ $message }}</span> @enderror
+        </div>
         </div>
         <div class="mb-3">
             <input type="text" name="features" class="form-control" value="{{ $package->features }}" required>
