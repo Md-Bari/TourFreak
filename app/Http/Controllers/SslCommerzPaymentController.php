@@ -55,6 +55,12 @@ class SslCommerzPaymentController extends Controller
         $post_data['shipping_method'] = "NO";
         $post_data['product_name'] = "Computer";
         $post_data['product_category'] = "Goods";
+
+
+        $post_data['success_url'] = 'http://127.0.0.1:8000';
+        $post_data['fail_url'] = 'http://127.0.0.1:8000/fail';
+        $post_data['cancel_url'] = 'http://127.0.0.1:8000/cancel';
+        $post_data['ipn_url'] = 'http://127.0.0.1:8000/ipn';
         $post_data['product_profile'] = "physical-goods";
 
         # OPTIONAL PARAMETERS
@@ -85,7 +91,6 @@ class SslCommerzPaymentController extends Controller
             print_r($payment_options);
             $payment_options = array();
         }
-
     }
 
     public function payViaAjax(Request $request)
@@ -156,50 +161,38 @@ class SslCommerzPaymentController extends Controller
             print_r($payment_options);
             $payment_options = array();
         }
-
     }
 
     public function success(Request $request)
     {
-        echo "Transaction is Successful";
-
         $tran_id = $request->input('tran_id');
         $amount = $request->input('amount');
         $currency = $request->input('currency');
 
         $sslc = new SslCommerzNotification();
 
-        #Check order status in order tabel against the transaction id or order id.
         $order_details = DB::table('orders_ssl')
             ->where('transaction_id', $tran_id)
-            ->select('transaction_id', 'status', 'currency', 'amount')->first();
+            ->select('transaction_id', 'status', 'currency', 'amount')
+            ->first();
 
-        if ($order_details->status == 'Pending') {
+        if ($order_details && $order_details->status == 'Pending') {
             $validation = $sslc->orderValidate($request->all(), $tran_id, $amount, $currency);
 
             if ($validation) {
-                /*
-                That means IPN did not work or IPN URL was not set in your merchant panel. Here you need to update order status
-                in order table as Processing or Complete.
-                Here you can also sent sms or email for successfull transaction to customer
-                */
-                $update_product = DB::table('orders_ssl')
+                DB::table('orders_ssl')
                     ->where('transaction_id', $tran_id)
                     ->update(['status' => 'Processing']);
 
-                echo "<br >Transaction is successfully Completed";
+                return redirect()->route('home')->with('success', 'Payment Successful!');
+            } else {
+                return redirect()->route('home')->with('error', 'Payment Validation Failed!');
             }
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
-            /*
-             That means through IPN Order status already updated. Now you can just show the customer that transaction is completed. No need to udate database.
-             */
-            echo "Transaction is successfully Completed";
+        } elseif ($order_details && ($order_details->status == 'Processing' || $order_details->status == 'Complete')) {
+            return redirect()->route('home')->with('success', 'Payment Already Completed!');
         } else {
-            #That means something wrong happened. You can redirect customer to your product page.
-            echo "Invalid Transaction";
+            return redirect()->route('home')->with('error', 'Invalid Transaction!');
         }
-
-
     }
 
     public function fail(Request $request)
@@ -208,19 +201,20 @@ class SslCommerzPaymentController extends Controller
 
         $order_details = DB::table('orders_ssl')
             ->where('transaction_id', $tran_id)
-            ->select('transaction_id', 'status', 'currency', 'amount')->first();
+            ->select('transaction_id', 'status', 'currency', 'amount')
+            ->first();
 
-        if ($order_details->status == 'Pending') {
-            $update_product = DB::table('orders_ssl')
+        if ($order_details && $order_details->status == 'Pending') {
+            DB::table('orders_ssl')
                 ->where('transaction_id', $tran_id)
                 ->update(['status' => 'Failed']);
-            echo "Transaction is Falied";
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
-            echo "Transaction is already Successful";
-        } else {
-            echo "Transaction is Invalid";
-        }
 
+            return redirect()->route('home')->with('error', 'Payment Failed!');
+        } elseif ($order_details && ($order_details->status == 'Processing' || $order_details->status == 'Complete')) {
+            return redirect()->route('home')->with('success', 'Payment Already Successful!');
+        } else {
+            return redirect()->route('home')->with('error', 'Invalid Transaction!');
+        }
     }
 
     public function cancel(Request $request)
@@ -229,22 +223,21 @@ class SslCommerzPaymentController extends Controller
 
         $order_details = DB::table('orders_ssl')
             ->where('transaction_id', $tran_id)
-            ->select('transaction_id', 'status', 'currency', 'amount')->first();
+            ->select('transaction_id', 'status', 'currency', 'amount')
+            ->first();
 
-        if ($order_details->status == 'Pending') {
-            $update_product = DB::table('orders_ssl')
+        if ($order_details && $order_details->status == 'Pending') {
+            DB::table('orders_ssl')
                 ->where('transaction_id', $tran_id)
                 ->update(['status' => 'Canceled']);
-            echo "Transaction is Cancel";
-        } else if ($order_details->status == 'Processing' || $order_details->status == 'Complete') {
-            echo "Transaction is already Successful";
+
+            return redirect()->route('home')->with('error', 'Payment Canceled!');
+        } elseif ($order_details && ($order_details->status == 'Processing' || $order_details->status == 'Complete')) {
+            return redirect()->route('home')->with('success', 'Payment Already Successful!');
         } else {
-            echo "Transaction is Invalid";
+            return redirect()->route('home')->with('error', 'Invalid Transaction!');
         }
-
-
     }
-
     public function ipn(Request $request)
     {
         #Received all the payement information from the gateway
@@ -287,5 +280,4 @@ class SslCommerzPaymentController extends Controller
             echo "Invalid Data";
         }
     }
-
 }

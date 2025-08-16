@@ -41,10 +41,11 @@ Route::view('/about', 'about')->name('about');
 Route::view('/booking', 'booking')->name('booking');
 
 // Auth routes
-Route::get('/register', [RegisterController::class, 'create'])->name('register.create');
-Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
-Route::get('/login', [LoginController::class, 'create'])->name('login');
-Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+Route::get('/auth/register', [RegisterController::class, 'create'])->name('register.create');
+Route::post('/auth/register', [RegisterController::class, 'store'])->name('register.store');
+Route::get('/auth/login', [LoginController::class, 'create'])->name('login');
+Route::post('/auth/login', [LoginController::class, 'store'])->name('login.store');
+
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Booking submission
@@ -52,10 +53,12 @@ Route::post('/booking', [BookingController::class, 'store'])->name('booking.stor
 
 // Authenticated routes
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::get('/bookings', [UserController::class, 'bookings'])->name('bookings');
-
+    // Profile routes
+    Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
     // Order routes
     Route::get('/order/{id}', [OrderController::class, 'showOrderForm'])->name('order.page');
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
@@ -79,15 +82,12 @@ Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheck
 // SSLCommerz payment routes
 Route::post('/pay', [SslCommerzPaymentController::class, 'index'])->name('pay');
 Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax'])->name('pay.via.ajax');
-Route::match(['get', 'post'], '/success', [SslCommerzPaymentController::class, 'success'])->name('ssl.success');
-Route::post('/fail', [SslCommerzPaymentController::class, 'fail'])->name('fail');
-Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel'])->name('cancel');
+Route::post('/success', [SslCommerzPaymentController::class, 'success']);
+Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
+Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn'])->name('ipn');
 
-// Optional example routes for SSLCommerz demos (if needed)
-Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
-Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
+
 
 // My Ads route
 Route::get('/my-ads', [App\Http\Controllers\AdController::class, 'index'])->name('my.ads');
-

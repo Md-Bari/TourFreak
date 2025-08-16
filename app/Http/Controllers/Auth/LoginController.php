@@ -11,7 +11,7 @@ class LoginController extends Controller
     // Show login form
     public function create()
     {
-        return view('login');
+        return view('auth.login');
     }
 
     // Handle login
