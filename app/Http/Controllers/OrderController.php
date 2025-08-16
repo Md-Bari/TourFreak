@@ -20,28 +20,34 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'package_id'     => 'required|exists:tour_packages,id',
-            'person_count'   => 'required|integer|min:1',
-            'extra_package'  => 'nullable|string|max:255',
+            'package_id'    => 'required|exists:tour_packages,id',
+            'person_count'  => 'required|integer|min:1',
+            'extra_package' => 'nullable|string|max:255',
         ]);
 
         $package = TourPackage::findOrFail($request->package_id);
-        $user = Auth::user();
+        $user    = Auth::user();
 
-        $total_price = $package->price * $request->person_count;
+        // total price = package price * persons + 15% VAT
+        $subtotal = $package->price * $request->person_count;
+        $vat      = $subtotal * 0.15;
+        $total    = $subtotal + $vat;
 
+        // save into orders table
         Order::create([
-            'package_id'     => $package->id,
-            'title'          => $package->title,
-            'price'          => $package->price,
-            'person_count'   => $request->person_count,
-            'extra_package'  => $request->extra_package ?? 'None',
-            'total_price'    => $total_price,
-            'user_name'      => $user->name,
-            'user_phone'     => $user->phone,
-            'user_id'        => $user->id,
+            'user_id'       => $user->id,
+            'package_id'    => $package->id,
+            'name'          => $user->name,
+            'email'         => $user->email ?? 'noemail@example.com',
+            'phone'         => $user->phone ?? 'N/A',
+            'address'       => $request->address ?? null,
+            'amount'        => $total,
+            'currency'      => 'BDT',
+            'transaction_id'=> uniqid('txn_'), // fake transaction id
+            'status'        => 'Pending',
         ]);
 
-        return redirect()->route('example2')->with('success', 'Order placed successfully!');
+        return redirect()->route('example2')
+                         ->with('success', 'Order placed successfully!');
     }
 }

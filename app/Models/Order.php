@@ -21,7 +21,6 @@ class Order extends Model
         'transaction_id',
         'status',
     ];
-
     // Relationships
     public function user()
     {
