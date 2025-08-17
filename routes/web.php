@@ -19,6 +19,8 @@ use App\Http\Controllers\SslCommerzPaymentController;
 
 
 
+
+
 // Homepage showing rooms and tours
 Route::get('/', [RoomController::class, 'welcome'])->name('home');
 
@@ -94,3 +96,7 @@ Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn'])->name('ipn');
 
 // My Ads route
 Route::get('/my-ads', [App\Http\Controllers\AdController::class, 'index'])->name('my.ads');
+
+
+
+
