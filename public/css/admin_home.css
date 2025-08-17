@@ -1,0 +1,85 @@
+body {
+        background-color: #f4f6f9;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Sidebar Improvements */
+    .sidebar {
+        background: linear-gradient(180deg, #1e3c72, #2a5298);
+        min-height: 100vh;
+        color: #fff;
+    }
+    .sidebar a {
+        color: #d1d5db;
+        font-weight: 500;
+        padding: 12px 18px;
+        display: block;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    .sidebar a:hover,
+    .sidebar .active {
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        transform: translateX(4px);
+    }
+
+    /* Colorful Dashboard Cards */
+    .dashboard-card {
+        border-radius: 16px;
+        padding: 20px;
+        color: #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    .dashboard-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    }
+    .dashboard-card i {
+        font-size: 28px;
+        opacity: 0.9;
+    }
+    .card-title {
+        font-size: 14px;
+        font-weight: 500;
+        margin-top: 10px;
+    }
+    .card-value {
+        font-size: 26px;
+        font-weight: 700;
+        margin-top: 5px;
+    }
+
+    /* Unique card colors */
+    .card-blue { background: linear-gradient(135deg, #4e73df, #224abe); }
+    .card-green { background: linear-gradient(135deg, #1cc88a, #13855c); }
+    .card-yellow { background: linear-gradient(135deg, #f6c23e, #dda20a); }
+    .card-red { background: linear-gradient(135deg, #e74a3b, #be2617); }
+
+    /* Stylish Booking Table */
+    .chart-container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 16px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+        height: 100%;
+    }
+    table.table-hover tbody tr {
+        transition: all 0.2s ease;
+    }
+    table.table-hover tbody tr:hover {
+        background: rgba(78, 115, 223, 0.08);
+        transform: scale(1.01);
+    }
+    thead {
+        background: #f8f9fc;
+    }
+    .badge {
+        font-size: 0.75rem;
+        padding: 5px 8px;
+        border-radius: 12px;
+    }

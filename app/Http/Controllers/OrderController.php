@@ -43,11 +43,33 @@ class OrderController extends Controller
             'address'       => $request->address ?? null,
             'amount'        => $total,
             'currency'      => 'BDT',
-            'transaction_id'=> uniqid('txn_'), // fake transaction id
+            'transaction_id' => uniqid('txn_'), // fake transaction id
             'status'        => 'Pending',
         ]);
 
         return redirect()->route('example2')
-                         ->with('success', 'Order placed successfully!');
+            ->with('success', 'Order placed successfully!');
     }
+  public function myBookings(): \Illuminate\View\View
+{
+    $orders = Order::with('package')
+        ->where('user_id', Auth::id())   // ✅ This will never be undefined
+        ->get();
+
+    return view('dashboard.bookings', compact('orders'));
+}
+public function cancel($id)
+{
+    $order = Order::findOrFail($id);
+
+    // Optional: Only allow cancellation if status is not Paid
+    if ($order->status === 'Paid') {
+        return redirect()->back()->with('error', 'Paid bookings cannot be canceled.');
+    }
+
+    $order->delete();
+
+    return redirect()->back()->with('success', 'Booking canceled successfully.');
+}
+
 }

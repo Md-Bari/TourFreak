@@ -55,13 +55,17 @@ Route::post('/booking', [BookingController::class, 'store'])->name('booking.stor
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-    Route::get('/bookings', [UserController::class, 'bookings'])->name('bookings');
+    // Route::get('/bookings', [UserController::class, 'bookings'])->name('bookings');
     // Profile routes
     Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
     // Order routes
     Route::get('/order/{id}', [OrderController::class, 'showOrderForm'])->name('order.page');
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+    Route::get('/my-bookings', [OrderController::class, 'myBookings'])->name('my.bookings');
+    Route::post('/reviews', [OrderController::class, 'storeReview'])->name('reviews.store');
+    Route::delete('/orders/cancel/{id}', [OrderController::class, 'cancel'])->name('orders.cancel');
+
 });
 
 // Search routes
@@ -86,7 +90,6 @@ Route::post('/success', [SslCommerzPaymentController::class, 'success']);
 Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
 Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn'])->name('ipn');
-
 
 
 // My Ads route

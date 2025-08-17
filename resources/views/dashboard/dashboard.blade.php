@@ -79,7 +79,7 @@
    <div class="sidebar">
     <a href="{{ route('dashboard') }}"><i class="fas fa-home me-2"></i> Dashboard</a>
     <a href="{{ route('profile') }}"><i class="fas fa-user me-2"></i> Profile</a>
-    <a href="{{ route('bookings') }}"><i class="fas fa-calendar-alt me-2"></i> Bookings</a>
+    <a href="{{ route('my.bookings') }}"><i class="fas fa-calendar-alt me-2"></i> Bookings</a>
     <a href="#"><i class="fas fa-ad me-2"></i> My Ads</a>
     <a href="{{ route('logout') }}"
        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

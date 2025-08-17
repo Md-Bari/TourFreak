@@ -24,4 +24,8 @@ class TourPackage extends Model
     {
         return $this->hasMany(Order::class, 'package_id');
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'package_id');
+    }
 }
