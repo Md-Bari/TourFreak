@@ -16,6 +16,9 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SslCommerzPaymentController;
 
+
+
+
 // Homepage showing rooms and tours
 Route::get('/', [RoomController::class, 'welcome'])->name('home');
 
