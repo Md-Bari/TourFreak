@@ -15,11 +15,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SslCommerzPaymentController;
-
-
-
-
-
+use App\Http\Controllers\MyAdsController;
 
 // Homepage showing rooms and tours
 Route::get('/', [RoomController::class, 'welcome'])->name('home');
@@ -56,7 +52,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // Booking submission
 Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 
-// Authenticated routes
+// Authenticated routes (লগইন করা ব্যবহারকারীদের জন্য)
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
@@ -71,6 +67,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/reviews', [OrderController::class, 'storeReview'])->name('reviews.store');
     Route::delete('/orders/cancel/{id}', [OrderController::class, 'cancel'])->name('orders.cancel');
 
+    // My Ads route যুক্ত করা হয়েছে
+    Route::get('/my-ads', [MyAdsController::class, 'index'])->name('my-ads');
 });
 
 // Search routes
@@ -84,22 +82,12 @@ Route::post('/contact', [ContactController::class, 'submit'])->name('contact.sub
 // Admin home
 Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home');
 
-
+// SSLCommerz payment routes
 Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout'])->name('example1');
 Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout'])->name('example2');
-
-// SSLCommerz payment routes
 Route::post('/pay', [SslCommerzPaymentController::class, 'index'])->name('pay');
 Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax'])->name('pay.via.ajax');
 Route::post('/success', [SslCommerzPaymentController::class, 'success']);
 Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
 Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn'])->name('ipn');
-
-
-// My Ads route
-Route::get('/my-ads', [App\Http\Controllers\AdController::class, 'index'])->name('my.ads');
-
-
-
-

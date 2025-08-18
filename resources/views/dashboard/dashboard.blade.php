@@ -76,14 +76,12 @@
 @section('content')
 <div class="user-wrapper">
 
-    <!-- Sidebar -->
     <div class="sidebar">
         <a href="{{ route('dashboard') }}"><i class="fas fa-home me-2"></i> Dashboard</a>
         <a href="{{ route('profile') }}"><i class="fas fa-user me-2"></i> Profile</a>
         <a href="{{ route('my.bookings') }}"><i class="fas fa-calendar-alt me-2"></i> Bookings</a>
-        <a href="#"><i class="fas fa-ad me-2"></i> My Ads</a>
+        <a href="{{ route('my-ads') }}"><i class="fas fa-ad me-2"></i> My Ads</a>
 
-        <!-- New Menu Items -->
         <a href="#"><i class="fas fa-heart me-2"></i> Wishlist</a>
         <a href="#"><i class="fas fa-bell me-2"></i> Notifications</a>
         <a href="#"><i class="fas fa-envelope me-2"></i> Messages</a>
@@ -99,13 +97,11 @@
         </form>
     </div>
 
-    <!-- Topbar -->
     <div class="topbar">
         <div>User Dashboard</div>
         <div><i class="fas fa-user-circle"></i> {{ Auth::user()->name }}</div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
         <h2>Welcome, {{ Auth::user()->name }}!</h2>
 
@@ -113,12 +109,6 @@
             <h4><i class="fas fa-calendar-check text-success"></i></h4>
             <h5>Your Bookings</h5>
             <p>You have <strong>3 upcoming bookings</strong>.</p>
-        </div>
-
-        <div class="card">
-            <h4><i class="fas fa-bullhorn text-primary"></i></h4>
-            <h5>My Ads</h5>
-            <p>You have <strong>2 active ads</strong>.</p>
         </div>
 
         <div class="card">
