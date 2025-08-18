@@ -72,4 +72,9 @@ class RoomController extends Controller
 
         return redirect()->route('admin.rooms.add')->with('success', 'Room added successfully.');
     }
+    public function show1($id)
+{
+    $room = \App\Models\Room::findOrFail($id);
+    return view('show', compact('room')); // since file is show.blade.php
+}
 }
