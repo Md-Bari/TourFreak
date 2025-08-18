@@ -16,7 +16,9 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SslCommerzPaymentController;
 use App\Http\Controllers\MyAdsController;
-use App\Http\Controllers\WishlistController; // WishlistController এখানে যুক্ত করা হয়েছে
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SupportController; // SupportController যুক্ত করা হয়েছে
 
 // Homepage showing rooms and tours
 Route::get('/', [RoomController::class, 'welcome'])->name('home');
@@ -56,10 +58,12 @@ Route::post('/booking', [BookingController::class, 'store'])->name('booking.stor
 // Authenticated routes (লগইন করা ব্যবহারকারীদের জন্য)
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    
     // Profile routes
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
+    
     // Order routes
     Route::get('/order/{id}', [OrderController::class, 'showOrderForm'])->name('order.page');
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
@@ -67,15 +71,23 @@ Route::middleware('auth')->group(function () {
     Route::post('/reviews', [OrderController::class, 'storeReview'])->name('reviews.store');
     Route::delete('/orders/cancel/{id}', [OrderController::class, 'cancel'])->name('orders.cancel');
 
-    // My Ads route যুক্ত করা হয়েছে
+    // My Ads
     Route::get('/my-ads', [MyAdsController::class, 'index'])->name('my-ads');
 
-    // Wishlist routes এখানে যুক্ত করা হয়েছে
+    // Wishlist
     Route::post('/wishlist/add/{ad_id}', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::delete('/wishlist/remove/{ad_id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
-    
-    // Wishlist page route
     Route::get('/my-wishlist', [WishlistController::class, 'index'])->name('my-wishlist');
+
+    // Notifications
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+
+    // Support routes
+    Route::get('/support', [SupportController::class, 'index'])->name('support.index');
+    Route::get('/support/create', [SupportController::class, 'create'])->name('support.create');
+    Route::post('/support/store', [SupportController::class, 'store'])->name('support.store');
+    Route::get('/support/{ticket_id}', [SupportController::class, 'show'])->name('support.show');
 });
 
 // Search routes
