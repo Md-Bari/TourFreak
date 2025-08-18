@@ -81,10 +81,14 @@
         <a href="{{ route('profile') }}"><i class="fas fa-user me-2"></i> Profile</a>
         <a href="{{ route('my.bookings') }}"><i class="fas fa-calendar-alt me-2"></i> Bookings</a>
         <a href="{{ route('my-ads') }}"><i class="fas fa-ad me-2"></i> My Ads</a>
+<<<<<<< HEAD
        
     
         
         {{-- Wishlist link এখানে যুক্ত করা হয়েছে --}}
+=======
+
+>>>>>>> fadc99f696cde878d960fdb4a58c586e80a06d5d
         <a href="{{ route('my-wishlist') }}"><i class="fas fa-heart me-2"></i> Wishlist</a>
 
         <a href="#"><i class="fas fa-bell me-2"></i> Notifications</a>

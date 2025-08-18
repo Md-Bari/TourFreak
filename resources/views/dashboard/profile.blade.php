@@ -1,111 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TourFreak - User Profile</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f0f4f8;
-            margin: 0;
-            padding: 0;
-        }
+@extends('index')
 
-        .profile-container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #ffffff;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
+@push('style')
+<style>
+    /* Background gradient animation for avatar */
+    .avatar-gradient {
+        background: linear-gradient(135deg, #4f46e5, #8b5cf6, #ec4899);
+        background-size: 400% 400%;
+        animation: gradientBG 8s ease infinite;
+    }
 
-        .profile-header {
-            background-color: #4cafef;
-            color: #fff;
-            text-align: center;
-            padding: 40px 20px 20px;
-        }
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
 
-        .profile-header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
+    /* Card hover effect */
+    .profile-card {
+        transition: transform 0.5s, box-shadow 0.5s;
+    }
 
-        .profile-header p {
-            margin: 5px 0 0;
-            font-size: 14px;
-            opacity: 0.9;
-        }
+    .profile-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
 
-        .profile-content {
-            padding: 30px 20px;
-        }
+    /* Table row hover effect */
+    .profile-table tr:hover {
+        background-color: #f0f4f8;
+    }
 
-        .profile-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
+    /* Button hover animation */
+    .btn-gradient:hover {
+        transform: scale(1.05);
+    }
 
-        .profile-row:last-child {
-            border-bottom: none;
-        }
+    /* Soft glow effect for the avatar */
+    .avatar-glow {
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.6), 0 0 30px rgba(236, 72, 153, 0.4);
+    }
+</style>
+@endpush
 
-        .profile-label {
-            font-weight: 500;
-            color: #555;
-        }
+@section('content')
+<div class="main-content px-6 py-12 lg:ml-60 bg-gray-100 min-h-screen">
 
-        .profile-value {
-            color: #333;
-        }
+    <div class="max-w-4xl mx-auto">
 
-        @media (max-width: 500px) {
-            .profile-row {
-                flex-direction: column;
-                gap: 5px;
-            }
+        <!-- Profile Card -->
+        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl p-10 profile-card">
 
-            .profile-label {
-                font-weight: 500;
-            }
-        }
-    </style>
-</head>
-<body>
+            <!-- Profile Header -->
+            <div class="flex items-center space-x-6 border-b pb-6 mb-6">
+                <div class="w-28 h-28 rounded-full avatar-gradient avatar-glow flex items-center justify-center text-white text-5xl font-extrabold">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                </div>
+                <div>
+                    <h2 class="text-4xl font-extrabold text-gray-800">{{ Auth::user()->name }}</h2>
+                    <p class="text-gray-500 text-lg mt-1">Member since <span class="font-medium">{{ Auth::user()->created_at->format('F Y') }}</span></p>
+                </div>
+            </div>
 
-<div class="profile-container">
-    <div class="profile-header">
-        <h1>Siam Akter Mim</h1>
-        <p>Joined August 2025</p>
-    </div>
-    <div class="profile-content">
-        <div class="profile-row">
-            <div class="profile-label">Name:</div>
-            <div class="profile-value">Siam Akter Mim</div>
-        </div>
-        <div class="profile-row">
-            <div class="profile-label">Email:</div>
-            <div class="profile-value">mim15-5924@diu.edu.bd</div>
-        </div>
-        <div class="profile-row">
-            <div class="profile-label">Phone:</div>
-            <div class="profile-value">Not Provided</div>
-        </div>
-        <div class="profile-row">
-            <div class="profile-label">Role:</div>
-            <div class="profile-value">User</div>
-        </div>
-        <div class="profile-row">
-            <div class="profile-label">Joined Date:</div>
-            <div class="profile-value">06 Aug, 2025</div>
+            <!-- Profile Info Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-indigo-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
+                    <h3 class="text-gray-500 font-semibold mb-2">Name</h3>
+                    <p class="text-gray-800 font-bold text-lg">{{ Auth::user()->name }}</p>
+                </div>
+                <div class="bg-purple-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
+                    <h3 class="text-gray-500 font-semibold mb-2">Email</h3>
+                    <p class="text-gray-800 font-bold text-lg">{{ Auth::user()->email }}</p>
+                </div>
+                <div class="bg-green-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
+                    <h3 class="text-gray-500 font-semibold mb-2">Phone</h3>
+                    <p class="text-gray-800 font-bold text-lg">{{ Auth::user()->phone ?? 'Not Provided' }}</p>
+                </div>
+                <div class="bg-red-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
+                    <h3 class="text-gray-500 font-semibold mb-2">Role</h3>
+                    <span class="px-4 py-2 text-sm rounded-full 
+                        {{ Auth::user()->role === 'admin' ? 'bg-red-200 text-red-800' : 'bg-green-200 text-green-800' }}">
+                        {{ ucfirst(Auth::user()->role) }}
+                    </span>
+                </div>
+                <div class="bg-yellow-50 rounded-2xl p-6 shadow hover:shadow-lg transition md:col-span-2">
+                    <h3 class="text-gray-500 font-semibold mb-2">Joined</h3>
+                    <p class="text-gray-800 font-bold text-lg">{{ Auth::user()->created_at->format('d M, Y') }}</p>
+                </div>
+            </div>
+
+            <!-- Edit Button -->
+            <div class="text-right">
+                <a href="{{ route('profile.edit') }}"
+                   class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold rounded-2xl shadow-lg btn-gradient transition transform">
+                   <i class="fas fa-edit"></i> Edit Profile
+                </a>
+            </div>
+
         </div>
     </div>
+
 </div>
-
-</body>
-</html>
+@endsection

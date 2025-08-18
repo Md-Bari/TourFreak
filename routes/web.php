@@ -55,7 +55,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // Booking submission
 Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 
-// Authenticated routes (লগইন করা ব্যবহারকারীদের জন্য)
+// Authenticated routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
@@ -64,6 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
     
+    Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
     // Order routes
     Route::get('/order/{id}', [OrderController::class, 'showOrderForm'])->name('order.page');
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
@@ -77,6 +78,14 @@ Route::middleware('auth')->group(function () {
     // Wishlist
     Route::post('/wishlist/add/{ad_id}', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::delete('/wishlist/remove/{ad_id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    // My Ads route
+    Route::get('/my-ads', [MyAdsController::class, 'index'])->name('my-ads');
+
+    // Wishlist routes
+    Route::post('/wishlist/add/{ad_id}', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::delete('/wishlist/remove/{ad_id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+
+    // Wishlist page route
     Route::get('/my-wishlist', [WishlistController::class, 'index'])->name('my-wishlist');
 
     // Notifications
@@ -89,6 +98,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/support/store', [SupportController::class, 'store'])->name('support.store');
     Route::get('/support/{ticket_id}', [SupportController::class, 'show'])->name('support.show');
 });
+
+
+Route::post('/submit-review', [TourPackageController::class, 'storeReview'])
+    ->name('review.submit')
+    ->middleware('auth');
+Route::post('/review', [TourPackageController::class, 'storeReview'])->name('review.submit');
+
 
 // Search routes
 Route::get('/search-flight', [FlightController::class, 'search'])->name('flight.search');

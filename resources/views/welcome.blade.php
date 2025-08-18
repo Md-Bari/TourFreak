@@ -184,6 +184,77 @@
             <a href="#" id="popupOrderBtn" class="btn btn-success">Order Now</a>
         </div>
     </div>
+    {{-- ========== Review Section ========== --}}
+<div class="Upper-package">
+    <h1> Customer Reviews</h1>
+</div>
+
+<section class="container py-4">
+    @foreach ($packages as $package)
+        @if ($package->reviews->count())
+            <div class="mb-5">
+                <h3 class="mb-3">{{ $package->title }}</h3>
+                @foreach ($package->reviews as $review)
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {{ $review->user->name ?? 'Guest' }}
+                                <span class="text-warning">
+                                    {!! str_repeat('★', $review->rating) !!}
+                                    {!! str_repeat('☆', 5 - $review->rating) !!}
+                                </span>
+                            </h5>
+                            <p class="card-text">{{ $review->comment }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    @endforeach
+
+    @auth
+    {{-- ===== Review Form ===== --}}
+    <div class="review-card-wrapper">
+    <div class="card review-card">
+        <div class="card-header">Write a Review</div>
+        <div class="card-body">
+            <form method="POST" action="{{ route('review.submit') }}">
+                @csrf
+                <div class="mb-3">
+                    <label for="package_id" class="form-label">Select Tour Package</label>
+                    <select name="package_id" id="package_id" class="form-select" required>
+                        <option value="">-- Choose Package --</option>
+                        @foreach ($packages as $package)
+                            <option value="{{ $package->id }}">{{ $package->title }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Rating</label>
+                    <select name="rating" id="rating" class="form-select" required>
+                        <option value="">-- Rate --</option>
+                        @for ($i = 5; $i >= 1; $i--)
+                            <option value="{{ $i }}">{{ $i }} Star{{ $i > 1 ? 's' : '' }}</option>
+                        @endfor
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Comment</label>
+                    <textarea name="comment" id="comment" class="form-control" rows="3" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary submit-btn">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+    @else
+        <p class="text-center mt-4">Please <a href="{{ route('login') }}">login</a> to write a review.</p>
+    @endauth
+</div>
+
 
 @endsection
 
