@@ -344,6 +344,86 @@ button:hover {
         transform: scale(1);
     }
 }
+.reviews-wrapper {
+    padding: 40px 20px;
+    background: #f8f9fa;
+}
+
+/* Vertical stack */
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Review Card Styles */
+.review-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    padding: 20px;
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-3px);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.review-rating .star {
+    color: #ddd;
+    font-size: 18px;
+}
+
+.review-rating .star.filled {
+    color: #ffc107;
+}
+
+.review-comment {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.review-package {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.review-package img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.review-form-card .form-select,
+.review-form-card textarea {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    font-size: 0.95rem;
+}
+
+.review-form-card .btn {
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.review-form-card .btn:hover {
+    background-color: #0056b3;
+}
+
 
 /* Responsive */
 @media (max-width: 768px) {

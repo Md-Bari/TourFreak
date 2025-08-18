@@ -78,6 +78,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-wishlist', [WishlistController::class, 'index'])->name('my-wishlist');
 });
 
+
+Route::post('/submit-review', [TourPackageController::class, 'storeReview'])
+    ->name('review.submit')
+    ->middleware('auth');
+Route::post('/review', [TourPackageController::class, 'storeReview'])->name('review.submit');
+
+
 // Search routes
 Route::get('/search-flight', [FlightController::class, 'search'])->name('flight.search');
 Route::get('/bus-search', [BusController::class, 'search'])->name('bus.search');
