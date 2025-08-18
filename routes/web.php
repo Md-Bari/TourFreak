@@ -53,13 +53,14 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 // Booking submission
 Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 
-// Authenticated routes (লগইন করা ব্যবহারকারীদের জন্য)
+// Authenticated routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     // Profile routes
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
-    Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
+    Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
     // Order routes
     Route::get('/order/{id}', [OrderController::class, 'showOrderForm'])->name('order.page');
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
@@ -67,13 +68,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/reviews', [OrderController::class, 'storeReview'])->name('reviews.store');
     Route::delete('/orders/cancel/{id}', [OrderController::class, 'cancel'])->name('orders.cancel');
 
-    // My Ads route যুক্ত করা হয়েছে
+    // My Ads route
     Route::get('/my-ads', [MyAdsController::class, 'index'])->name('my-ads');
 
-    // Wishlist routes এখানে যুক্ত করা হয়েছে
+    // Wishlist routes
     Route::post('/wishlist/add/{ad_id}', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::delete('/wishlist/remove/{ad_id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
-    
+
     // Wishlist page route
     Route::get('/my-wishlist', [WishlistController::class, 'index'])->name('my-wishlist');
 });
