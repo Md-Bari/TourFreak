@@ -1,137 +1,108 @@
-@extends('index')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - @yield('title')</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-@push('style')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-    body {
-        background-color: #f4f6f9;
-        font-family: 'Segoe UI', sans-serif;
-        margin: 0;
-        padding: 0;
-    }
+        /* Container for sidebar + main */
+        .content-wrapper {
+            display: flex;
+            flex: 1;
+        }
 
-    .user-wrapper {
-        display: flex;
-    }
+        /* Sidebar (not fixed anymore!) */
+        .sidebar {
+            width: 220px;
+            background: #0d3b66;
+            color: white;
+            padding: 20px 0;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
 
-    /* Sidebar */
-    .sidebar {
-        width: 220px;
-        background-color: #2f4050;
-        color: #fff;
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        padding-top: 60px; /* Topbar height fix */
-    }
+        .sidebar a {
+            color: white;
+            padding: 12px 20px;
+            display: block;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
 
-    .sidebar a {
-        color: #fff;
-        display: block;
-        padding: 12px 20px;
-        text-decoration: none;
-    }
+        .sidebar a:hover {
+            background: #145c9e;
+        }
 
-    .sidebar a:hover,
-    .sidebar a.active {
-        background-color: #1ab394;
-    }
+        /* Main content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background: #f4f6f9;
+        }
 
-    /* Topbar */
-    .topbar {
-        position: fixed;
-        left: 220px;
-        right: 0;
-        top: 0;
-        height: 60px;
-        background-color: #1ab394;
-        display: flex;
-        align-items: center;
-        padding: 0 20px;
-        color: #fff;
-        justify-content: space-between;
-        z-index: 1000;
-    }
+        /* Footer always after content */
+        footer {
+            background: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
 
-    /* Main content */
-    .main-content {
-        margin-left: 220px;
-        margin-top: 70px;
-        padding: 20px;
-        flex-grow: 1;
-    }
+        /* Responsive (mobile) */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                flex-direction: row;
+                overflow-x: auto;
+            }
+            .sidebar a {
+                flex: 1;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
 
-    .card {
-        background: #fff;
-        border-radius: 6px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-</style>
-@endpush
-
-@section('content')
-<div class="user-wrapper">
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <a href="{{ route('dashboard') }}"><i class="fas fa-home me-2"></i> Dashboard</a>
-        <a href="{{ route('profile') }}"><i class="fas fa-user me-2"></i> Profile</a>
-        <a href="{{ route('bookings') }}"><i class="fas fa-calendar-alt me-2"></i> Bookings</a>
-        <a href="#"><i class="fas fa-ad me-2"></i> My Ads</a>
-
-        <!-- New Menu Items -->
-        <a href="#"><i class="fas fa-heart me-2"></i> Wishlist</a>
-        <a href="#"><i class="fas fa-bell me-2"></i> Notifications</a>
-        <a href="#"><i class="fas fa-envelope me-2"></i> Messages</a>
-        <a href="#"><i class="fas fa-cog me-2"></i> Settings</a>
-        <a href="#"><i class="fas fa-headset me-2"></i> Support</a>
-
-        <a href="{{ route('logout') }}"
-        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            <i class="fas fa-sign-out-alt me-2"></i> Logout
-        </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-    </div>
-
-    <!-- Topbar -->
-    <div class="topbar">
-        <div>User Dashboard</div>
-        <div><i class="fas fa-user-circle"></i> {{ Auth::user()->name }}</div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="main-content">
-        <h2>Welcome, {{ Auth::user()->name }}!</h2>
-
-        <div class="card">
-            <h4><i class="fas fa-calendar-check text-success"></i></h4>
-            <h5>Your Bookings</h5>
-            <p>You have <strong>3 upcoming bookings</strong>.</p>
+    <div class="content-wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <a href="#">Dashboard</a>
+            <a href="#">Profile</a>
+            <a href="#">Bookings</a>
+            <a href="#">My Ads</a>
+            <a href="#">Wishlist</a>
+            <a href="#">Notifications</a>
+            <a href="#">Messages</a>
+            <a href="#">Settings</a>
+            <a href="#">Support</a>
+            <a href="#">Logout</a>
         </div>
 
-        <div class="card">
-            <h4><i class="fas fa-bullhorn text-primary"></i></h4>
-            <h5>My Ads</h5>
-            <p>You have <strong>2 active ads</strong>.</p>
-        </div>
-
-        <div class="card">
-            <h4><i class="fas fa-heart text-danger"></i></h4>
-            <h5>Wishlist</h5>
-            <p>You saved <strong>5 tours</strong> in wishlist.</p>
-        </div>
-
-        <div class="card">
-            <h4><i class="fas fa-bell text-warning"></i></h4>
-            <h5>Notifications</h5>
-            <p>You have <strong>4 new notifications</strong>.</p>
+        <!-- Main Content -->
+        <div class="main-content">
+            @yield('content')
         </div>
     </div>
-</div>
-@endsection
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 TourFreak. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
