@@ -26,7 +26,7 @@ Route::get('/', [RoomController::class, 'welcome'])->name('home');
 // Rooms routes
 Route::get('/room', [RoomController::class, 'index'])->name('room');
 Route::get('/room-details/{type}', [RoomController::class, 'show'])->name('room.details');
-
+Route::get('/room/{id}', [RoomController::class, 'show1'])->name('room.show');
 // Admin routes for rooms
 Route::get('/admin/room_add', [RoomController::class, 'create'])->name('admin.rooms.add');
 Route::post('/admin/room/store', [RoomController::class, 'store'])->name('admin.rooms.store');

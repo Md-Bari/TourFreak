@@ -1,101 +1,202 @@
 @extends('index')
 
 @push('style')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-    /* Background gradient animation for avatar */
-    .avatar-gradient {
-        background: linear-gradient(135deg, #4f46e5, #8b5cf6, #ec4899);
-        background-size: 400% 400%;
-        animation: gradientBG 8s ease infinite;
-    }
+/* ===== Animated Background ===== */
+body {
+    background: linear-gradient(-45deg, #fef3c7, #ede9fe, #cffafe, #fee2e2);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+}
 
-    @keyframes gradientBG {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
-    /* Card hover effect */
-    .profile-card {
-        transition: transform 0.5s, box-shadow 0.5s;
-    }
+/* ===== Glassmorphic Card ===== */
+.form-card {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(15px);
+    border-radius: 2rem;
+    padding: 2.5rem 3rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
+    max-width: 800px;
+    margin: auto;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
 
-    .profile-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    }
+.form-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
 
-    /* Table row hover effect */
-    .profile-table tr:hover {
-        background-color: #f0f4f8;
-    }
+/* ===== Profile Header ===== */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
 
-    /* Button hover animation */
-    .btn-gradient:hover {
-        transform: scale(1.05);
-    }
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4f46e5, #8b5cf6, #ec4899);
+    background-size: 400% 400%;
+    animation: gradientBG 8s ease infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: white;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.6), 0 0 30px rgba(236, 72, 153, 0.4);
+}
 
-    /* Soft glow effect for the avatar */
-    .avatar-glow {
-        box-shadow: 0 0 15px rgba(139, 92, 246, 0.6), 0 0 30px rgba(236, 72, 153, 0.4);
+.profile-info h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1f2937;
+    margin-bottom: 0.3rem;
+}
+
+.profile-info p {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+/* ===== Info Cards ===== */
+.info-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.info-card {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(10px);
+    border-radius: 1.5rem;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.info-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.info-card h3 {
+    font-weight: 600;
+    color: #4f46e5;
+    margin-bottom: 0.3rem;
+    font-size: 1rem;
+}
+
+.info-card p {
+    font-weight: 700;
+    color: #1f2937;
+    font-size: 0.95rem;
+}
+
+/* ===== Joined & Button Inline ===== */
+.info-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.info-row .info-card {
+    flex: 1;
+}
+
+/* ===== Button ===== */
+.btn-submit {
+    background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+    color: white;
+    font-weight: 700;
+    padding: 0.65rem 1.8rem;
+    border-radius: 1rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-submit:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
+}
+
+/* ===== Centering & Responsiveness ===== */
+.main-content {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+}
+
+@media (max-width: 600px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
     }
+    .info-row {
+        flex-direction: column;
+    }
+}
 </style>
 @endpush
 
 @section('content')
-<div class="main-content px-6 py-12 lg:ml-60 bg-gray-100 min-h-screen">
+<div class="main-content">
 
-    <div class="max-w-4xl mx-auto">
-
-        <!-- Profile Card -->
-        <div class="bg-white rounded-3xl border border-gray-200 shadow-xl p-10 profile-card">
-
-            <!-- Profile Header -->
-            <div class="flex items-center space-x-6 border-b pb-6 mb-6">
-                <div class="w-28 h-28 rounded-full avatar-gradient avatar-glow flex items-center justify-center text-white text-5xl font-extrabold">
-                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                </div>
-                <div>
-                    <h2 class="text-4xl font-extrabold text-gray-800">{{ Auth::user()->name }}</h2>
-                    <p class="text-gray-500 text-lg mt-1">Member since <span class="font-medium">{{ Auth::user()->created_at->format('F Y') }}</span></p>
-                </div>
+    <div class="form-card">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-avatar">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</div>
+            <div class="profile-info">
+                <h2>{{ Auth::user()->name }}</h2>
+                <p>Member since {{ Auth::user()->created_at->format('F Y') }}</p>
             </div>
+        </div>
 
-            <!-- Profile Info Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div class="bg-indigo-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
-                    <h3 class="text-gray-500 font-semibold mb-2">Name</h3>
-                    <p class="text-gray-800 font-bold text-lg">{{ Auth::user()->name }}</p>
-                </div>
-                <div class="bg-purple-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
-                    <h3 class="text-gray-500 font-semibold mb-2">Email</h3>
-                    <p class="text-gray-800 font-bold text-lg">{{ Auth::user()->email }}</p>
-                </div>
-                <div class="bg-green-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
-                    <h3 class="text-gray-500 font-semibold mb-2">Phone</h3>
-                    <p class="text-gray-800 font-bold text-lg">{{ Auth::user()->phone ?? 'Not Provided' }}</p>
-                </div>
-                <div class="bg-red-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
-                    <h3 class="text-gray-500 font-semibold mb-2">Role</h3>
-                    <span class="px-4 py-2 text-sm rounded-full 
-                        {{ Auth::user()->role === 'admin' ? 'bg-red-200 text-red-800' : 'bg-green-200 text-green-800' }}">
-                        {{ ucfirst(Auth::user()->role) }}
-                    </span>
-                </div>
-                <div class="bg-yellow-50 rounded-2xl p-6 shadow hover:shadow-lg transition md:col-span-2">
-                    <h3 class="text-gray-500 font-semibold mb-2">Joined</h3>
-                    <p class="text-gray-800 font-bold text-lg">{{ Auth::user()->created_at->format('d M, Y') }}</p>
-                </div>
+        <!-- Info Cards -->
+        <div class="info-cards">
+            <div class="info-card">
+                <h3>Name</h3>
+                <p>{{ Auth::user()->name }}</p>
             </div>
-
-            <!-- Edit Button -->
-            <div class="text-right">
-                <a href="{{ route('profile.edit') }}"
-                   class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold rounded-2xl shadow-lg btn-gradient transition transform">
-                   <i class="fas fa-edit"></i> Edit Profile
-                </a>
+            <div class="info-card">
+                <h3>Email</h3>
+                <p>{{ Auth::user()->email }}</p>
             </div>
+        </div>
 
+        <!-- Phone & Joined in same row -->
+        <div class="info-row">
+            <div class="info-card">
+                <h3>Phone</h3>
+                <p>{{ Auth::user()->phone ?? 'Not Provided' }}</p>
+            </div>
+            <div class="info-card">
+                <h3>Joined</h3>
+                <p>{{ Auth::user()->created_at->format('d M, Y') }}</p>
+            </div>
+        </div>
+
+        <!-- Edit Button -->
+        <div class="text-center mt-5">
+            <a href="{{ route('profile.edit') }}" class="btn-submit">
+                <i class="fas fa-edit"></i> Edit Profile
+            </a>
         </div>
     </div>
 
