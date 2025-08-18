@@ -13,97 +13,89 @@
         --text-dark: #333;
         --text-light: #fff;
         --bg-light: #f8f9fa;
-        --card-radius: 15px;
+        --card-radius: 18px;
         --transition-speed: 0.3s;
         --shadow-soft: 0 8px 25px rgba(0, 0, 0, 0.15);
-        --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.2);
+        --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.25);
     }
 
     /* ============================
        PAGE BACKGROUND
     ============================ */
     body {
-        background: linear-gradient(120deg, #f0f4ff, #dfe9f3);
+        background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff6a00, #ee0979);
+        background-size: 400% 400%;
+        animation: gradientMove 12s ease infinite;
         font-family: 'Segoe UI', sans-serif;
+    }
+
+    @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
     /* ============================
        AUTH SECTION
     ============================ */
     .auth-section {
-        min-height: calc(100vh - 140px); /* Keeps header/footer space */
+        min-height: calc(100vh - 140px);
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 50px 20px;
         position: relative;
-        overflow: hidden;
-    }
-
-    /* Animated background circles */
-    .auth-section::before,
-    .auth-section::after {
-        content: "";
-        position: absolute;
-        border-radius: 50%;
-        background: var(--primary-gradient);
-        opacity: 0.15;
-        z-index: 0;
-        animation: float 8s infinite ease-in-out;
-    }
-    .auth-section::before {
-        width: 350px;
-        height: 350px;
-        top: -100px;
-        left: -150px;
-    }
-    .auth-section::after {
-        width: 250px;
-        height: 250px;
-        bottom: -80px;
-        right: -120px;
-    }
-
-    /* Float animation */
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-15px); }
     }
 
     /* ============================
-       LOGIN CARD
+       GLASSMORPHIC LOGIN CARD
     ============================ */
     .login-card {
-        background: #fff;
+        background: rgba(255, 255, 255, 0.15);
         border-radius: var(--card-radius);
         padding: 2rem;
         max-width: 450px;
         width: 100%;
         box-shadow: var(--shadow-soft);
         z-index: 1;
-        animation: fadeInUp 0.6s ease;
+        animation: fadeInUp 0.6s ease, floatCard 6s ease-in-out infinite;
         position: relative;
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* Card header with icon */
+    @keyframes floatCard {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    /* ============================
+       CARD HEADER
+    ============================ */
     .login-card-header {
         text-align: center;
         margin-bottom: 1.5rem;
     }
     .login-card-header i {
-        font-size: 50px;
+        font-size: 55px;
         background: var(--primary-gradient);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         display: inline-block;
         margin-bottom: 10px;
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
     }
     .login-card-header h2 {
         font-weight: bold;
-        color: var(--text-dark);
+        color: var(--text-light);
     }
     .login-card-header p {
-        color: #777;
+        color: rgba(255,255,255,0.8);
         font-size: 14px;
     }
 
@@ -116,16 +108,18 @@
     .form-control {
         border-radius: 8px;
         padding: 12px;
-        border: 1px solid #ccc;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        background: rgba(255,255,255,0.1);
+        color: #fff;
         transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
         font-size: 15px;
     }
     .form-control:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 8px rgba(106, 17, 203, 0.3);
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 10px rgba(106, 17, 203, 0.4);
     }
     .form-control::placeholder {
-        color: #999;
+        color: rgba(255, 255, 255, 0.7);
     }
 
     /* Password toggle icon */
@@ -139,10 +133,10 @@
         transform: translateY(-50%);
         cursor: pointer;
         font-size: 18px;
-        color: #888;
+        color: #ddd;
     }
     .password-wrapper .toggle-password:hover {
-        color: var(--primary-color);
+        color: #fff;
     }
 
     /* ============================
@@ -189,9 +183,9 @@
         margin-bottom: 1rem;
     }
     .alert-danger {
-        background-color: rgba(255, 0, 0, 0.1);
+        background-color: rgba(255, 0, 0, 0.15);
         border-left: 5px solid red;
-        color: red;
+        color: #fff;
     }
 
     /* ============================
@@ -202,13 +196,13 @@
         margin-top: 1rem;
     }
     .auth-links a {
-        color: var(--primary-color);
+        color: #fff;
         font-weight: 600;
         text-decoration: none;
         transition: color var(--transition-speed);
     }
     .auth-links a:hover {
-        color: var(--secondary-color);
+        color: #ffea00;
     }
 
     /* ============================

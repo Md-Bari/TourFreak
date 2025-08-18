@@ -24,25 +24,9 @@
         z-index: 0;
         opacity: 0.2;
     }
-
-    .floating-img.img1 {
-        top: 10%;
-        left: 5%;
-        width: 150px;
-        animation-delay: 0s;
-    }
-    .floating-img.img2 {
-        bottom: 15%;
-        right: 10%;
-        width: 180px;
-        animation-delay: 1s;
-    }
-    .floating-img.img3 {
-        top: 50%;
-        right: 30%;
-        width: 200px;
-        animation-delay: 2s;
-    }
+    .floating-img.img1 { top: 10%; left: 5%; width: 150px; animation-delay: 0s; }
+    .floating-img.img2 { bottom: 15%; right: 10%; width: 180px; animation-delay: 1s; }
+    .floating-img.img3 { top: 50%; right: 30%; width: 200px; animation-delay: 2s; }
 
     /* Center form container */
     .register-container {
@@ -56,6 +40,12 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         margin-top: 5%;
         animation: fadeIn 1s ease-in-out;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .register-container:hover {
+        transform: scale(1.02);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.25);
     }
 
     /* Fade in animation */
@@ -69,6 +59,12 @@
         margin-bottom: 20px;
         color: #333;
         text-align: center;
+        animation: slideDown 1s ease;
+    }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-30px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     .form-control {
@@ -78,37 +74,58 @@
         transition: all 0.3s ease;
     }
 
+    /* Input focus animation */
     .form-control:focus {
         border-color: #2575fc;
-        box-shadow: 0 0 10px rgba(37, 117, 252, 0.3);
+        box-shadow: 0 0 12px rgba(37, 117, 252, 0.4);
+        transform: scale(1.02);
     }
 
+    /* Button animations */
     .btn-primary {
         background: linear-gradient(45deg, #6a11cb, #2575fc);
         border: none;
         padding: 12px;
         font-weight: bold;
         border-radius: 8px;
-        transition: transform 0.3s ease, background 0.3s ease;
+        transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
     }
 
     .btn-primary:hover {
-        transform: translateY(-2px);
+        transform: translateY(-3px) scale(1.05);
         background: linear-gradient(45deg, #2575fc, #6a11cb);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    /* Shake animation for validation errors */
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        50% { transform: translateX(5px); }
+        75% { transform: translateX(-5px); }
+    }
+
+    .text-danger {
+        animation: shake 0.4s ease;
+        display: block;
+        margin-top: 5px;
     }
 
     p {
         text-align: center;
         margin-top: 15px;
+        animation: fadeIn 1.2s ease;
     }
 
     a {
         color: #2575fc;
         text-decoration: none;
+        transition: color 0.3s ease;
     }
 
     a:hover {
         text-decoration: underline;
+        color: #6a11cb;
     }
 </style>
 
