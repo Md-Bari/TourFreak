@@ -24,7 +24,10 @@
             <div class="card p-3">
                 <h5>Package Details</h5>
                 <div style="display: flex; gap: 15px;">
-                    <img src="{{ asset('assets/images/' . $package->image) }}" alt="{{ $package->title }}" width="120" height="120" style="object-fit: cover; border-radius: 6px;">
+                    <img src="{{ asset('assets/images/' . $package->image) }}"
+                         alt="{{ $package->title }}"
+                         width="120" height="120"
+                         style="object-fit: cover; border-radius: 6px;">
                     <div>
                         <h6>{{ $package->title }}</h6>
                         <p style="margin: 0;"><strong>৳{{ $package->price }}</strong></p>
@@ -39,12 +42,22 @@
 
                     <div class="form-group mb-2">
                         <label for="person_count">Number of Persons</label>
-                        <input type="number" name="person_count" id="person_count" class="form-control" required min="1" value="1" oninput="updateSummary()">
+                        <input type="number"
+                               name="person_count"
+                               id="person_count"
+                               class="form-control"
+                               required min="1"
+                               value="{{ $quantity }}"
+                               oninput="updateSummary()">
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="extra_package">Extra Package (optional)</label>
-                        <input type="text" name="extra_package" id="extra_package" class="form-control" placeholder="e.g. Photography, Meal Plan">
+                        <input type="text"
+                               name="extra_package"
+                               id="extra_package"
+                               class="form-control"
+                               placeholder="e.g. Photography, Meal Plan">
                     </div>
 
                     <button type="submit" class="btn btn-success w-100">Proceed to Pay</button>
@@ -58,12 +71,12 @@
                 <h5>Order Summary</h5>
                 <hr>
                 @php
-                    $vat = $package->price * 0.15;
-                    $total = $package->price + $vat;
+                    $vat = $package->price * 0.15 * $quantity;
+                    $total = ($package->price * $quantity) + $vat;
                 @endphp
                 <div style="display: flex; justify-content: space-between;">
                     <span>Package Price</span>
-                    <span>৳{{ $package->price }}</span>
+                    <span>৳{{ $package->price }} × {{ $quantity }}</span>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
                     <span>VAT (15%)</span>
@@ -90,5 +103,10 @@
         const total = (packagePrice * persons) + vat;
         document.getElementById('totalPrice').textContent = '৳' + total.toFixed(2);
     }
+
+    // ✅ Auto-update summary on page load
+    document.addEventListener("DOMContentLoaded", () => {
+        updateSummary();
+    });
 </script>
 @endsection
