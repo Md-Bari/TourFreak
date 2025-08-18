@@ -14,8 +14,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'phone', // Added phone field
+        'phone',
         'role',
+        'email_notifications',
+        'booking_notifications',
+        'promotional_notifications',
     ];
 
     /**

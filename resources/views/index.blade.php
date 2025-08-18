@@ -87,8 +87,8 @@
         <a href="{{ route('my-wishlist') }}"><i class="fas fa-heart me-2"></i> Wishlist</a>
         <a href="#"><i class="fas fa-bell me-2"></i> Notifications</a>
         <a href="#"><i class="fas fa-envelope me-2"></i> Messages</a>
-        <a href="#"><i class="fas fa-cog me-2"></i> Settings</a>
-        <a href="#"><i class="fas fa-headset me-2"></i> Support</a>
+        <a href="{{ route('settings.index') }}"><i class="fas fa-cog me-2"></i> Settings</a>
+        <a href="{{ route('support.index') }}"><i class="fas fa-headset me-2"></i> Support</a>
         <a href="{{ route('logout') }}"
            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="fas fa-sign-out-alt me-2"></i> Logout

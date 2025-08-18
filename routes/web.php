@@ -18,7 +18,8 @@ use App\Http\Controllers\SslCommerzPaymentController;
 use App\Http\Controllers\MyAdsController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\SupportController; // SupportController যুক্ত করা হয়েছে
+use App\Http\Controllers\SupportController;
+use App\Http\Controllers\SettingsController;
 
 // Homepage showing rooms and tours
 Route::get('/', [RoomController::class, 'welcome'])->name('home');
@@ -98,6 +99,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/support/create', [SupportController::class, 'create'])->name('support.create');
     Route::post('/support/store', [SupportController::class, 'store'])->name('support.store');
     Route::get('/support/{ticket_id}', [SupportController::class, 'show'])->name('support.show');
+
+    // Settings routes
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile.update');
+    Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.password.update');
+    Route::put('/settings/notifications', [SettingsController::class, 'updateNotificationPreferences'])->name('settings.notifications.update');
 });
 
 

@@ -114,7 +114,7 @@
             @endif
         </a>
         <a href="#"><i class="fas fa-envelope me-2"></i> Messages</a>
-        <a href="#"><i class="fas fa-cog me-2"></i> Settings</a>
+        <a href="{{ route('settings.index') }}"><i class="fas fa-cog me-2"></i> Settings</a>
          <a href="{{ route('support.index') }}" class="active">
             <i class="fas fa-headset me-2"></i> Support</a>
         <a href="{{ route('logout') }}"
