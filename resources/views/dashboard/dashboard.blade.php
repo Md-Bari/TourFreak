@@ -70,6 +70,22 @@
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         text-align: center;
     }
+
+    .badge {
+        padding: 0.35em 0.65em;
+        font-size: 0.75em;
+        font-weight: 700;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 50rem;
+    }
+
+    .bg-danger {
+        background-color: #dc3545 !important;
+    }
 </style>
 @endpush
 
@@ -81,17 +97,22 @@
         <a href="{{ route('profile') }}"><i class="fas fa-user me-2"></i> Profile</a>
         <a href="{{ route('my.bookings') }}"><i class="fas fa-calendar-alt me-2"></i> Bookings</a>
         <a href="{{ route('my-ads') }}"><i class="fas fa-ad me-2"></i> My Ads</a>
-<<<<<<< HEAD
        
     
         
         {{-- Wishlist link এখানে যুক্ত করা হয়েছে --}}
-=======
 
->>>>>>> fadc99f696cde878d960fdb4a58c586e80a06d5d
         <a href="{{ route('my-wishlist') }}"><i class="fas fa-heart me-2"></i> Wishlist</a>
 
-        <a href="#"><i class="fas fa-bell me-2"></i> Notifications</a>
+        <a href="{{ route('notifications.index') }}">
+            <i class="fas fa-bell me-2"></i> Notifications
+            @php
+                $unreadCount = auth()->user()->unreadNotifications()->count();
+            @endphp
+            @if($unreadCount > 0)
+                <span class="badge bg-danger rounded-pill ms-2">{{ $unreadCount }}</span>
+            @endif
+        </a>
         <a href="#"><i class="fas fa-envelope me-2"></i> Messages</a>
         <a href="#"><i class="fas fa-cog me-2"></i> Settings</a>
          <a href="{{ route('support.index') }}" class="active">
@@ -128,7 +149,13 @@
         <div class="card">
             <h4><i class="fas fa-bell text-warning"></i></h4>
             <h5>Notifications</h5>
-            <p>You have <strong>4 new notifications</strong>.</p>
+            @php
+                $unreadCount = auth()->user()->unreadNotifications()->count();
+            @endphp
+            <p>You have <strong>{{ $unreadCount }} new {{ Str::plural('notification', $unreadCount) }}</strong>.</p>
+            @if($unreadCount > 0)
+                <a href="{{ route('notifications.index') }}" class="btn btn-sm btn-primary mt-2">View Notifications</a>
+            @endif
         </div>
     </div>
 </div>
