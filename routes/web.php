@@ -16,6 +16,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SslCommerzPaymentController;
 use App\Http\Controllers\MyAdsController;
+use App\Http\Controllers\WishlistController; // WishlistController এখানে যুক্ত করা হয়েছে
 
 // Homepage showing rooms and tours
 Route::get('/', [RoomController::class, 'welcome'])->name('home');
@@ -56,7 +57,6 @@ Route::post('/booking', [BookingController::class, 'store'])->name('booking.stor
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-    // Route::get('/bookings', [UserController::class, 'bookings'])->name('bookings');
     // Profile routes
     Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
@@ -69,6 +69,13 @@ Route::middleware('auth')->group(function () {
 
     // My Ads route যুক্ত করা হয়েছে
     Route::get('/my-ads', [MyAdsController::class, 'index'])->name('my-ads');
+
+    // Wishlist routes এখানে যুক্ত করা হয়েছে
+    Route::post('/wishlist/add/{ad_id}', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::delete('/wishlist/remove/{ad_id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    
+    // Wishlist page route
+    Route::get('/my-wishlist', [WishlistController::class, 'index'])->name('my-wishlist');
 });
 
 // Search routes
