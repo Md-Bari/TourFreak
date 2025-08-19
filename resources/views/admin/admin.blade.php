@@ -29,14 +29,14 @@
     <a href="{{ route('admin.buses.index') }}" class="{{ request()->routeIs('admin.buses.index') ? 'active' : '' }}">
         <i class="bi bi-bus-front-fill me-2"></i>Buses
     </a>
-    <a href="#" class="">
-        <i class="bi bi-check-circle-fill me-2"></i>Available
-    </a>
+    
 
-    <form action="{{ route('logout') }}" method="POST" class="mt-3 text-center">
-        @csrf
-        <button class="btn btn-sm btn-outline-light">Logout</button>
-    </form>
+    <form action="{{ route('logout') }}" method="POST" class="logout-form">
+    @csrf
+    <button type="submit" class="logout-btn">
+        <i class="bi bi-box-arrow-right me-2"></i> Logout
+    </button>
+</form>
 </div>
 
 <div class="main-content">

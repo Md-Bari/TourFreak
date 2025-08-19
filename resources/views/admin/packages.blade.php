@@ -11,6 +11,7 @@ body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
+
     /* Sidebar Improvements */
     .sidebar {
         background: linear-gradient(180deg, #1e3c72, #2a5298);

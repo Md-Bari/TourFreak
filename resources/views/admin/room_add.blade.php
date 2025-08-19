@@ -1,5 +1,6 @@
 @extends('admin.admin') {{-- Or your layout file --}}
 
+
 @section('content')
 <div class="container mt-5">
     <h2>Add New Room</h2>

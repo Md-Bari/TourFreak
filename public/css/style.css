@@ -13,6 +13,8 @@ html, body {
   scroll-behavior: smooth;
   background: #fff;
 }
+/* Sidebar Logout Link */
+/* Removed .logout-link styles as .logout-btn is now used in the admin template */
 
 /* ================= HERO ================= */
 .hero {
