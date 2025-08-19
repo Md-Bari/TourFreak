@@ -1,0 +1,113 @@
+
+/* ------------------ Tour Packages ------------------ */
+.tour-packages-wrapper {
+    margin-top: 40px;
+    animation: fadeIn 0.8s ease-in-out;
+}
+.tour-scroll-wrapper {
+    overflow-x: auto;
+    padding-bottom: 15px;
+    -webkit-overflow-scrolling: touch;
+}
+.tour-packages {
+    display: flex;
+    gap: 25px;
+    transition: all 0.3s ease;
+}
+.package {
+    flex: 0 0 300px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    animation: fadeInUp 0.5s ease-in-out;
+}
+.package img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.package:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+.package:hover img {
+    transform: scale(1.05);
+}
+.package h2 {
+    font-size: 20px;
+    margin: 15px;
+    font-weight: 700;
+    color: #333;
+}
+.package p {
+    margin: 0 15px 10px;
+    font-size: 14px;
+    color: #555;
+}
+.package .price span {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2575fc;
+}
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+.btn-custom {
+    border-radius: 25px;
+    padding: 6px 15px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: #fff;
+}
+.btn-edit {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+}
+.btn-edit:hover {
+    background: linear-gradient(90deg, #2575fc, #6a11cb);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.btn-delete {
+    background: #dc3545;
+}
+.btn-delete:hover {
+    background: #bb2d3b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* ------------------ Scrollbar Styling ------------------ */
+.tour-scroll-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+.tour-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #2575fc;
+    border-radius: 10px;
+}
+.tour-scroll-wrapper::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+/* ------------------ Animations ------------------ */
+@keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+@keyframes slideIn {
+    from {transform: translateY(-20px); opacity:0;}
+    to {transform: translateY(0); opacity:1;}
+}
+@keyframes fadeInUp {
+    from {transform: translateY(20px); opacity:0;}
+    to {transform: translateY(0); opacity:1;}
+}
+
