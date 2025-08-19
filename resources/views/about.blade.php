@@ -28,6 +28,7 @@
 
     .team-member img {
         width: 100%;
+        height:100%
         border-radius: 100px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
@@ -38,15 +39,14 @@
 <section class="about-hero">
     <div class="about-hero-content">
         <h1>About Us</h1>
-        <p>Tour Freak is your go-to travel companion, dedicated to making your journeys unforgettable with seamless planning, unique experiences, and personalized travel services you can trust.</p>
+        <p>TourFreak is a trusted travel partner that makes planning simple and reliable. The platform combines end-to-end trip planning with curated experiences and personalized support, so you can book with confidence and focus on the journey. From quick getaways to complex itineraries, TourFreak helps turn every trip into a memorable one. </p>
     </div>
 </section>
 
 <section class="container py-5 text-center">
     <h2 class="mb-4">Our Mission</h2>
-    <p>We aim to transform your travel dreams into reality by providing affordable, reliable, and exciting travel solutions tailored to your preferences. Whether you seek adventure, relaxation, or exploration, we are here to craft the perfect journey for you.</p>
+    <p>We aim to turn your travel dreams into reality by offering affordable, reliable, and inspiring solutions tailored to your preferences. Whether you’re seeking adventure or a peaceful retreat, we design personalized itineraries and provide attentive support so you can travel with confidence.</p>
 </section>
-
 <section class="container py-5 text-center">
     <h2 class="mb-4">Our Core Values</h2>
     <p>We believe in trust, innovation, and excellence. Our team is committed to creating travel experiences that reflect our passion for discovery and customer satisfaction.</p>
@@ -56,22 +56,22 @@
     <h2 class="mb-4">Meet the Team Members</h2>
     <div class="team">
         <div class="team-member">
-            <img src="{{ asset('images/bg-img.jpg') }}" alt="Team Member 1">
+            <img src="{{ asset('images/gh-img.jpg') }}" alt="Team Member 1">
             <h5>Abir Hassan</h5>
             <p></p>
         </div>
         <div class="team-member">
-            <img src="{{ asset('images/team2.jpg') }}" alt="Team Member 2">
+            <img src="{{ asset('images/bk-img.jpg') }}" alt="Team Member 2">
             <h5>MD.Rofiqul Bari</h5>
             <p></p>
         </div>
         <div class="team-member">
-            <img src="{{ asset('images/team3.jpg') }}" alt="Team Member 3">
+            <img src="{{ asset('images/bj-ing.jpg') }}" alt="Team Member 3">
             <h5>Jannatul Ferdaus</h5>
             <p></p>
         </div>
         <div class="team-member">
-            <img src="{{ asset('images/team3.jpg') }}" alt="Team Member 4">
+            <img src="{{ asset('images/hj-img.jpg') }}" alt="Team Member 4">
             <h5>Mim Khan</h5>
             <p></p>
         </div>
