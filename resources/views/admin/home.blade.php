@@ -30,6 +30,14 @@
             </div>
         </div>
         <div class="col-md-3">
+            <div class="dashboard-card card-purple">
+                <i class="fas fa-bus"></i>
+                <div class="card-title">Total Buses</div>
+                <div class="card-value">{{ $totalBuses }}</div>
+                <canvas id="busChart" height="60"></canvas>
+            </div>
+        </div>
+        <div class="col-md-3">
             <div class="dashboard-card card-yellow">
                 <i class="fas fa-calendar-check"></i>
                 <div class="card-title">Total Bookings</div>
@@ -119,6 +127,7 @@
     };
     smallChart('packageChart', '#fff');
     smallChart('roomChart', '#fff');
+    smallChart('busChart', '#fff');
     smallChart('bookingChart', '#fff');
     smallChart('userChart', '#fff');
 

@@ -5,108 +5,204 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-    /* Card Layout */
-    .tour-packages-wrapper {
-        margin-top: 30px;
+/* ------------------ General ------------------ */
+body {
+        background-color: #f4f6f9;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .tour-scroll-wrapper {
-        overflow-x: auto;
-        padding-bottom: 15px;
+
+    /* Sidebar Improvements */
+    .sidebar {
+        background: linear-gradient(180deg, #1e3c72, #2a5298);
+        min-height: 100vh;
+        color: #fff;
     }
-    .tour-packages {
-        display: flex;
-        gap: 20px;
-    }
-    .package {
-        flex: 0 0 280px;
-        background: #fff;
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        overflow: hidden;
-        transition: transform 0.3s ease;
-    }
-    .package:hover {
-        transform: translateY(-5px);
-    }
-    .package img {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-    }
-    .package h2 {
-        font-size: 20px;
-        margin: 15px;
-        font-weight: bold;
-        color: #333;
-    }
-    .package p {
-        margin: 0 15px 10px;
-        font-size: 14px;
-        color: #555;
-    }
-    .package .price span {
-        font-size: 18px;
-        font-weight: bold;
-        color: #007bff;
-    }
-    .package .btn-group {
-        display: flex;
-        justify-content: space-between;
-        padding: 15px;
-    }
-    .package .btn-custom {
-        border-radius: 25px;
-        padding: 6px 15px;
-        font-size: 13px;
-        font-weight: 600;
+    .sidebar a {
+        color: #d1d5db;
+        font-weight: 500;
+        padding: 12px 18px;
+        display: block;
+        
         transition: all 0.3s ease;
     }
-    .btn-edit {
-        background: #0d6efd;
+    .sidebar a:hover,
+    .sidebar .active {
+        background: rgba(255,255,255,0.15);
         color: #fff;
+        transform: translateX(4px);
     }
-    .btn-edit:hover {
-        background: #0b5ed7;
-    }
-    .btn-delete {
-        background: #dc3545;
-        color: #fff;
-    }
-    .btn-delete:hover {
-        background: #bb2d3b;
-    }
+
+/* ------------------ Headings ------------------ */
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+/* ------------------ Form Styling ------------------ */
+form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    animation: slideIn 0.6s ease-in-out;
+}
+form .form-control, form .form-select, form textarea {
+    border-radius: 12px;
+    padding: 10px 15px;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+form button {
+    border-radius: 50px;
+    padding: 10px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    border: none;
+    color: #fff;
+}
+form button:hover {
+    background: linear-gradient(90deg, #2575fc, #6a11cb);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* ------------------ Tour Packages ------------------ */
+.tour-packages-wrapper {
+    margin-top: 40px;
+    animation: fadeIn 0.8s ease-in-out;
+}
+.tour-scroll-wrapper {
+    overflow-x: auto;
+    padding-bottom: 15px;
+    -webkit-overflow-scrolling: touch;
+}
+.tour-packages {
+    display: flex;
+    gap: 25px;
+    transition: all 0.3s ease;
+}
+.package {
+    flex: 0 0 300px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    animation: fadeInUp 0.5s ease-in-out;
+}
+.package img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.package:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+.package:hover img {
+    transform: scale(1.05);
+}
+.package h2 {
+    font-size: 20px;
+    margin: 15px;
+    font-weight: 700;
+    color: #333;
+}
+.package p {
+    margin: 0 15px 10px;
+    font-size: 14px;
+    color: #555;
+}
+.package .price span {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2575fc;
+}
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+.btn-custom {
+    border-radius: 25px;
+    padding: 6px 15px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: #fff;
+}
+.btn-edit {
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+}
+.btn-edit:hover {
+    background: linear-gradient(90deg, #2575fc, #6a11cb);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.btn-delete {
+    background: #dc3545;
+}
+.btn-delete:hover {
+    background: #bb2d3b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* ------------------ Scrollbar Styling ------------------ */
+.tour-scroll-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+.tour-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #2575fc;
+    border-radius: 10px;
+}
+.tour-scroll-wrapper::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 10px;
+}
+
+/* ------------------ Animations ------------------ */
+@keyframes fadeIn {
+    from {opacity:0;}
+    to {opacity:1;}
+}
+@keyframes slideIn {
+    from {transform: translateY(-20px); opacity:0;}
+    to {transform: translateY(0); opacity:1;}
+}
+@keyframes fadeInUp {
+    from {transform: translateY(20px); opacity:0;}
+    to {transform: translateY(0); opacity:1;}
+}
 </style>
 @endpush
 
 @section('content')
-<div class="container mt-5">
-    <h2 class="mb-4 fw-bold">Add New Package</h2>
-    <form action="{{ url('/admin/packages/store') }}" method="POST" enctype="multipart/form-data" class="mb-5">
+<div class="container">
+    <!-- Add Package Form -->
+    <h2 class="fw-bold">Add New Package</h2>
+    <form action="{{ url('/admin/packages/store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="mb-3">
-            <input type="text" name="title" class="form-control" placeholder="Title" required>
-        </div>
-        <div class="mb-3">
-            <select name="class" class="form-select" required>
-                <option value="">-- Select Class --</option>
-                <option value="mountain">Mountain</option>
-                <option value="sea">Sea</option>
-                <option value="forest">Forest</option>
-                <option value="normal">Normal</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="image" class="form-label">Package Image</label>
-            <input type="file" name="image" class="form-control" required>
-            @error('image') <span class="text-danger">{{ $message }}</span> @enderror
-        </div>
-        <div class="mb-3">
-            <input type="text" name="features" class="form-control" placeholder="Features" required>
-        </div>
-        <div class="mb-3">
-            <textarea name="description" class="form-control" placeholder="Description" required></textarea>
-        </div>
-        <div class="mb-3 row">
+        <input type="text" name="title" class="form-control" placeholder="Title" required>
+        <select name="class" class="form-select" required>
+            <option value="">-- Select Class --</option>
+            <option value="mountain">Mountain</option>
+            <option value="sea">Sea</option>
+            <option value="forest">Forest</option>
+            <option value="normal">Normal</option>
+        </select>
+        <label class="form-label">Package Image</label>
+        <input type="file" name="image" class="form-control" required>
+        @error('image') <span class="text-danger">{{ $message }}</span> @enderror
+        <input type="text" name="features" class="form-control" placeholder="Features" required>
+        <textarea name="description" class="form-control" placeholder="Description" required></textarea>
+        <div class="row mb-3">
             <div class="col">
                 <input type="number" name="duration_day" class="form-control" placeholder="Days" min="0" required>
             </div>
@@ -114,14 +210,12 @@
                 <input type="number" name="duration_night" class="form-control" placeholder="Nights" min="0" required>
             </div>
         </div>
-        <div class="mb-3">
-            <input type="number" name="price" class="form-control" placeholder="Price" step="0.01" required>
-        </div>
-        <button type="submit" class="btn btn-success px-4">+ Add Package</button>
+        <input type="number" name="price" class="form-control mb-3" placeholder="Price" step="0.01" required>
+        <button type="submit">+ Add Package</button>
     </form>
 
-    <h2 class="mb-3 fw-bold">All Packages</h2>
-
+    <!-- All Packages Section -->
+    <h2 class="fw-bold mt-5">All Packages</h2>
     <section class="tour-packages-wrapper">
         <div class="tour-scroll-wrapper">
             <div class="tour-packages">
@@ -131,7 +225,6 @@
                         <h2>{{ $package->title }}</h2>
                         <p class="features"><strong>Features:</strong> {{ $package->features }}</p>
                         <p class="description">{{ $package->description }}</p>
-
                         @if(isset($package->duration_day) && isset($package->duration_night))
                             <p class="duration">
                                 <strong>Duration:</strong>
@@ -139,7 +232,6 @@
                                 {{ $package->duration_night }} Night{{ $package->duration_night > 1 ? 's' : '' }}
                             </p>
                         @endif
-
                         <p class="price">
                             Price Per Person: <span>{{ number_format($package->price, 2) }}</span>
                         </p>
@@ -155,6 +247,7 @@
                                     <i class="fa fa-trash"></i> Delete
                                 </button>
                             </form>
+                            
                         </div>
                     </div>
                 @endforeach

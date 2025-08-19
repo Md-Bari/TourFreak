@@ -83,3 +83,44 @@ body {
         padding: 5px 8px;
         border-radius: 12px;
     }
+/* Dashboard Card - Buses */
+.dashboard-card.card-purple {
+    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Purple to blue gradient */
+    color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card.card-purple:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-card.card-purple i {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.dashboard-card.card-purple .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.dashboard-card.card-purple .card-value {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.dashboard-card.card-purple canvas {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    height: 40px !important; /* Ensure chart fits nicely */
+}
