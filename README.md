@@ -1,3 +1,43 @@
+
+
+                                                                                    TourFreak
+TourFreak is a comprehensive web-based travel and tour management system designed to simplify the process of exploring, booking, and managing travel packages. With the growing demand for seamless and digital travel solutions, TourFreak aims to provide users with a platform where they can easily search, compare, and book tour packages, flights, and other travel-related services.
+The purpose of this project is to create a user-friendly, secure, and scalable web application that connects travelers with service providers, ensuring smooth booking, transparent pricing, and personalized experiences.
+Project Report:https://docs.google.com/document/d/1rpEOFl-rKwYs8KSX4uKL-s9XjFeM15Oe/edit?usp=drive_link&ouid=116269416031849206374&rtpof=true&sd=true
+Presentation Slide:https://docs.google.com/presentation/d/1-am3REmOVv1wVsCqlgkg_2hiOxMEpRCx/edit?usp=drive_link&ouid=116269416031849206374&rtpof=true&sd=true
+
+Project Interface:
+<img width="1837" height="818" alt="image" src="https://github.com/user-attachments/assets/6e698dea-820e-4d63-9768-7fde8e45e26c" />
+<img width="1842" height="902" alt="image" src="https://github.com/user-attachments/assets/16564a5b-0dcd-4b96-b5ac-59fcedc792e6" />
+ <img width="1844" height="835" alt="image" src="https://github.com/user-attachments/assets/6c2fbcf2-da7b-4cbb-a1da-f4421035208b" />
+ <img width="1849" height="885" alt="image" src="https://github.com/user-attachments/assets/e59524db-ecf1-4231-9227-54782ccce874" />
+ <img width="1890" height="926" alt="image" src="https://github.com/user-attachments/assets/aab2a706-2a84-4b01-81e8-b1f91774a6e1" />
+ <img width="1845" height="867" alt="image" src="https://github.com/user-attachments/assets/90156dc9-903a-449b-bcce-88d77ba4ecf5" />
+ <img width="1881" height="639" alt="Screenshot 2025-08-16 211254" src="https://github.com/user-attachments/assets/f5343ef0-284f-4374-8db0-3d71ca6dbfe9" />
+ <img width="1875" height="825" alt="Screenshot 2025-08-19 222351" src="https://github.com/user-attachments/assets/ab009792-e571-4d98-981c-0f7e14305f4b" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
