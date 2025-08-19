@@ -1,7 +1,10 @@
 @extends('admin.admin')
 
 
-
+@push('style')
+<link rel="stylesheet" href="{{ asset('css/package.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+@endpush
 
 
 @section('content')
@@ -68,7 +71,7 @@
                                     <i class="fa fa-trash"></i> Delete
                                 </button>
                             </form>
-                            
+
                         </div>
                     </div>
                 @endforeach
