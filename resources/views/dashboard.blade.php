@@ -81,16 +81,21 @@
     <div class="content-wrapper">
         <!-- Sidebar -->
         <div class="sidebar">
-            <a href="#">Dashboard</a>
-            <a href="#">Profile</a>
-            <a href="#">Bookings</a>
-            <a href="#">My Ads</a>
-            <a href="#">Wishlist</a>
-            <a href="#">Notifications</a>
-            <a href="#">Messages</a>
-            <a href="#">Settings</a>
-            <a href="#">Support</a>
-            <a href="#">Logout</a>
+            <a href="{{ route('dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a>
+            <a href="{{ route('profile') }}"><i class="fas fa-user me-2"></i> Profile</a>
+            <a href="{{ route('my.bookings') }}"><i class="fas fa-calendar me-2"></i> Bookings</a>
+            <a href="{{ route('my-ads') }}"><i class="fas fa-ad me-2"></i> My Ads</a>
+            <a href="{{ route('my-wishlist') }}"><i class="fas fa-heart me-2"></i> Wishlist</a>
+            <a href="{{ route('notifications.index') }}"><i class="fas fa-bell me-2"></i> Notifications</a>
+            <a href="{{ route('messages') }}"><i class="fas fa-envelope me-2"></i> Messages</a>
+            <a href="{{ route('settings.index') }}"><i class="fas fa-cog me-2"></i> Settings</a>
+            <a href="{{ route('support.index') }}"><i class="fas fa-question-circle me-2"></i> Support</a>
+            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                @csrf
+                <a href="#" onclick="event.preventDefault(); this.closest('form').submit();">
+                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                </a>
+            </form>
         </div>
 
         <!-- Main Content -->

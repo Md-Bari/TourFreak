@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\BusController;
@@ -60,6 +61,11 @@ Route::post('/booking', [BookingController::class, 'store'])->name('booking.stor
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
+    // Messages routes
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages');
+    Route::get('/messages/{senderId}', [MessageController::class, 'getConversation'])->name('messages.conversation');
+    Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+
     // Profile routes
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
