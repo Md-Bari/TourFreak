@@ -92,40 +92,6 @@
 @section('content')
 <div class="user-wrapper">
 
-    <div class="sidebar">
-        <a href="{{ route('dashboard') }}"><i class="fas fa-home me-2"></i> Dashboard</a>
-        <a href="{{ route('profile') }}"><i class="fas fa-user me-2"></i> Profile</a>
-        <a href="{{ route('my.bookings') }}"><i class="fas fa-calendar-alt me-2"></i> Bookings</a>
-        <a href="{{ route('my-ads') }}"><i class="fas fa-ad me-2"></i> My Ads</a>
-       
-    
-        
-        {{-- Wishlist link এখানে যুক্ত করা হয়েছে --}}
-
-        <a href="{{ route('my-wishlist') }}"><i class="fas fa-heart me-2"></i> Wishlist</a>
-
-        <a href="{{ route('notifications.index') }}">
-            <i class="fas fa-bell me-2"></i> Notifications
-            @php
-                $unreadCount = auth()->user()->unreadNotifications()->count();
-            @endphp
-            @if($unreadCount > 0)
-                <span class="badge bg-danger rounded-pill ms-2">{{ $unreadCount }}</span>
-            @endif
-        </a>
-        <a href="#"><i class="fas fa-envelope me-2"></i> Messages</a>
-        <a href="{{ route('settings.index') }}"><i class="fas fa-cog me-2"></i> Settings</a>
-         <a href="{{ route('support.index') }}" class="active">
-            <i class="fas fa-headset me-2"></i> Support</a>
-        <a href="{{ route('logout') }}"
-           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            <i class="fas fa-sign-out-alt me-2"></i> Logout
-        </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-    </div>
-
     <div class="topbar">
         <div>User Dashboard</div>
         <div><i class="fas fa-user-circle"></i> {{ Auth::user()->name }}</div>

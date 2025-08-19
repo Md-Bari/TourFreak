@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\TourPackage;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use App\Models\BusBook;
 
 class OrderController extends Controller
 {
@@ -56,14 +57,20 @@ class OrderController extends Controller
     }
 
     // ✅ Show my bookings
-    public function myBookings(): \Illuminate\View\View
-    {
-        $orders = Order::with('package')
-            ->where('user_id', Auth::id())
-            ->get();
+ public function myBookings(): \Illuminate\View\View
+{
+    // Tour package orders
+    $orders = Order::with('package')
+        ->where('user_id', Auth::id())
+        ->get();
 
-        return view('dashboard.bookings', compact('orders'));
-    }
+    // Bus ticket bookings
+    $busBookings = BusBook::where('user_id', Auth::id())
+        ->latest()
+        ->get();
+
+    return view('dashboard.bookings', compact('orders', 'busBookings'));
+}
 
     // ✅ Cancel order
     public function cancel($id)

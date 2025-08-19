@@ -3,6 +3,10 @@
 @push('style')
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/room.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+
+    </style>
 @endpush
 
 @section('content')
@@ -15,13 +19,12 @@
                 <button class="tab-btn" onclick="showTab('bus', event)">🚌 Bus</button>
             </div>
 
-            <!-- =================== Tour Search Minimized =================== -->
+            <!-- =================== Tour Search =================== -->
             <div id="tour" class="tab-content">
                 <div class="tour-search-card">
                     <form action="{{ route('tour.search') }}" method="GET" class="tour-form">
                         <h3>Quick Tour Search</h3>
 
-                        <!-- Location only -->
                         <div class="form-group">
                             <label>Tour Location</label>
                             <select name="class" class="form-control" required>
@@ -32,7 +35,6 @@
                             </select>
                         </div>
 
-                        <!-- Show full form button -->
                         <button type="button" class="btn btn-secondary w-100" onclick="showFullTourForm()">
                             Want a more specific tour plan?
                         </button>
@@ -40,8 +42,45 @@
                     </form>
                 </div>
             </div>
+
+            <!-- =================== Flight Search =================== -->
+            <div id="flight" class="tab-content" style="display:none;">
+                <div class="flight-search-card">
+                    <form action="{{ route('flight.search') }}" method="GET">
+                        <h3>Quick Flight Search</h3>
+                        <input type="text" name="from" class="form-control mb-2" placeholder="From" required>
+                        <input type="text" name="to" class="form-control mb-2" placeholder="To" required>
+                        <input type="date" name="date" class="form-control mb-2" required>
+                        <button type="submit" class="btn btn-primary w-100">Search Flight</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- =================== Bus Search =================== -->
+            <div id="bus" class="tab-content" style="display:none;">
+                <div class="bus-search-card">
+                    <form action="{{ route('bus.search') }}" method="GET">
+                        <h3>Quick Bus Search</h3>
+                        <input type="text" name="start" class="form-control mb-2" placeholder="Start Location" required>
+                        <input type="text" name="end" class="form-control mb-2" placeholder="Destination" required>
+                        <input type="date" name="date" class="form-control mb-2" required>
+                        <button type="submit" class="btn btn-primary w-100">Search Bus</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </section>
+
+    <script>
+        function showTab(tab, event) {
+            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+            document.getElementById(tab).style.display = 'block';
+
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
+
 
     <!-- =================== Full Tour Form Popup =================== -->
     <div id="fullTourPopup" class="popup-overlay" style="display:none;">
@@ -123,14 +162,14 @@
                         </p>
 
                         <button onclick="openPopup(
-                                                                            '{{ addslashes($package->title) }}',
-                                                                            '{{ addslashes($package->description) }}',
-                                                                            '{{ number_format($package->price, 2) }}',
-                                                                            '{{ asset(str_replace('\\', '/', ('assets/images/' . $package->image))) }}',
-                                                                            '{{ $package->duration_day }}',
-                                                                            '{{ $package->duration_night }}',
-                                                                            '{{ $package->id }}'
-                                                                        )">
+                                                                                                                    '{{ addslashes($package->title) }}',
+                                                                                                                    '{{ addslashes($package->description) }}',
+                                                                                                                    '{{ number_format($package->price, 2) }}',
+                                                                                                                    '{{ asset(str_replace('\\', '/', ('assets/images/' . $package->image))) }}',
+                                                                                                                    '{{ $package->duration_day }}',
+                                                                                                                    '{{ $package->duration_night }}',
+                                                                                                                    '{{ $package->id }}'
+                                                                                                                )">
                             Tour Details ➤
                         </button>
 
@@ -212,156 +251,197 @@
     </div>
 
     <section class="container py-4">
+        <h2 class="text-center mb-5 fw-bold text-success">Customer Reviews</h2>
+
+        {{-- ===== Reviews per Package (side by side scroll) ===== --}}
         @foreach ($packages as $package)
             @if ($package->reviews->count())
                 <div class="mb-5">
-                    <h3 class="mb-3">{{ $package->title }}</h3>
-                    @foreach ($package->reviews as $review)
-                        <div class="card mb-2">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    {{ $review->user->name ?? 'Guest' }}
-                                    <span class="text-warning">
-                                        {!! str_repeat('★', $review->rating) !!}
-                                        {!! str_repeat('☆', 5 - $review->rating) !!}
-                                    </span>
-                                </h5>
-                                <p class="card-text">{{ $review->comment }}</p>
+                    <h3 class="mb-3 text-primary fw-bold">{{ $package->title }}</h3>
+
+                    <div class="reviews-scroll d-flex flex-nowrap gap-3 pb-3">
+                        @foreach ($package->reviews as $review)
+                            <div class="card shadow-sm review-card animate__animated animate__fadeInUp"
+                                style="border-radius: 15px; min-width: 280px; max-width: 320px; flex: 0 0 auto;">
+                                <div class="card-body">
+                                    <h5 class="card-title d-flex justify-content-between align-items-center">
+                                        <span>{{ $review->user->name ?? 'Guest' }}</span>
+                                        <span class="text-warning">
+                                            {!! str_repeat('★', $review->rating) !!}
+                                            {!! str_repeat('☆', 5 - $review->rating) !!}
+                                        </span>
+                                    </h5>
+                                    <p class="card-text text-muted">{{ $review->comment }}</p>
+                                    <small class="text-secondary">📅 {{ $review->created_at->format('d M, Y') }}</small>
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
             @endif
         @endforeach
 
+        {{-- ===== Review Button (Popup Trigger) ===== --}}
         @auth
-            {{-- ===== Review Form ===== --}}
-            <div class="review-card-wrapper">
-                <div class="card review-card">
-                    <div class="card-header">Write a Review</div>
-                    <div class="card-body">
-                        <form method="POST" action="{{ route('review.submit') }}">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="package_id" class="form-label">Select Tour Package</label>
-                                <select name="package_id" id="package_id" class="form-select" required>
-                                    <option value="">-- Choose Package --</option>
-                                    @foreach ($packages as $package)
-                                        <option value="{{ $package->id }}">{{ $package->title }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="rating" class="form-label">Rating</label>
-                                <select name="rating" id="rating" class="form-select" required>
-                                    <option value="">-- Rate --</option>
-                                    @for ($i = 5; $i >= 1; $i--)
-                                        <option value="{{ $i }}">{{ $i }} Star{{ $i > 1 ? 's' : '' }}</option>
-                                    @endfor
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="comment" class="form-label">Comment</label>
-                                <textarea name="comment" id="comment" class="form-control" rows="3" required></textarea>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary submit-btn">Submit Review</button>
-                        </form>
-                    </div>
-                </div>
-
+            <div class="text-center mt-5">
+                <button class="btn btn-lg btn-success px-4 py-2 shadow-lg animate__animated animate__pulse animate__infinite"
+                    data-bs-toggle="modal" data-bs-target="#reviewModal">
+                    ✍️ Give Your Review
+                </button>
+            </div>
         @else
-                <p class="text-center mt-4">Please <a href="{{ route('login') }}">login</a> to write a review.</p>
-            @endauth
+            <p class="text-center mt-4">Please <a href="{{ route('login') }}">login</a> to write a review.</p>
+        @endauth
+    </section>
+
+
+    {{-- ===== Bootstrap Modal for Review Form ===== --}}
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg" style="border-radius: 15px;">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="reviewModalLabel">Write a Review</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form method="POST" action="{{ route('review.submit') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="package_id" class="form-label">Select Tour Package</label>
+                            <select name="package_id" id="package_id" class="form-select" required>
+                                <option value="">-- Choose Package --</option>
+                                @foreach ($packages as $package)
+                                    <option value="{{ $package->id }}">{{ $package->title }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="rating" class="form-label">Rating</label>
+                            <select name="rating" id="rating" class="form-select" required>
+                                <option value="">-- Rate --</option>
+                                @for ($i = 5; $i >= 1; $i--)
+                                    <option value="{{ $i }}">{{ $i }} Star{{ $i > 1 ? 's' : '' }}</option>
+                                @endfor
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="comment" class="form-label">Comment</label>
+                            <textarea name="comment" id="comment" class="form-control" rows="3" required></textarea>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary px-4">Submit Review</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
+    </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection
 
-    @push('script')
-        <script>
-            function showTab(tab, event) {
-                document.getElementById('flight').style.display = (tab === 'flight') ? 'flex' : 'none';
-                document.getElementById('bus').style.display = (tab === 'bus') ? 'flex' : 'none';
-                document.getElementById('tour').style.display = (tab === 'tour') ? 'flex' : 'none';
-                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                event.target.classList.add('active');
-            }
+@push('script')
+    <script>
+        function showTab(tab, event) {
+            document.getElementById('flight').style.display = (tab === 'flight') ? 'flex' : 'none';
+            document.getElementById('bus').style.display = (tab === 'bus') ? 'flex' : 'none';
+            document.getElementById('tour').style.display = (tab === 'tour') ? 'flex' : 'none';
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
 
-            // const backgrounds = [
-            //     "/assets/images/beach.jpg",
-            //     "/assets/images/bangladesh.jpeg",
-            //     "/assets/images/sajek.jpeg"
-            // ];
-            let current = 0;
-            setInterval(() => {
-                current = (current + 1) % backgrounds.length;
-                document.querySelector(".hero").style.backgroundImage = `url('${backgrounds[current]}')`;
-            }, 5000);
+        // const backgrounds = [
+        //     "/assets/images/beach.jpg",
+        //     "/assets/images/bangladesh.jpeg",
+        //     "/assets/images/sajek.jpeg"
+        // ];
+        let current = 0;
+        setInterval(() => {
+            current = (current + 1) % backgrounds.length;
+            document.querySelector(".hero").style.backgroundImage = `url('${backgrounds[current]}')`;
+        }, 5000);
 
-            let packagePrice = 0;
-            let packageId = 0;
+        let packagePrice = 0;
+        let packageId = 0;
 
-            function openPopup(title, description, price, imageUrl, durationDay, durationNight, id) {
-                document.getElementById('popupTitle').textContent = title;
-                document.getElementById('popupDetails').textContent = description;
-                document.getElementById('popupImage').src = imageUrl;
-                document.getElementById('popupDuration').textContent = `${durationDay} Day(s), ${durationNight} Night(s)`;
+        function openPopup(title, description, price, imageUrl, durationDay, durationNight, id) {
+            document.getElementById('popupTitle').textContent = title;
+            document.getElementById('popupDetails').textContent = description;
+            document.getElementById('popupImage').src = imageUrl;
+            document.getElementById('popupDuration').textContent = `${durationDay} Day(s), ${durationNight} Night(s)`;
 
-                // Set package price and ID for calculation & order
-                packagePrice = parseFloat(price);
-                packageId = id;
+            // Set package price and ID for calculation & order
+            packagePrice = parseFloat(price);
+            packageId = id;
 
-                // Reset quantity and total price
-                document.getElementById('travelerQuantity').value = 1;
-                updateTotalPrice();
+            // Reset quantity and total price
+            document.getElementById('travelerQuantity').value = 1;
+            updateTotalPrice();
 
-                document.getElementById('tourPopup').style.display = 'flex';
+            document.getElementById('tourPopup').style.display = 'flex';
 
-                // Update Order link
-                document.getElementById('popupOrderBtn').href = `/order/${id}?quantity=1`;
-            }
+            // Update Order link
+            document.getElementById('popupOrderBtn').href = `/order/${id}?quantity=1`;
+        }
 
-            function updateTotalPrice() {
-                const qty = parseInt(document.getElementById('travelerQuantity').value) || 1;
-                const total = (packagePrice * qty).toFixed(2);
-                document.getElementById('totalPrice').textContent = total;
+        function updateTotalPrice() {
+            const qty = parseInt(document.getElementById('travelerQuantity').value) || 1;
+            const total = (packagePrice * qty).toFixed(2);
+            document.getElementById('totalPrice').textContent = total;
 
-                // Update order link with selected quantity
-                document.getElementById('popupOrderBtn').href = `/order/${packageId}?quantity=${qty}`;
-            }
+            // Update order link with selected quantity
+            document.getElementById('popupOrderBtn').href = `/order/${packageId}?quantity=${qty}`;
+        }
 
-            function closePopup() {
-                document.getElementById('tourPopup').style.display = 'none';
-            }
-            function openRoomPopup(title, description, price, imageUrl) {
-                document.getElementById('roomPopupTitle').textContent = title;
-                document.getElementById('roomPopupDetails').textContent = description;
-                document.getElementById('roomPopupPrice').textContent = `Price: $${price}`;
-                document.getElementById('roomPopupImage').src = imageUrl;
-                document.getElementById('roomPopup').style.display = 'flex';
-                document.getElementById('popupOrderBtn').href = `/order/${packageId}`;
-            }
+        function closePopup() {
+            document.getElementById('tourPopup').style.display = 'none';
+        }
+        function openRoomPopup(title, description, price, imageUrl) {
+            document.getElementById('roomPopupTitle').textContent = title;
+            document.getElementById('roomPopupDetails').textContent = description;
+            document.getElementById('roomPopupPrice').textContent = `Price: $${price}`;
+            document.getElementById('roomPopupImage').src = imageUrl;
+            document.getElementById('roomPopup').style.display = 'flex';
+            document.getElementById('popupOrderBtn').href = `/order/${packageId}`;
+        }
 
-            function closeRoomPopup() {
-                document.getElementById('roomPopup').style.display = 'none';
-            }
-            function showTab(tab, event) {
-                document.getElementById('flight').style.display = (tab === 'flight') ? 'flex' : 'none';
-                document.getElementById('bus').style.display = (tab === 'bus') ? 'flex' : 'none';
-                document.getElementById('tour').style.display = (tab === 'tour') ? 'block' : 'none';
-                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                event.target.classList.add('active');
-            }
+        function closeRoomPopup() {
+            document.getElementById('roomPopup').style.display = 'none';
+        }
+        function showTab(tab, event) {
+            document.getElementById('flight').style.display = (tab === 'flight') ? 'flex' : 'none';
+            document.getElementById('bus').style.display = (tab === 'bus') ? 'flex' : 'none';
+            document.getElementById('tour').style.display = (tab === 'tour') ? 'block' : 'none';
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
 
-            // Show full tour popup
-            function showFullTourForm() {
-                document.getElementById('fullTourPopup').style.display = 'flex';
-            }
-            function closeFullTourForm() {
-                document.getElementById('fullTourPopup').style.display = 'none';
-            }
-        </script>
-    @endpush
+        // Show full tour popup
+        function showFullTourForm() {
+            document.getElementById('fullTourPopup').style.display = 'flex';
+        }
+        function closeFullTourForm() {
+            document.getElementById('fullTourPopup').style.display = 'none';
+        }
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Thank you!',
+                text: '{{ session('success') }}',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops!',
+                text: '{{ session('error') }}',
+            });
+        @endif
+    </script>
+@endpush

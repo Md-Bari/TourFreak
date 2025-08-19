@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
-   <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 
     @stack('style')
 </head>
@@ -26,9 +26,13 @@
     <a href="{{ route('admin.rooms.add') }}" class="{{ request()->routeIs('admin.rooms.add') ? 'active' : '' }}">
         <i class="bi bi-door-closed-fill me-2"></i>Rooms
     </a>
+    <a href="{{ route('admin.buses.index') }}" class="{{ request()->routeIs('admin.buses.index') ? 'active' : '' }}">
+        <i class="bi bi-bus-front-fill me-2"></i>Buses
+    </a>
     <a href="#" class="">
         <i class="bi bi-check-circle-fill me-2"></i>Available
     </a>
+
     <form action="{{ route('logout') }}" method="POST" class="mt-3 text-center">
         @csrf
         <button class="btn btn-sm btn-outline-light">Logout</button>

@@ -536,7 +536,60 @@ button:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
+/* Review Cards */
+        .review-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+        }
 
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Horizontal Scroll Styling */
+        .reviews-scroll {
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: thin;
+        }
+
+        .reviews-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .reviews-scroll::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .reviews-scroll::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+         .review-card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+    }
+    .review-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    }
+
+    .reviews-scroll {
+        overflow-x: auto;
+        overflow-y: hidden;
+        display: flex;
+        scrollbar-width: thin;
+        padding-bottom: 10px;
+    }
+    .reviews-scroll::-webkit-scrollbar {
+        height: 8px;
+    }
+    .reviews-scroll::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+    .reviews-scroll::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
 /* =================== Keyframes =================== */
 @keyframes fadeIn {
     from {opacity:0;}

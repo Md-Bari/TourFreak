@@ -21,6 +21,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\BusAdminController;
 
 // Homepage showing rooms and tours
 Route::get('/', [RoomController::class, 'welcome'])->name('home');
@@ -60,7 +61,7 @@ Route::post('/booking', [BookingController::class, 'store'])->name('booking.stor
 // Authenticated routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    
+
     // Messages routes
     Route::get('/messages', [MessageController::class, 'index'])->name('messages');
     Route::get('/messages/{senderId}', [MessageController::class, 'getConversation'])->name('messages.conversation');
@@ -70,7 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::get('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [UserController::class, 'update'])->name('profile.update');
-    
+
     Route::put('/profile/update', [UserController::class, 'update'])->name('profile.update');
     // Order routes
     Route::get('/order/{id}', [OrderController::class, 'showOrderForm'])->name('order.page');
@@ -124,6 +125,7 @@ Route::post('/review', [TourPackageController::class, 'storeReview'])->name('rev
 Route::get('/search-flight', [FlightController::class, 'search'])->name('flight.search');
 Route::get('/bus-search', [BusController::class, 'search'])->name('bus.search');
 Route::get('/tour/search', [TourSearchController::class, 'search'])->name('tour.search');
+Route::delete('/bus/cancel/{id}', [BusController::class, 'cancel'])->name('bus.cancel');
 
 // Contact form
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
@@ -140,3 +142,15 @@ Route::post('/success', [SslCommerzPaymentController::class, 'success']);
 Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
 Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
 Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn'])->name('ipn');
+
+//bus search
+Route::get('/bus/seat-selection', [BusController::class, 'seatSelection'])->name('bus.seatSelection');
+Route::post('/bus/book-seats', [BusController::class, 'bookSeats'])->name('bus.bookSeats');
+Route::post('/bus/toggle-seat', [BusController::class, 'toggleSeat'])->name('bus.toggleSeat');
+Route::get('/bus/search', [BusController::class, 'search'])->name('bus.search');
+Route::prefix('admin')->group(function () {
+    Route::get('/buses', [BusAdminController::class, 'index'])->name('admin.buses.index');
+    Route::post('/buses', [BusAdminController::class, 'store'])->name('admin.buses.store');
+
+});
+Route::post('/bus/payment', [BusController::class, 'payment'])->name('bus.payment');
