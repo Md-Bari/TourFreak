@@ -11,129 +11,107 @@
 
 @section('content')
 
-    <section class="hero">
-        <div class="booking-container">
-            <div class="tab-buttons">
-                <button class="tab-btn active" onclick="showTab('tour',event)">🏞️ Tour</button>
-                <button class="tab-btn" onclick="showTab('flight', event)">✈️ Flight</button>
-                <button class="tab-btn" onclick="showTab('bus', event)">🚌 Bus</button>
-            </div>
+   <section class="hero">
+  <div class="booking-container">
+    <!-- TAB BUTTONS -->
+    <div class="tab-buttons">
+      <button class="tab-btn active" onclick="showTab('tour',event)">🏞️ Tour</button>
 
-            <!-- =================== Tour Search =================== -->
-            <div id="tour" class="tab-content">
-                <div class="tour-search-card">
-                    <form action="{{ route('tour.search') }}" method="GET" class="tour-form">
-                        <h3>Quick Tour Search</h3>
-
-                        <div class="form-group">
-                            <label>Tour Location</label>
-                            <select name="class" class="form-control" required>
-                                <option value="">-- Select Tour Class --</option>
-                                <option value="mountain">Mountain</option>
-                                <option value="sea">Sea</option>
-                                <option value="normal">Normal</option>
-                            </select>
-                        </div>
-
-                        <button type="button" class="btn btn-secondary w-100" onclick="showFullTourForm()">
-                            Want a more specific tour plan?
-                        </button>
-                        <button type="submit" class="btn btn-primary w-100 mt-2">Quick Search</button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- =================== Flight Search =================== -->
-            <div id="flight" class="tab-content" style="display:none;">
-                <div class="flight-search-card">
-                    <form action="{{ route('flight.search') }}" method="GET">
-                        <h3>Quick Flight Search</h3>
-                        <input type="text" name="from" class="form-control mb-2" placeholder="From" required>
-                        <input type="text" name="to" class="form-control mb-2" placeholder="To" required>
-                        <input type="date" name="date" class="form-control mb-2" required>
-                        <button type="submit" class="btn btn-primary w-100">Search Flight</button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- =================== Bus Search =================== -->
-            <div id="bus" class="tab-content" style="display:none;">
-                <div class="bus-search-card">
-                    <form action="{{ route('bus.search') }}" method="GET">
-                        <h3>Quick Bus Search</h3>
-                        <input type="text" name="start" class="form-control mb-2" placeholder="Start Location" required>
-                        <input type="text" name="end" class="form-control mb-2" placeholder="Destination" required>
-                        <input type="date" name="date" class="form-control mb-2" required>
-                        <button type="submit" class="btn btn-primary w-100">Search Bus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <script>
-        function showTab(tab, event) {
-            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
-            document.getElementById(tab).style.display = 'block';
-
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-    </script>
-
-
-    <!-- =================== Full Tour Form Popup =================== -->
-    <div id="fullTourPopup" class="popup-overlay" style="display:none;">
-        <div class="popup-content">
-            <span class="close-btn" onclick="closeFullTourForm()">×</span>
-            <h3>Specific Tour Plan</h3>
-            <form action="{{ route('tour.search') }}" method="GET" class="tour-form-popup">
-                @csrf
-                <!-- Location -->
-                <div class="form-group">
-                    <label>Tour Location</label>
-                    <select name="class" class="form-control" required>
-                        <option value="">-- Select Tour Class --</option>
-                        <option value="mountain">Mountain</option>
-                        <option value="sea">Sea</option>
-                        <option value="normal">Normal</option>
-                    </select>
-                </div>
-
-                <!-- Number of Days -->
-                <div class="form-group">
-                    <label>Number of Days</label>
-                    <input type="number" name="days" class="form-control" min="1" placeholder="How many days?" required>
-                </div>
-
-                <!-- Number of Travelers -->
-                <div class="form-group">
-                    <label>Number of Travelers</label>
-                    <input type="number" name="travelers" class="form-control" min="1" value="1" required>
-                </div>
-
-                <!-- Preferences -->
-                <div class="form-group">
-                    <label>Preferences</label>
-                    <select name="preference" class="form-control">
-                        <option value="">-- Any Preference --</option>
-                        <option value="adventure">Adventure</option>
-                        <option value="relax">Relaxation</option>
-                        <option value="culture">Culture</option>
-                    </select>
-                </div>
-
-                <!-- Budget (highest range only) -->
-                <div class="form-group">
-                    <label>Maximum Budget ($)</label>
-                    <input type="number" name="budget_max" class="form-control" placeholder="Enter highest budget only"
-                        required>
-                </div>
-
-                <button type="submit" class="btn btn-primary w-100 mt-2">Search Tours</button>
-            </form>
-        </div>
+      <button class="tab-btn" onclick="showTab('bus', event)">🚌 Bus</button>
     </div>
+
+    <!-- =================== Tour Search =================== -->
+    <div id="tour" class="tab-content">
+      <div class="form-card">
+        <h3>Quick Tour Search</h3>
+        <form action="{{ route('tour.search') }}" method="GET">
+          <div class="form-group">
+            <label>Tour Location</label>
+            <select name="class" class="form-control" required>
+              <option value="">-- Select Tour Class --</option>
+              <option value="mountain">Mountain</option>
+              <option value="sea">Sea</option>
+              <option value="normal">Normal</option>
+            </select>
+          </div>
+          <button type="button" class="btn-secondary w-100" onclick="showFullTourForm()">
+            More specific tour plan?
+          </button>
+          <button type="submit" class="btn-primary w-100 mt-2">Quick Search</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- =================== Flight Search =================== -->
+    <div id="flight" class="tab-content" style="display:none;">
+      <div class="form-card">
+        <h3>Quick Flight Search</h3>
+        <form action="{{ route('flight.search') }}" method="GET">
+          <input type="text" name="from" class="form-control" placeholder="From" required>
+          <input type="text" name="to" class="form-control" placeholder="To" required>
+          <input type="date" name="date" class="form-control" required>
+          <button type="submit" class="btn-primary w-100">Search Flight</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- =================== Bus Search =================== -->
+    <div id="bus" class="tab-content" style="display:none;">
+      <div class="form-card">
+        <h3>Quick Bus Search</h3>
+        <form action="{{ route('bus.search') }}" method="GET">
+          <input type="text" name="start" class="form-control" placeholder="Start Location" required>
+          <input type="text" name="end" class="form-control" placeholder="Destination" required>
+          <input type="date" name="date" class="form-control" required>
+          <button type="submit" class="btn-primary w-100">Search Bus</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Full Tour Form Popup -->
+<div id="fullTourPopup" class="popup-overlay">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closeFullTourForm()">×</span>
+    <h3>Specific Tour Plan</h3>
+    <form action="{{ route('tour.search') }}" method="GET">
+      @csrf
+      <div class="form-group">
+        <label>Tour Location</label>
+        <select name="class" class="form-control" required>
+          <option value="">-- Select Tour Class --</option>
+          <option value="mountain">Mountain</option>
+          <option value="sea">Sea</option>
+          <option value="normal">Normal</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Number of Days</label>
+        <input type="number" name="days" class="form-control" min="1" required>
+      </div>
+      <div class="form-group">
+        <label>Number of Travelers</label>
+        <input type="number" name="travelers" class="form-control" min="1" value="1" required>
+      </div>
+      <div class="form-group">
+        <label>Preferences</label>
+        <select name="preference" class="form-control">
+          <option value="">-- Any Preference --</option>
+          <option value="adventure">Adventure</option>
+          <option value="relax">Relaxation</option>
+          <option value="culture">Culture</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Maximum Budget ($)</label>
+        <input type="number" name="budget_max" class="form-control" required>
+      </div>
+      <button type="submit" class="btn-primary w-100 mt-2">Search Tours</button>
+    </form>
+  </div>
+</div>
+
     <div class="Upper-package">
         <h1> Packages Around Bangladesh</h1>
     </div>
