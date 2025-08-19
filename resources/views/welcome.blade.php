@@ -161,15 +161,16 @@
                             <span>${{ number_format($package->price, 2) }}</span>
                         </p>
 
-                        <button onclick="openPopup(
-                                                                                                                    '{{ addslashes($package->title) }}',
-                                                                                                                    '{{ addslashes($package->description) }}',
-                                                                                                                    '{{ number_format($package->price, 2) }}',
-                                                                                                                    '{{ asset(str_replace('\\', '/', ('assets/images/' . $package->image))) }}',
-                                                                                                                    '{{ $package->duration_day }}',
-                                                                                                                    '{{ $package->duration_night }}',
-                                                                                                                    '{{ $package->id }}'
-                                                                                                                )">
+                        <button
+                            onclick="openPopup(
+                                                                                                                                    '{{ addslashes($package->title) }}',
+                                                                                                                                    '{{ addslashes($package->description) }}',
+                                                                                                                                    '{{ number_format($package->price, 2) }}',
+                                                                                                                                    '{{ asset(str_replace('\\', '/', ('assets/images/' . $package->image))) }}',
+                                                                                                                                    '{{ $package->duration_day }}',
+                                                                                                                                    '{{ $package->duration_night }}',
+                                                                                                                                    '{{ $package->id }}'
+                                                                                                                                )">
                             Tour Details ➤
                         </button>
 
@@ -250,95 +251,94 @@
         <h1> Customer Reviews</h1>
     </div>
 
-    <section class="container py-4">
-        <h2 class="text-center mb-5 fw-bold text-success">Customer Reviews</h2>
+<section class="container py-4">
+    <h2 class="text-center mb-5 fw-bold text-success">Customer Reviews</h2>
 
-        {{-- ===== Reviews per Package (side by side scroll) ===== --}}
-        @foreach ($packages as $package)
-            @if ($package->reviews->count())
-                <div class="mb-5">
-                    <h3 class="mb-3 text-primary fw-bold">{{ $package->title }}</h3>
-
-                    <div class="reviews-scroll d-flex flex-nowrap gap-3 pb-3">
-                        @foreach ($package->reviews as $review)
-                            <div class="card shadow-sm review-card animate__animated animate__fadeInUp"
-                                style="border-radius: 15px; min-width: 280px; max-width: 320px; flex: 0 0 auto;">
-                                <div class="card-body">
-                                    <h5 class="card-title d-flex justify-content-between align-items-center">
-                                        <span>{{ $review->user->name ?? 'Guest' }}</span>
-                                        <span class="text-warning">
-                                            {!! str_repeat('★', $review->rating) !!}
-                                            {!! str_repeat('☆', 5 - $review->rating) !!}
-                                        </span>
-                                    </h5>
-                                    <p class="card-text text-muted">{{ $review->comment }}</p>
-                                    <small class="text-secondary">📅 {{ $review->created_at->format('d M, Y') }}</small>
-                                </div>
+    {{-- ===== Reviews per Package (side by side scroll) ===== --}}
+    @foreach ($packages as $package)
+        @if ($package->reviews->count())
+            <div class="mb-5">
+                <h3 class="mb-3 text-primary fw-bold">{{ $package->title }}</h3>
+                <div class="review-container">
+                    @foreach ($package->reviews as $review)
+                        <div class="card shadow-sm review-card animate__animated animate__fadeInUp">
+                            <div class="card-body">
+                                <h5 class="card-title d-flex justify-content-between align-items-center">
+                                    <span>{{ $review->user->name ?? 'Guest' }}</span>
+                                    <span class="text-warning">
+                                        {!! str_repeat('★', $review->rating) !!}
+                                        {!! str_repeat('☆', 5 - $review->rating) !!}
+                                    </span>
+                                </h5>
+                                <p class="card-text text-muted">{{ $review->comment }}</p>
+                                <small class="text-secondary">📅 {{ $review->created_at->format('d M, Y') }}</small>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @endforeach
                 </div>
-            @endif
-        @endforeach
-
-        {{-- ===== Review Button (Popup Trigger) ===== --}}
-        @auth
-            <div class="text-center mt-5">
-                <button class="btn btn-lg btn-success px-4 py-2 shadow-lg animate__animated animate__pulse animate__infinite"
-                    data-bs-toggle="modal" data-bs-target="#reviewModal">
-                    ✍️ Give Your Review
-                </button>
             </div>
-        @else
-            <p class="text-center mt-4">Please <a href="{{ route('login') }}">login</a> to write a review.</p>
-        @endauth
-    </section>
+        @endif
+    @endforeach
+
+    {{-- ===== Review Button (Popup Trigger) ===== --}}
+    @auth
+        <div class="text-center mt-5">
+            <button class="btn btn-lg btn-success px-4 py-2 shadow-lg animate__animated animate__pulse animate__infinite"
+                data-bs-toggle="modal" data-bs-target="#reviewModal">
+                ✍️ Give Your Review
+            </button>
+        </div>
+    @else
+        <p class="text-center mt-4">Please <a href="{{ route('login') }}">login</a> to write a review.</p>
+    @endauth
+</section>
 
 
-    {{-- ===== Bootstrap Modal for Review Form ===== --}}
-    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content shadow-lg" style="border-radius: 15px;">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="reviewModalLabel">Write a Review</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <form method="POST" action="{{ route('review.submit') }}">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="package_id" class="form-label">Select Tour Package</label>
-                            <select name="package_id" id="package_id" class="form-select" required>
-                                <option value="">-- Choose Package --</option>
-                                @foreach ($packages as $package)
-                                    <option value="{{ $package->id }}">{{ $package->title }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+{{-- ===== Bootstrap Modal for Review Form ===== --}}
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg" style="border-radius: 15px;">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="reviewModalLabel">Write a Review</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form method="POST" action="{{ route('review.submit') }}">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="package_id" class="form-label">Select Tour Package</label>
+                        <select name="package_id" id="package_id" class="form-select" required>
+                            <option value="">-- Choose Package --</option>
+                            @foreach ($packages as $package)
+                                <option value="{{ $package->id }}">{{ $package->title }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="rating" class="form-label">Rating</label>
-                            <select name="rating" id="rating" class="form-select" required>
-                                <option value="">-- Rate --</option>
-                                @for ($i = 5; $i >= 1; $i--)
-                                    <option value="{{ $i }}">{{ $i }} Star{{ $i > 1 ? 's' : '' }}</option>
-                                @endfor
-                            </select>
-                        </div>
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Rating</label>
+                        <select name="rating" id="rating" class="form-select" required>
+                            <option value="">-- Rate --</option>
+                            @for ($i = 5; $i >= 1; $i--)
+                                <option value="{{ $i }}">{{ $i }} Star{{ $i > 1 ? 's' : '' }}</option>
+                            @endfor
+                        </select>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="comment" class="form-label">Comment</label>
-                            <textarea name="comment" id="comment" class="form-control" rows="3" required></textarea>
-                        </div>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Comment</label>
+                        <textarea name="comment" id="comment" class="form-control" rows="3" required></textarea>
+                    </div>
 
-                        <div class="text-end">
-                            <button type="submit" class="btn btn-primary px-4">Submit Review</button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary px-4">Submit Review</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endsection

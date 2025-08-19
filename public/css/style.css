@@ -536,60 +536,60 @@ button:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
-/* Review Cards */
-        .review-card {
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s;
-        }
+/* ===== Review Section (Exactly Like Packages) ===== */
+.review-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 0;
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+}
+.review-container::-webkit-scrollbar {
+    height: 8px;
+}
+.review-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.review-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+.review-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 
-        .review-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
-        }
+.review-card {
+    flex: 0 0 280px;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+.review-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;   /* Horizontal scroll enabled */
+    padding: 10px 0;
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+}
+.review-container::-webkit-scrollbar {
+    height: 8px;
+}
+.review-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.review-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+.review-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 
-        /* Horizontal Scroll Styling */
-        .reviews-scroll {
-            overflow-x: auto;
-            overflow-y: hidden;
-            scrollbar-width: thin;
-        }
-
-        .reviews-scroll::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .reviews-scroll::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 10px;
-        }
-
-        .reviews-scroll::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-         .review-card {
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s;
-    }
-    .review-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 18px rgba(0,0,0,0.15);
-    }
-
-    .reviews-scroll {
-        overflow-x: auto;
-        overflow-y: hidden;
-        display: flex;
-        scrollbar-width: thin;
-        padding-bottom: 10px;
-    }
-    .reviews-scroll::-webkit-scrollbar {
-        height: 8px;
-    }
-    .reviews-scroll::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 10px;
-    }
-    .reviews-scroll::-webkit-scrollbar-thumb:hover {
-        background: #555;
-    }
 /* =================== Keyframes =================== */
 @keyframes fadeIn {
     from {opacity:0;}
