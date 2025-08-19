@@ -23,7 +23,7 @@
        PAGE BACKGROUND
     ============================ */
     body {
-        background: linear-gradient(-45deg, #6a11cb, #2575fc, #ff6a00, #ee0979);
+        background: linear-gradient(-45deg, #6a11cb, #2575fc, #c27df0, #ee0979);
         background-size: 400% 400%;
         animation: gradientMove 12s ease infinite;
         font-family: 'Segoe UI', sans-serif;

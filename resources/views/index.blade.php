@@ -79,7 +79,7 @@
 
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
-        <br><br><a href="{{ route('home') }}"><i class="fas fa-home me-2"></i> Home</a>
+        <a href="{{ route('home') }}"><i class="fas fa-home me-2"></i> Home</a>
         <a href="{{ route('dashboard') }}"><i class="fas fa-home me-2"></i> Dashboard</a>
         <a href="{{ route('profile') }}"><i class="fas fa-user me-2"></i> Profile</a>
         <a href="{{ route('my.bookings') }}"><i class="fas fa-calendar-alt me-2"></i> Bookings</a>
