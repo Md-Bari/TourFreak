@@ -1,620 +1,339 @@
-/* RESET */
+/* ================= RESET ================= */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html,
-body {
-    height: 100%;
-    width: 100%;
-    overflow-x: hidden;
-    font-family: Arial, sans-serif;
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background: #fff;
 }
 
-/* HERO */
+/* ================= HERO ================= */
 .hero {
-    height: 100vh;
-    width: 100%;
-    background-image: url("/assets/images/beach.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
+  height: 100vh;
+  width: 100%;
+  background: url("/assets/images/beach.jpg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  position: relative;
 }
 
-/* Overlay */
 .hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 1;
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 1;
 }
 
-/* Booking Container */
 .booking-container {
-    position: relative;
-    z-index: 2;
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(12px);
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-    text-align: center;
-    transition: transform 0.3s ease;
+  position: relative;
+  z-index: 2;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 0px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  transition: transform 0.3s ease;
+  text-align: center;
 }
+.booking-container:hover { transform: translateY(-3px); }
 
-.booking-container:hover {
-    transform: translateY(-3px);
-}
-
-/* Tab Buttons */
+/* ================= TAB BUTTONS ================= */
 .tab-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
 }
-
 .tab-btn {
-    padding: 10px 22px;
-    border: none;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.3s, transform 0.2s;
-    font-size: 15px;
-    color: #0d6efd;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  color: #0d6efd;
+  background: rgba(255,255,255,0.5);
+  transition: all 0.3s ease;
 }
-
 .tab-btn.active,
 .tab-btn:hover {
-    background: #0d6efd;
-    color: #fff;
-    transform: translateY(-2px);
+  background: #0d6efd;
+  color: #fff;
+  transform: translateY(-2px);
 }
 
-/* Booking Form */
+/* ================= BOOKING FORM ================= */
 .horizontal-booking {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
 }
-
 .horizontal-booking input,
 .horizontal-booking select {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    flex: 1 1 180px;
-    font-size: 15px;
-    transition: border 0.3s, box-shadow 0.3s;
-    background: rgba(255, 255, 255, 0.8);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  flex: 1 1 180px;
+  font-size: 15px;
+  transition: border 0.3s, box-shadow 0.3s;
+  background: rgba(255,255,255,0.9);
 }
-
 .horizontal-booking input:focus,
 .horizontal-booking select:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
-    outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13,110,253,0.2);
+  outline: none;
 }
 
 .radio-group {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #0d6efd;
-    background: rgba(255, 255, 255, 0.6);
-    padding: 8px 12px;
-    border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0d6efd;
+  background: rgba(255,255,255,0.7);
+  padding: 8px 12px;
+  border-radius: 8px;
 }
-
-.radio-group input {
-    accent-color: #0d6efd;
-}
+.radio-group input { accent-color: #0d6efd; }
 
 .search-btn {
-    background: #0d6efd;
-    color: white;
-    padding: 12px 28px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    transition: background 0.3s, transform 0.2s;
+  background: #0d6efd;
+  color: white;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
+}
+.search-btn:hover {
+  background: #084298;
+  transform: translateY(-2px);
+}
+
+/* ================= TOUR PACKAGES ================= */
+.Upper-package {
+  background: linear-gradient(to right, #009688, #4caf50);
+  padding: 40px 0;
+  text-align: center;
+  border-radius: 0 0 20px 20px;
+  margin-top: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.Upper-package h1 {
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
 .tour-packages {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 30px;
-    padding: 40px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 40px;
+}
+.tour-scroll-wrapper {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 40px 40px 40px;
+}
+.tour-scroll-wrapper .tour-packages {
+  flex-wrap: nowrap !important;
+  width: max-content;
 }
 
 .package {
-    width: 320px;
-    border: 1px solid #eee;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s ease;
+  width: 320px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  background: #fff;
 }
-
-.package:hover {
-    transform: translateY(-5px);
-}
-
+.package:hover { transform: translateY(-5px); }
 .package img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 4px solid #f1f1f1;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
 }
-
 .package h2 {
-    font-size: 1.2rem;
-    padding: 10px 15px 5px;
-    margin: 0;
+  font-size: 1.2rem;
+  padding: 10px 15px 5px;
 }
-
-.features {
-    padding: 0 15px;
-    color: #555;
-    font-size: 0.9rem;
-}
-
-.features span {
-    color: #ff7e00;
-}
-
+.features { padding: 0 15px; color: #555; font-size: 0.9rem; }
+.features span { color: #ff7e00; }
 .description {
-    padding: 10px 15px;
-    font-size: 0.9rem;
-    color: #333;
-    line-height: 1.4;
+  padding: 10px 15px;
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.4;
 }
-
 .price {
-    padding: 10px 15px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: #222;
+  padding: 10px 15px;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
+.price span { color: #61c300; font-size: 1.2rem; }
 
-.price span {
-    color: #61c300;
-    font-size: 1.2rem;
-}
-
+/* Package Button */
 button {
-    margin: 10px 15px 20px;
-    padding: 10px 20px;
-    background-color: #fff;
-    border: 2px solid #111;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  margin: 10px 15px 20px;
+  padding: 10px 20px;
+  background: #fff;
+  border: 2px solid #111;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
+button:hover { background: #111; color: #fff; }
 
-button:hover {
-    background-color: #111;
-    color: #fff;
-}
-
-.search-btn:hover {
-    background: #084298;
-    transform: translateY(-2px);
-}
-
-.Upper-package {
-    background: linear-gradient(to right, #009688, #4caf50);
-    padding: 40px 0;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 0 0 20px 20px;
-    margin-top: 10px;
-}
-
-.Upper-package h1 {
-    color: #fff;
-    font-size: 2.5rem;
-    letter-spacing: 1px;
-    margin: 0;
-    font-weight: 600;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.tour-scroll-wrapper {
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 0 40px 40px 40px;
-    scroll-behavior: smooth;
-}
-
-/* Force horizontal flex */
-.tour-scroll-wrapper .tour-packages {
-    flex-wrap: nowrap !important;
-    width: max-content;
-}
-/* Popup Overlay */
+/* ================= POPUP ================= */
 .popup-overlay {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    left: 0; top: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.6);
-    justify-content: center;
-    align-items: center;
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
-
 .popup-content {
-    background: #fff;
-    border-radius: 18px;
-    padding: 2.5rem 2.5rem 2rem 2.5rem;
-    width: 95vw;
-    max-width: 520px;
-    min-width: 350px;
-    min-height: 520px;
-    max-height: 90vh;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
-    position: relative;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(20px);
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  position: relative;
+  transform: scale(0.9);
+  animation: popupScale 0.4s ease forwards;
 }
-
-@keyframes popupIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to   { transform: scale(1); opacity: 1; }
+.popup-content h3 {
+  text-align: center;
+  color: #0d6efd;
+  margin-bottom: 20px;
 }
-
-/* Close Button */
 .close-btn {
-    position: absolute;
-    top: 18px;
-    right: 22px;
-    font-size: 2rem;
-    color: #333;
-    cursor: pointer;
-    transition: color 0.2s;
+  position: absolute;
+  top: 15px; right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
-.close-btn:hover {
-    color: #007bff;
-}
-
-/* Popup Title */
-#popupTitle {
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #0d6efd;
-}
-
-/* Popup Details */
-#popupDetails {
-    font-size: 1.15rem;
-    color: #444;
-    margin-bottom: 2rem;
-    line-height: 1.6;
-}
+.close-btn:hover { transform: rotate(90deg); color: #ff4c4c; }
 
 /* Order Button */
 .order-btn {
-    display: inline-block;
-    background: linear-gradient(90deg, #0d6efd 60%, #00bfae 100%);
-    color: #fff;
-    font-size: 1.15rem;
-    font-weight: 600;
-    padding: 0.8rem 2.5rem;
-    border-radius: 8px;
-    text-decoration: none;
-    box-shadow: 0 2px 12px rgba(13,110,253,0.10);
-    transition: background 0.2s, transform 0.2s;
+  display: inline-block;
+  background: linear-gradient(90deg, #0d6efd 60%, #00bfae 100%);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: transform 0.2s, background 0.3s;
 }
 .order-btn:hover {
-    background: linear-gradient(90deg, #00bfae 0%, #0d6efd 100%);
-    transform: translateY(-2px) scale(1.04);
+  background: linear-gradient(90deg, #00bfae 0%, #0d6efd 100%);
+  transform: translateY(-2px) scale(1.05);
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
+/* ================= REVIEWS ================= */
 .reviews-wrapper {
-    padding: 40px 20px;
-    background: #f8f9fa;
+  padding: 50px 20px;
+  background: #f8f9fa;
 }
-
-/* Vertical stack */
-.reviews-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.reviews-wrapper h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 30px;
 }
+.review-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px 0;
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+.review-container::-webkit-scrollbar { height: 8px; }
+.review-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+.review-container::-webkit-scrollbar-thumb:hover { background: #555; }
 
-/* Review Card Styles */
 .review-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-    padding: 20px;
-    transition: transform 0.3s ease;
+  flex: 0 0 280px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
 .review-card:hover {
-    transform: translateY(-3px);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
-
 .review-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
-
 .review-rating .star {
-    color: #ddd;
-    font-size: 18px;
+  color: #ddd;
+  font-size: 18px;
 }
-
-.review-rating .star.filled {
-    color: #ffc107;
-}
-
+.review-rating .star.filled { color: #ffc107; }
 .review-comment {
-    font-size: 0.95rem;
-    margin-bottom: 10px;
-    color: #333;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  color: #333;
+  line-height: 1.5;
 }
-
 .review-package {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-
 .review-package img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 6px;
+  width: 50px; height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
 }
 
-.review-form-card .form-select,
-.review-form-card textarea {
-    padding: 8px 10px;
-    border-radius: 8px;
-    border: 1px solid #ced4da;
-    font-size: 0.95rem;
-}
-
-.review-form-card .btn {
-    padding: 10px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: background-color 0.3s;
-}
-
-.review-form-card .btn:hover {
-    background-color: #0056b3;
-}
-/* Glassmorphism card */
-    /* =================== Tour Card Animation =================== */
-.tour-search-card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(15px);
-    padding: 30px;
-    border-radius: 20px;
-    max-width: 500px;
-    margin: 20px auto;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
-    animation: slideUp 0.6s ease forwards;
-    opacity: 0;
-}
-
-.tour-search-card:hover {
-    transform: scale(1.05) rotateZ(1deg);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-    background: rgba(255, 255, 255, 0.25);
-}
-
-.tour-search-card h3 {
-    text-align: center;
-    color: #fff;
-    font-weight: 700;
-    margin-bottom: 20px;
-    animation: fadeInText 0.8s ease forwards;
-}
-
-/* =================== Popup Styling with Animation =================== */
-.popup-overlay {
-    position: fixed;
-    top:0; left:0; right:0; bottom:0;
-    background: rgba(0,0,0,0.6);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index: 9999;
-    opacity: 0;
-    animation: fadeIn 0.5s forwards;
-}
-
-.popup-content {
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(20px);
-    padding: 30px;
-    border-radius: 20px;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    position: relative;
-    transform: scale(0.8);
-    animation: popupScale 0.5s ease forwards;
-}
-
-.popup-content h3 {
-    text-align: center;
-    color: #fff;
-    margin-bottom: 20px;
-}
-
-.close-btn {
-    position:absolute;
-    top:15px;
-    right:20px;
-    font-size:24px;
-    font-weight:bold;
-    cursor:pointer;
-    color:#fff;
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.close-btn:hover {
-    transform: rotate(90deg);
-    color: #ff4c4c;
-}
-
-/* =================== Form Animations =================== */
-.tour-form-popup .form-control {
-    border-radius: 10px;
-    border: none;
-    padding: 12px;
-    font-size: 14px;
-    background: rgba(255,255,255,0.3);
-    color: #fff;
-    margin-bottom: 15px;
-    backdrop-filter: blur(10px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.tour-form-popup .form-control:focus {
-    border: 1px solid #6a11cb;
-    box-shadow: 0 0 15px rgba(106,17,203,0.5);
-    background: rgba(255,255,255,0.4);
-    color: #fff;
-    transform: scale(1.03);
-}
-
-/* Buttons hover effect */
-.tour-form-popup .btn-primary {
-    background: linear-gradient(135deg,#6a11cb,#2575fc);
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
-    font-weight: bold;
-    color: #fff;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.tour-form-popup .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-}
-/* ===== Review Section (Exactly Like Packages) ===== */
-.review-container {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    padding: 10px 0;
-    scrollbar-width: thin;
-    scrollbar-color: #888 transparent;
-}
-.review-container::-webkit-scrollbar {
-    height: 8px;
-}
-.review-container::-webkit-scrollbar-track {
-    background: transparent;
-}
-.review-container::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-}
-.review-container::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-.review-card {
-    flex: 0 0 280px;
-    border-radius: 12px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.review-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
-}
-.review-container {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;   /* Horizontal scroll enabled */
-    padding: 10px 0;
-    scrollbar-width: thin;
-    scrollbar-color: #888 transparent;
-}
-.review-container::-webkit-scrollbar {
-    height: 8px;
-}
-.review-container::-webkit-scrollbar-track {
-    background: transparent;
-}
-.review-container::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-}
-.review-container::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-/* =================== Keyframes =================== */
-@keyframes fadeIn {
-    from {opacity:0;}
-    to {opacity:1;}
-}
-
-@keyframes slideUp {
-    from {opacity:0; transform: translateY(30px);}
-    to {opacity:1; transform: translateY(0);}
-}
-
-@keyframes fadeInText {
-    from {opacity:0; transform: translateY(10px);}
-    to {opacity:1; transform: translateY(0);}
-}
-
+/* ================= ANIMATIONS ================= */
 @keyframes popupScale {
-    from {transform: scale(0.8); opacity:0;}
-    to {transform: scale(1); opacity:1;}
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
-/* Responsive */
+/* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
-    .horizontal-booking {
-        flex-direction: column;
-        align-items: stretch;
-    }
+  .horizontal-booking { flex-direction: column; align-items: stretch; }
+  .tour-packages { flex-direction: column; align-items: center; }
+  .review-container { flex-direction: column; overflow-x: hidden; }
 }
