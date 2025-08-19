@@ -56,7 +56,7 @@
     <h2 class="mb-4">Meet the Team Members</h2>
     <div class="team">
         <div class="team-member">
-            <img src="{{ asset('images/gh-img.jpg') }}" alt="Team Member 1">
+            <img src="{{ asset('images/ck-img.jpg/') }}" alt="Team Member 1">
             <h5>Abir Hassan</h5>
             <p></p>
         </div>
@@ -66,7 +66,7 @@
             <p></p>
         </div>
         <div class="team-member">
-            <img src="{{ asset('images/bj-ing.jpg') }}" alt="Team Member 3">
+            <img src="{{ asset('images/hl-img.jpg') }}" alt="Team Member 3">
             <h5>Jannatul Ferdaus</h5>
             <p></p>
         </div>
