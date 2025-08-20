@@ -133,7 +133,7 @@
         <h2 id="roomPopupTitle">Room Title</h2>
         <p id="roomPopupDetails">Room details will appear here.</p>
         <p id="roomPopupPrice" style="font-weight:600;color:#0d6efd;margin-bottom:10px;"></p>
-        <a href="#" id="roomPopupOrderBtn" class="btn btn-success w-100">Book Now</a>
+        <a href="show" id="roomPopupOrderBtn" class="btn btn-success w-100">Book Now</a>
     </div>
 </div>
 @endsection
@@ -154,4 +154,4 @@ function closeRoomPopup() {
 }
 </script>
 @endpush
-w
+

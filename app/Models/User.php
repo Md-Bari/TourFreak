@@ -19,26 +19,19 @@ class User extends Authenticatable
         'email_notifications',
         'booking_notifications',
         'promotional_notifications',
+        'otp_code',
+        'otp_expires_at',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     */
     protected $hidden = [
         'password',
         'remember_token',
+        'otp_code',
     ];
 
-    /**
-     * The attributes that should be cast.
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed', // Laravel 10+ feature to auto hash
+        'password' => 'hashed',
+        'otp_expires_at' => 'datetime',
     ];
-
-    public function supportTickets()
-    {
-        return $this->hasMany(SupportTicket::class);
-    }
 }
