@@ -230,13 +230,13 @@
     </div>
 
 <section class="container py-4">
-    <h2 class="text-center mb-5 fw-bold text-success">Customer Reviews</h2>
+
 
     {{-- ===== Reviews per Package (side by side scroll) ===== --}}
     @foreach ($packages as $package)
         @if ($package->reviews->count())
             <div class="mb-5">
-                <h3 class="mb-3 text-primary fw-bold">{{ $package->title }}</h3>
+                
                 <div class="review-container">
                     @foreach ($package->reviews as $review)
                         <div class="card shadow-sm review-card animate__animated animate__fadeInUp">

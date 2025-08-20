@@ -55,12 +55,13 @@
         </div>
     </div>
 
-    <!-- Recent Orders & Charts -->
+    <!-- Recent Bookings & Messages -->
     <div class="row g-3">
+        <!-- Bookings -->
         <div class="col-md-8">
             <div class="chart-container">
                 <h6 class="fw-bold mb-3">Recent Bookings</h6>
-                <table class="table table-sm table-hover align-middle">
+                <table class="table table-sm table-hover align-middle" id="bookingTable">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -72,7 +73,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($recentBookings as $index => $booking)
+                        {{-- Show Top 10 --}}
+                        @foreach($recentBookings as $index => $booking)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $booking->id }}</td>
@@ -85,20 +87,44 @@
                                     </span>
                                 </td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center text-muted">No recent bookings</td>
+                        @endforeach
+
+                        {{-- Hidden Rows (All Bookings after 10) --}}
+                        @foreach($allBookings->skip(10) as $index => $booking)
+                            <tr class="extra-bookings d-none">
+                                <td>{{ $index + 11 }}</td>
+                                <td>{{ $booking->id }}</td>
+                                <td>{{ $booking->package->name ?? 'N/A' }}</td>
+                                <td>{{ $booking->user->name ?? 'N/A' }}</td>
+                                <td>{{ $booking->created_at->format('d-m-Y') }}</td>
+                                <td>
+                                    <span class="badge bg-{{ $booking->status === 'confirmed' ? 'success' : 'warning' }}">
+                                        {{ ucfirst($booking->status) }}
+                                    </span>
+                                </td>
                             </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
+                <button id="toggleBookings" class="btn btn-outline-primary btn-sm">Show All</button>
             </div>
         </div>
 
+        <!-- Messages -->
         <div class="col-md-4">
             <div class="chart-container">
-                <h6 class="fw-bold">Customer Acquisition</h6>
-                <canvas id="customerChart" height="200"></canvas>
+                <h6 class="fw-bold">Customer Messages</h6>
+                <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
+                    @forelse($messages as $msg)
+                        <li class="list-group-item">
+                            <strong>{{ $msg->name }}</strong> <br>
+                            <small class="text-muted">{{ $msg->email }}</small> <br>
+                            <p class="mb-0">{{ Str::limit($msg->message, 100) }}</p>
+                        </li>
+                    @empty
+                        <li class="list-group-item text-muted text-center">No messages yet</li>
+                    @endforelse
+                </ul>
             </div>
         </div>
     </div>
@@ -107,6 +133,7 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    // Mini stat cards sparkline charts
     const smallChart = (id, color) => {
         new Chart(document.getElementById(id), {
             type: 'line',
@@ -131,31 +158,12 @@
     smallChart('bookingChart', '#fff');
     smallChart('userChart', '#fff');
 
-    new Chart(document.getElementById('customerChart'), {
-        type: 'line',
-        data: {
-            labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-            datasets: [
-                {
-                    label: 'Returning',
-                    data: [2, 4, 5, 3, 6, 8, 7],
-                    borderColor: '#0d6efd',
-                    fill: false,
-                    tension: 0.4
-                },
-                {
-                    label: 'First Time',
-                    data: [1, 3, 4, 6, 5, 7, 9],
-                    borderColor: '#dc3545',
-                    fill: false,
-                    tension: 0.4
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: { legend: { position: 'bottom' } }
-        }
+    // Toggle bookings (show more / less)
+    document.getElementById('toggleBookings').addEventListener('click', function () {
+        const extraRows = document.querySelectorAll('.extra-bookings');
+        const isHidden = extraRows[0]?.classList.contains('d-none');
+        extraRows.forEach(row => row.classList.toggle('d-none'));
+        this.textContent = isHidden ? 'Show Less' : 'Show All';
     });
 </script>
 @endpush
