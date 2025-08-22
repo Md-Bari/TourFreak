@@ -3,7 +3,7 @@
                                                                                     TourFreak
 TourFreak is a comprehensive web-based travel and tour management system designed to simplify the process of exploring, booking, and managing travel packages. With the growing demand for seamless and digital travel solutions, TourFreak aims to provide users with a platform where they can easily search, compare, and book tour packages, flights, and other travel-related services.
 The purpose of this project is to create a user-friendly, secure, and scalable web application that connects travelers with service providers, ensuring smooth booking, transparent pricing, and personalized experiences.
-Project Report:https://docs.google.com/document/d/1rpEOFl-rKwYs8KSX4uKL-s9XjFeM15Oe/edit?usp=drive_link&ouid=116269416031849206374&rtpof=true&sd=true
+Project Report:[https://docs.google.com/document/d/1rpEOFl-rKwYs8KSX4uKL-s9XjFeM15Oe/edit?usp=drive_link&ouid=116269416031849206374&rtpof=true&sd=true](https://docs.google.com/document/d/1cYP2ZC3JnGA4Dm0nPyFq-2xYTy-pMn1R/edit?usp=drive_link&ouid=116269416031849206374&rtpof=true&sd=true)
 Presentation Slide:https://docs.google.com/presentation/d/1-am3REmOVv1wVsCqlgkg_2hiOxMEpRCx/edit?usp=drive_link&ouid=116269416031849206374&rtpof=true&sd=true
 
 Project Interface:
