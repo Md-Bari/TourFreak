@@ -1,43 +1,44 @@
 @extends('index')
 
-@push('style')
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-@endpush
+@section('title', 'Support Ticket')
+@section('page_title', 'Ticket Details')
 
 @section('content')
-<div class="main-content" style="margin-left:220px; margin-top:70px; padding:20px;">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Support Ticket #{{ $ticket->ticket_id }}</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="ticket-info mb-4">
-                            <h5 class="ticket-subject">{{ $ticket->subject }}</h5>
-                            <span class="badge bg-{{ $ticket->status === 'open' ? 'success' : 'secondary' }}">
-                                {{ ucfirst($ticket->status) }}
-                            </span>
-                            <p class="text-muted mt-2">
-                                Created: {{ $ticket->created_at->format('M d, Y H:i') }}
-                            </p>
-                        </div>
+<div class="page-shell form-shell">
+    <section class="hero-panel">
+        <div>
+            <span class="eyebrow">Ticket details</span>
+            <h2>Support Ticket #{{ $ticket->ticket_id }}</h2>
+            <p>Review your support request, current status, and the original message you sent.</p>
+        </div>
+    </section>
 
-                        <div class="ticket-message">
-                            <h6>Message:</h6>
-                            <p>{{ $ticket->message }}</p>
-                        </div>
+    <section class="content-card">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Ticket overview</span>
+                <h3>{{ $ticket->subject }}</h3>
+            </div>
+            <span class="status-pill {{ $ticket->status === 'open' ? 'success' : 'warning' }}">
+                {{ ucfirst($ticket->status) }}
+            </span>
+        </div>
 
-                        <hr>
-
-                        <div class="text-end">
-                            <a href="{{ route('support.index') }}" class="btn btn-secondary">Back to Tickets</a>
-                        </div>
-                    </div>
-                </div>
+        <div class="info-list mb-4">
+            <div class="info-row-card">
+                <span class="meta-label">Created At</span>
+                <span class="meta-value">{{ $ticket->created_at->format('M d, Y H:i') }}</span>
             </div>
         </div>
-    </div>
+
+        <div class="info-row-card">
+            <span class="meta-label">Message</span>
+            <p class="mb-0">{{ $ticket->message }}</p>
+        </div>
+
+        <div class="action-row mt-4">
+            <a href="{{ route('support.index') }}" class="btn btn-outline-dark">Back to Tickets</a>
+        </div>
+    </section>
 </div>
 @endsection

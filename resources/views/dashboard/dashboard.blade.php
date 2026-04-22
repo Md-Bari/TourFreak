@@ -1,128 +1,132 @@
 @extends('index')
 
-@push('style')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-    body {
-        background-color: #f4f6f9;
-        font-family: 'Segoe UI', sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    .user-wrapper {
-        display: flex;
-    }
-
-    /* Sidebar */
-    .sidebar {
-        width: 220px;
-        background-color: #2f4050;
-        color: #fff;
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        padding-top: 60px; /* Topbar height fix */
-    }
-
-    .sidebar a {
-        color: #fff;
-        display: block;
-        padding: 12px 20px;
-        text-decoration: none;
-    }
-
-    .sidebar a:hover,
-    .sidebar a.active {
-        background-color: #1ab394;
-    }
-
-    /* Topbar */
-    .topbar {
-        position: fixed;
-        left: 220px;
-        right: 0;
-        top: 0;
-        height: 60px;
-        background-color: #1ab394;
-        display: flex;
-        align-items: center;
-        padding: 0 20px;
-        color: #fff;
-        justify-content: space-between;
-        z-index: 1000;
-    }
-
-    /* Main content */
-    .main-content {
-        margin-left: 220px;
-        margin-top: 70px;
-        padding: 20px;
-        flex-grow: 1;
-    }
-
-    .card {
-        background: #fff;
-        border-radius: 6px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        text-align: center;
-    }
-
-    .badge {
-        padding: 0.35em 0.65em;
-        font-size: 0.75em;
-        font-weight: 700;
-        line-height: 1;
-        color: #fff;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: baseline;
-        border-radius: 50rem;
-    }
-
-    .bg-danger {
-        background-color: #dc3545 !important;
-    }
-</style>
-@endpush
+@section('title', 'User Dashboard')
+@section('page_title', 'Your Dashboard')
 
 @section('content')
-<div class="user-wrapper">
-
-    <div class="topbar">
-        <div>User Dashboard</div>
-        <div><i class="fas fa-user-circle"></i> {{ Auth::user()->name }}</div>
-    </div>
-
-    <div class="main-content">
-        <h2>Welcome, {{ Auth::user()->name }}!</h2>
-
-        <div class="card">
-            <h4><i class="fas fa-calendar-check text-success"></i></h4>
-            <h5>Your Bookings</h5>
-            <p>You have <strong>3 upcoming bookings</strong>.</p>
+<div class="page-shell">
+    <section class="hero-panel">
+        <div>
+            <span class="eyebrow">Account overview</span>
+            <h2>Welcome back, {{ Auth::user()->name }}.</h2>
+            <p>Track your trips, bookings, saved items, and account activity from one simple dashboard built for everyday travelers.</p>
+            <div class="hero-actions mt-4">
+                <a href="{{ route('my.bookings') }}" class="btn btn-dark">View Bookings</a>
+                <a href="{{ route('profile.edit') }}" class="btn btn-outline-dark">Edit Profile</a>
+            </div>
         </div>
-
-        <div class="card">
-            <h4><i class="fas fa-heart text-danger"></i></h4>
-            <h5>Wishlist</h5>
-            <p>You saved <strong>5 tours</strong> in wishlist.</p>
+        <div class="hero-orb">
+            <span class="eyebrow text-white">Member since</span>
+            <strong>{{ Auth::user()->created_at->format('Y') }}</strong>
+            <p class="mb-0 text-white-50">Enjoy cleaner access to travel plans, alerts, and account settings.</p>
         </div>
+    </section>
 
-        <div class="card">
-            <h4><i class="fas fa-bell text-warning"></i></h4>
-            <h5>Notifications</h5>
-            @php
-                $unreadCount = auth()->user()->unreadNotifications()->count();
-            @endphp
-            <p>You have <strong>{{ $unreadCount }} new {{ Str::plural('notification', $unreadCount) }}</strong>.</p>
-            @if($unreadCount > 0)
-                <a href="{{ route('notifications.index') }}" class="btn btn-sm btn-primary mt-2">View Notifications</a>
+    <section class="stats-grid">
+        <article class="stats-card">
+            <div class="stats-icon"><i class="fas fa-suitcase-rolling"></i></div>
+            <h3>{{ $tourBookingsCount }}</h3>
+            <p>Tour package bookings</p>
+        </article>
+        <article class="stats-card">
+            <div class="stats-icon"><i class="fas fa-bed"></i></div>
+            <h3>{{ $roomBookingsCount }}</h3>
+            <p>Room reservations</p>
+        </article>
+        <article class="stats-card">
+            <div class="stats-icon"><i class="fas fa-bus"></i></div>
+            <h3>{{ $busBookingsCount }}</h3>
+            <p>Bus tickets booked</p>
+        </article>
+        <article class="stats-card">
+            <div class="stats-icon"><i class="fas fa-bell"></i></div>
+            <h3>{{ $unreadNotificationsCount }}</h3>
+            <p>Unread notifications</p>
+        </article>
+    </section>
+
+    <section class="content-grid">
+        <div class="content-card">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">Latest activity</span>
+                    <h3>Recent Tour Bookings</h3>
+                </div>
+                <a href="{{ route('my.bookings') }}" class="btn btn-sm btn-outline-dark">See all</a>
+            </div>
+
+            @if($recentBookings->isEmpty())
+                <div class="empty-state">
+                    <i class="fas fa-map"></i>
+                    <h5>No bookings yet</h5>
+                    <p class="muted-text mb-3">When you book a package, your latest trips will appear here.</p>
+                    <a href="{{ route('home') }}" class="btn btn-dark">Start Exploring</a>
+                </div>
+            @else
+                <div class="booking-list">
+                    @foreach($recentBookings as $booking)
+                        <article class="booking-card">
+                            <div class="booking-card-header">
+                                <div>
+                                    <h5 class="mb-1">{{ $booking->package->title ?? 'Travel Package' }}</h5>
+                                    <p class="muted-text mb-0">Booked on {{ $booking->created_at->format('d M, Y') }}</p>
+                                </div>
+                                <span class="status-pill {{ strtolower($booking->status) === 'paid' ? 'success' : 'warning' }}">
+                                    {{ ucfirst($booking->status) }}
+                                </span>
+                            </div>
+                            <div class="booking-meta">
+                                <span>{{ number_format($booking->amount, 2) }} {{ $booking->currency }}</span>
+                                <span>{{ $booking->transaction_id }}</span>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
             @endif
         </div>
-    </div>
+
+        <div class="content-card">
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">Profile snapshot</span>
+                    <h4>Account Details</h4>
+                </div>
+            </div>
+
+            <div class="info-list">
+                <div class="info-row-card">
+                    <span class="meta-label">Full Name</span>
+                    <span class="meta-value">{{ Auth::user()->name }}</span>
+                </div>
+                <div class="info-row-card">
+                    <span class="meta-label">Email</span>
+                    <span class="meta-value">{{ Auth::user()->email }}</span>
+                </div>
+                <div class="info-row-card">
+                    <span class="meta-label">Phone</span>
+                    <span class="meta-value">{{ Auth::user()->phone ?: 'Not provided yet' }}</span>
+                </div>
+            </div>
+
+            @if($recentRooms->isNotEmpty())
+                <div class="section-heading mt-4 mb-3">
+                    <h4>Recent Room Stays</h4>
+                </div>
+                <div class="booking-list">
+                    @foreach($recentRooms as $roomBooking)
+                        <article class="booking-card">
+                            <div class="booking-card-header">
+                                <div>
+                                    <h6 class="mb-1">{{ $roomBooking->room->title ?? 'Room Booking' }}</h6>
+                                    <p class="muted-text mb-0">{{ $roomBooking->check_in }} to {{ $roomBooking->check_out }}</p>
+                                </div>
+                                <span class="status-pill warning">{{ ucfirst($roomBooking->status ?? 'pending') }}</span>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+    </section>
 </div>
 @endsection

@@ -1,106 +1,110 @@
 @extends('index')
 
+@section('title', 'My Bookings')
+@section('page_title', 'My Bookings')
+
 @section('content')
-<div class="main-content" style="margin-left:200px; margin-top:60px; padding:20px; max-width:1000px;">
+<div class="page-shell">
+    <section class="hero-panel">
+        <div>
+            <span class="eyebrow">Travel history</span>
+            <h2>Manage your bookings</h2>
+            <p>Review tour and transport reservations, check statuses, and cancel pending items when needed.</p>
+        </div>
+    </section>
 
-    {{-- Page Title --}}
-    <h2 class="mb-4" style="font-size:28px; font-weight:700; color:#222; text-align:center;">
-        📑 My Bookings
-    </h2>
-
-    {{-- ✅ Tour Bookings --}}
-    <h3 style="margin-bottom:20px; font-size:22px; font-weight:700; color:#007bff;">🌍 Tour Packages</h3>
-
-    @forelse($orders as $order)
-        <div style="background:#fff; padding:25px; border-radius:16px; box-shadow:0 6px 16px rgba(0,0,0,0.08); margin-bottom:30px;">
-
-            {{-- Title + Status --}}
-            <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;">
-                <h3 style="color:#007bff; font-size:20px; font-weight:700;">
-                    {{ $order->package->title ?? 'Unknown Package' }}
-                </h3>
-                <span style="padding:8px 16px; border-radius:20px; font-weight:600;
-                    background: {{ $order->status == 'Paid' ? '#d4edda' : '#f8d7da' }};
-                    color: {{ $order->status == 'Paid' ? '#155724' : '#721c24' }};">
-                    {{ ucfirst($order->status) }}
-                </span>
+    <section class="content-card">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Tour packages</span>
+                <h3>Booked Tours</h3>
             </div>
-
-            {{-- Info --}}
-            <p style="margin:8px 0;"><strong>💰 Amount:</strong> {{ number_format($order->amount, 2) }} {{ $order->currency }}</p>
-            <p style="margin:8px 0;"><strong>📅 Date:</strong> {{ $order->created_at->format('d M, Y') }}</p>
-
-            {{-- Cancel Button --}}
-            @if($order->status != 'Paid')
-                <form action="{{ route('orders.cancel', $order->id) }}" method="POST" class="cancel-form">
-                    @csrf
-                    @method('DELETE')
-                    <button type="button"
-                            class="cancel-btn"
-                            data-type="order"
-                            style="background:#dc3545; color:#fff; font-weight:600; border:none; padding:10px 18px; border-radius:8px; cursor:pointer;">
-                        ❌ Cancel Booking
-                    </button>
-                </form>
-            @endif
         </div>
-    @empty
-        <div style="padding:20px; background:#f8d7da; color:#721c24; border-radius:10px; text-align:center; font-size:16px;">
-            No tour bookings found.
+
+        @forelse($orders as $order)
+            <article class="booking-card">
+                <div class="booking-card-header">
+                    <div>
+                        <h5 class="mb-1">{{ $order->package->title ?? 'Unknown Package' }}</h5>
+                        <p class="muted-text mb-0">Booked on {{ $order->created_at->format('d M, Y') }}</p>
+                    </div>
+                    <span class="status-pill {{ strtolower($order->status) === 'paid' ? 'success' : 'warning' }}">
+                        {{ ucfirst($order->status) }}
+                    </span>
+                </div>
+
+                <div class="booking-meta">
+                    <span>Amount: {{ number_format($order->amount, 2) }} {{ $order->currency }}</span>
+                    <span>{{ $order->transaction_id }}</span>
+                </div>
+
+                @if($order->status != 'Paid')
+                    <form action="{{ route('orders.cancel', $order->id) }}" method="POST" class="cancel-form mt-3">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-outline-danger cancel-btn" data-type="order">
+                            Cancel Booking
+                        </button>
+                    </form>
+                @endif
+            </article>
+        @empty
+            <div class="empty-state">
+                <i class="fas fa-suitcase"></i>
+                <h5>No tour bookings found</h5>
+                <p class="muted-text mb-0">Your booked packages will appear here.</p>
+            </div>
+        @endforelse
+    </section>
+
+    <section class="content-card">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Bus trips</span>
+                <h3>Booked Tickets</h3>
+            </div>
         </div>
-    @endforelse
 
+        @forelse($busBookings as $bus)
+            <article class="booking-card">
+                <div class="booking-card-header">
+                    <div>
+                        <h5 class="mb-1">{{ $bus->start_location }} to {{ $bus->end_location }}</h5>
+                        <p class="muted-text mb-0">{{ $bus->journey_date }} at {{ $bus->journey_time }}</p>
+                    </div>
+                    <span class="status-pill {{ strtolower($bus->status) === 'booked' || strtolower($bus->status) === 'paid' ? 'success' : 'warning' }}">
+                        {{ ucfirst($bus->status) }}
+                    </span>
+                </div>
 
-    {{-- ✅ Bus Ticket Bookings --}}
-    <h3 style="margin:40px 0 20px; font-size:22px; font-weight:700; color:#007bff;">🚌 Bus Tickets</h3>
+                <div class="booking-meta">
+                    <span>Seat: {{ $bus->seat_number }}</span>
+                    <span>User ID: {{ $bus->user_id }}</span>
+                </div>
 
-    @forelse($busBookings as $bus)
-        <div style="background:#fff; padding:25px; border-radius:16px; box-shadow:0 6px 16px rgba(0,0,0,0.08); margin-bottom:30px;">
-
-            {{-- Title --}}
-            <h3 style="color:#28a745; font-size:20px; font-weight:700; margin-bottom:10px;">
-                {{ $bus->start_location }} → {{ $bus->end_location }}
-            </h3>
-
-            {{-- Info --}}
-            <p><strong>📅 Journey Date:</strong> {{ $bus->journey_date }}</p>
-            <p><strong>⏰ Time:</strong> {{ $bus->journey_time }}</p>
-            <p><strong>💺 Seat:</strong> {{ $bus->seat_number }}</p>
-            <p><strong>Status:</strong>
-                <span style="padding:4px 10px; border-radius:10px; font-weight:600;
-                    background: {{ $bus->status == 'booked' ? '#d4edda' : '#f8d7da' }};
-                    color: {{ $bus->status == 'booked' ? '#155724' : '#721c24' }};">
-                    {{ ucfirst($bus->status) }}
-                </span>
-            </p>
-
-            {{-- Cancel Button (only if not paid) --}}
-            @if($bus->status != 'paid')
-                <form action="{{ route('bus.cancel', $bus->id) }}" method="POST" class="cancel-form">
-                    @csrf
-                    @method('DELETE')
-                    <button type="button"
-                            class="cancel-btn"
-                            data-type="bus"
-                            style="background:#dc3545; color:#fff; font-weight:600; border:none; padding:10px 18px; border-radius:8px; cursor:pointer;">
-                        ❌ Cancel Ticket
-                    </button>
-                </form>
-            @endif
-        </div>
-    @empty
-        <div style="padding:20px; background:#f8d7da; color:#721c24; border-radius:10px; text-align:center; font-size:16px;">
-            No bus tickets found.
-        </div>
-    @endforelse
-
+                @if($bus->status != 'paid')
+                    <form action="{{ route('bus.cancel', $bus->id) }}" method="POST" class="cancel-form mt-3">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-outline-danger cancel-btn" data-type="bus">
+                            Cancel Ticket
+                        </button>
+                    </form>
+                @endif
+            </article>
+        @empty
+            <div class="empty-state">
+                <i class="fas fa-bus"></i>
+                <h5>No bus tickets found</h5>
+                <p class="muted-text mb-0">Your bus reservations will appear here.</p>
+            </div>
+        @endforelse
+    </section>
 </div>
 
-{{-- ================= SweetAlert2 ================= --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    // Confirmation before cancellation
     document.querySelectorAll(".cancel-btn").forEach(button => {
         button.addEventListener("click", function () {
             let form = this.closest("form");
@@ -122,7 +126,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Show success or error messages (from session)
     @if(session('success'))
         Swal.fire({
             icon: "success",

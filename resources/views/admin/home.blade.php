@@ -8,14 +8,23 @@
 @endpush
 
 @section('content')
-<div class="container-fluid mt-4">
-    <h4 class="mb-4 fw-bold text-primary">Admin Dashboard</h4>
+<div class="dashboard-page">
+    <div class="dashboard-hero">
+        <div>
+            <span class="eyebrow">Admin overview</span>
+            <h1>Dashboard</h1>
+            <p>Track packages, rooms, buses, bookings, and customer activity from one clean workspace.</p>
+        </div>
+        <div class="hero-badge">
+            <i class="fas fa-chart-line"></i>
+            <span>Live summary</span>
+        </div>
+    </div>
 
-    <!-- Top Stat Cards -->
     <div class="row g-3 mb-4">
         <div class="col-md-3">
             <div class="dashboard-card card-blue">
-                <i class="fas fa-boxes"></i>
+                <div class="card-icon"><i class="fas fa-boxes"></i></div>
                 <div class="card-title">Total Packages</div>
                 <div class="card-value">{{ $totalPackages }}</div>
                 <canvas id="packageChart" height="60"></canvas>
@@ -23,7 +32,7 @@
         </div>
         <div class="col-md-3">
             <div class="dashboard-card card-green">
-                <i class="fas fa-bed"></i>
+                <div class="card-icon"><i class="fas fa-bed"></i></div>
                 <div class="card-title">Total Rooms</div>
                 <div class="card-value">{{ $totalRooms }}</div>
                 <canvas id="roomChart" height="60"></canvas>
@@ -31,7 +40,7 @@
         </div>
         <div class="col-md-3">
             <div class="dashboard-card card-purple">
-                <i class="fas fa-bus"></i>
+                <div class="card-icon"><i class="fas fa-bus"></i></div>
                 <div class="card-title">Total Buses</div>
                 <div class="card-value">{{ $totalBuses }}</div>
                 <canvas id="busChart" height="60"></canvas>
@@ -39,7 +48,7 @@
         </div>
         <div class="col-md-3">
             <div class="dashboard-card card-yellow">
-                <i class="fas fa-calendar-check"></i>
+                <div class="card-icon"><i class="fas fa-calendar-check"></i></div>
                 <div class="card-title">Total Bookings</div>
                 <div class="card-value">{{ $totalBookings }}</div>
                 <canvas id="bookingChart" height="60"></canvas>
@@ -47,7 +56,7 @@
         </div>
         <div class="col-md-3">
             <div class="dashboard-card card-red">
-                <i class="fas fa-users"></i>
+                <div class="card-icon"><i class="fas fa-users"></i></div>
                 <div class="card-title">User Accounts</div>
                 <div class="card-value">{{ $totalUsers }}</div>
                 <canvas id="userChart" height="60"></canvas>
@@ -55,12 +64,15 @@
         </div>
     </div>
 
-    <!-- Recent Bookings & Messages -->
     <div class="row g-3">
-        <!-- Bookings -->
         <div class="col-md-8">
             <div class="chart-container">
-                <h6 class="fw-bold mb-3">Recent Bookings</h6>
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">Recent activity</span>
+                        <h6 class="fw-bold mb-0">Recent Bookings</h6>
+                    </div>
+                </div>
                 <table class="table table-sm table-hover align-middle" id="bookingTable">
                     <thead>
                         <tr>
@@ -73,7 +85,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- Show Top 10 --}}
                         @foreach($recentBookings as $index => $booking)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
@@ -89,7 +100,6 @@
                             </tr>
                         @endforeach
 
-                        {{-- Hidden Rows (All Bookings after 10) --}}
                         @foreach($allBookings->skip(10) as $index => $booking)
                             <tr class="extra-bookings d-none">
                                 <td>{{ $index + 11 }}</td>
@@ -106,15 +116,19 @@
                         @endforeach
                     </tbody>
                 </table>
-                <button id="toggleBookings" class="btn btn-outline-primary btn-sm">Show All</button>
+                <button id="toggleBookings" class="btn btn-soft-primary btn-sm">Show All</button>
             </div>
         </div>
 
-        <!-- Messages -->
         <div class="col-md-4">
             <div class="chart-container">
-                <h6 class="fw-bold">Customer Messages</h6>
-                <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">Inbox</span>
+                        <h6 class="fw-bold mb-0">Customer Messages</h6>
+                    </div>
+                </div>
+                <ul class="list-group message-list">
                     @forelse($messages as $msg)
                         <li class="list-group-item">
                             <strong>{{ $msg->name }}</strong> <br>
@@ -158,7 +172,6 @@
     smallChart('bookingChart', '#fff');
     smallChart('userChart', '#fff');
 
-    // Toggle bookings (show more / less)
     document.getElementById('toggleBookings').addEventListener('click', function () {
         const extraRows = document.querySelectorAll('.extra-bookings');
         const isHidden = extraRows[0]?.classList.contains('d-none');

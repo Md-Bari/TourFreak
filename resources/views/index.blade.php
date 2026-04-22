@@ -3,234 +3,256 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tour Freak - Home</title>
+    <title>@yield('title', 'TourFreak')</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Custom CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <style>
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -250px; /* hidden by default */
-            height: 100%;
-            width: 250px;
-            background: #1e293b; /* Dark navy */
-            color: #fff;
-            padding-top: 60px; /* a little breathing space for links */
-            transition: all 0.3s ease-in-out;
-            z-index: 2000; /* above navbar */
-        }
-        .sidebar.active {
-            left: 0; /* show sidebar */
-        }
-        .sidebar a {
-            display: block;
-            padding: 12px 20px;
-            color: #cbd5e1;
-            text-decoration: none;
-            font-size: 15px;
-            border-radius: 6px;
-            margin: 5px 10px;
-            transition: background 0.2s ease;
-        }
-        .sidebar a:hover {
-            background: #334155;
-            color: #fff;
-        }
-        .sidebar a i {
-            width: 20px;
-        }
-
-        /* Overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1500;
-            display: none;
-        }
-        .overlay.active {
-            display: block;
-        }
-
-        /* Content shift for desktop */
-        .content {
-            transition: margin-left 0.3s;
-        }
-        @media(min-width: 992px) {
-            .content.shifted {
-                margin-left: 250px;
-            }
-        }
-    </style>
     @stack('style')
 </head>
 <body>
+    @php
+        $userNavRoutes = [
+            ['route' => 'dashboard', 'label' => 'Dashboard', 'icon' => 'fa-chart-pie'],
+            ['route' => 'profile', 'label' => 'Profile', 'icon' => 'fa-user'],
+            ['route' => 'my.bookings', 'label' => 'Bookings', 'icon' => 'fa-suitcase-rolling'],
+            ['route' => 'my-ads', 'label' => 'My Ads', 'icon' => 'fa-bullhorn'],
+            ['route' => 'my-wishlist', 'label' => 'Wishlist', 'icon' => 'fa-heart'],
+            ['route' => 'notifications.index', 'label' => 'Notifications', 'icon' => 'fa-bell'],
+            ['route' => 'messages', 'label' => 'Messages', 'icon' => 'fa-envelope'],
+            ['route' => 'settings.index', 'label' => 'Settings', 'icon' => 'fa-gear'],
+            ['route' => 'support.index', 'label' => 'Support', 'icon' => 'fa-headset'],
+        ];
 
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <br> <br>
-        <a href="{{ route('home') }}"><i class="fas fa-home me-2"></i> Home</a>
-        <a href="{{ route('dashboard') }}"><i class="fas fa-home me-2"></i> Dashboard</a>
-        <a href="{{ route('profile') }}"><i class="fas fa-user me-2"></i> Profile</a>
-        <a href="{{ route('my.bookings') }}"><i class="fas fa-calendar-alt me-2"></i> Bookings</a>
-        <a href="{{ route('my-ads') }}"><i class="fas fa-ad me-2"></i> My Ads</a>
-        <a href="{{ route('my-wishlist') }}"><i class="fas fa-heart me-2"></i> Wishlist</a>
-        <a href="#"><i class="fas fa-bell me-2"></i> Notifications</a>
-        <a href="#"><i class="fas fa-envelope me-2"></i> Messages</a>
-        <a href="{{ route('settings.index') }}"><i class="fas fa-cog me-2"></i> Settings</a>
-        <a href="{{ route('support.index') }}"><i class="fas fa-headset me-2"></i> Support</a>
-        <a href="{{ route('logout') }}"
-           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            <i class="fas fa-sign-out-alt me-2"></i> Logout
-        </a>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-            @csrf
-        </form>
-    </div>
+        $publicNavRoutes = [
+            ['route' => 'home', 'label' => 'Home'],
+            ['route' => 'room', 'label' => 'Rooms'],
+            ['route' => 'facilities', 'label' => 'Facilities'],
+            ['route' => 'contact', 'label' => 'Contact'],
+            ['route' => 'about', 'label' => 'About'],
+        ];
+    @endphp
 
-    <!-- Overlay -->
-    <div class="overlay" id="overlay"></div>
-
-    <!-- Fixed Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-ocean py-3 fixed-top shadow-sm">
-        <div class="container-fluid px-5">
-            <!-- Sidebar toggle button (hamburger menu always visible) -->
-            <button class="btn btn-outline-light me-3" id="sidebarToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <a class="navbar-brand fw-bold text-light fs-4" href="{{ route('home') }}">
-                Tour<span class="text-primary">Freak</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navMenu">
-                <ul class="navbar-nav gap-3 fs-5 fw-semibold">
-                    <li class="nav-item"><a class="nav-link text-light" href="{{ route('home') }}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="{{ route('room') }}">Rooms</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="{{ route('contact') }}">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="{{ route('about') }}">About</a></li>
-                </ul>
-
-                <ul class="navbar-nav ms-4 gap-2">
-                    @auth
-                        <li class="nav-item">
-                            <a class="nav-link text-primary fw-bold" href="{{ route('dashboard') }}">{{ auth()->user()->name }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
-                            </form>
-                        </li>
-                    @else
-                        <li class="nav-item"><a class="btn btn-outline-light btn-sm" href="{{ route('login') }}">Login</a></li>
-                        <li class="nav-item"><a class="btn btn-primary btn-sm" href="{{ route('register.create') }}">Register</a></li>
-                    @endauth
-                </ul>
+    <div class="app-shell">
+        <aside class="site-sidebar" id="siteSidebar">
+            <div class="sidebar-top">
+                <a class="brand-block" href="{{ route('home') }}">
+                    <span class="brand-mark">TF</span>
+                    <span>
+                        <strong>TourFreak</strong>
+                        <small>Travel made effortless</small>
+                    </span>
+                </a>
+                <button class="sidebar-close d-lg-none" id="sidebarClose" type="button" aria-label="Close menu">
+                    <i class="fas fa-xmark"></i>
+                </button>
             </div>
-        </div>
-    </nav>
 
-    <!-- Main Content -->
-    <main class="content p-0 m-0" id="mainContent">
-        @yield('content')
-    </main>
+            <div class="sidebar-panel">
+                <span class="sidebar-label">Explore</span>
+                <nav class="sidebar-nav">
+                    @foreach($publicNavRoutes as $item)
+                        <a href="{{ route($item['route']) }}" class="{{ request()->routeIs($item['route']) ? 'active' : '' }}">
+                            <span>{{ $item['label'] }}</span>
+                        </a>
+                    @endforeach
+                </nav>
+            </div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-light pt-5 pb-3">
-        <div class="container">
-            <div class="row text-center text-md-start">
+            @auth
+                <div class="sidebar-panel">
+                    <span class="sidebar-label">Your Space</span>
+                    <nav class="sidebar-nav">
+                        @foreach($userNavRoutes as $item)
+                            <a href="{{ route($item['route']) }}" class="{{ request()->routeIs($item['route']) ? 'active' : '' }}">
+                                <i class="fas {{ $item['icon'] }}"></i>
+                                <span>{{ $item['label'] }}</span>
+                            </a>
+                        @endforeach
+                    </nav>
+                </div>
 
-                <!-- Logo & About -->
-                <div class="col-md-4 mb-4">
-                    <h5 class="text-uppercase fw-bold mb-3">TourFreak</h5>
-                    <p class="small text-light">
-                        Explore the world with confidence and comfort. TourFreak brings you the best travel experiences, personalized for your journey.
-                    </p>
-                    <div class="d-flex justify-content-center justify-content-md-start gap-3 mt-3">
-                        <a href="#" class="text-light fs-5"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-light fs-5"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-light fs-5"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-light fs-5"><i class="fab fa-linkedin-in"></i></a>
+                <div class="sidebar-profile-card">
+                    <div class="profile-chip">
+                        <span>{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                    </div>
+                    <div>
+                        <strong>{{ auth()->user()->name }}</strong>
+                        <small>{{ auth()->user()->email }}</small>
                     </div>
                 </div>
 
-                <!-- Quick Links -->
-                <div class="col-md-4 mb-4">
-                    <h5 class="text-uppercase fw-bold mb-3">Quick Links</h5>
-                    <ul class="list-unstyled small">
-                        <li class="mb-2"><a href="{{ route('home') }}" class="text-secondary text-decoration-none">Home</a></li>
-                        <li class="mb-2"><a href="{{ route('room') }}" class="text-secondary text-decoration-none">Rooms</a></li>
-                        <li class="mb-2"><a href="{{ route('facilities') }}" class="text-secondary text-decoration-none">Facilities</a></li>
-                        <li class="mb-2"><a href="{{ route('contact') }}" class="text-secondary text-decoration-none">Contact</a></li>
-                        <li><a href="{{ route('about') }}" class="text-secondary text-decoration-none">About</a></li>
-                        <li><a href="{{ route('dashboard') }}" class="text-secondary text-decoration-none">Dashboard</a></li>
-                    </ul>
+                <form action="{{ route('logout') }}" method="POST" class="sidebar-logout">
+                    @csrf
+                    <button type="submit" class="logout-button">
+                        <i class="fas fa-arrow-right-from-bracket"></i>
+                        <span>Logout</span>
+                    </button>
+                </form>
+            @else
+                <div class="sidebar-guest-card">
+                    <h6>Ready to plan your next trip?</h6>
+                    <p>Sign in to manage bookings, favorites, and account details in one place.</p>
+                    <div class="guest-actions">
+                        <a class="btn btn-light" href="{{ route('login') }}">Login</a>
+                        <a class="btn btn-primary" href="{{ route('register.create') }}">Register</a>
+                    </div>
                 </div>
-                <!-- Contact Info -->
-                <div class="col-md-4 mb-4">
-                    <h5 class="text-uppercase fw-bold mb-3">Contact Us</h5>
-                    <p class="small mb-2"><i class="fas fa-map-marker-alt me-2"></i>123 Main Street, Dhaka, Bangladesh</p>
-                    <p class="small mb-2"><i class="fas fa-phone me-2"></i>+880 123 456 789</p>
-                    <p class="small"><i class="fas fa-envelope me-2"></i>support@tourfreak.com</p>
-                </div>
-            </div>
+            @endauth
+        </aside>
 
-            <div class="text-center mt-4">
-                <p class="small mb-1">&copy; 2025 <strong>TourFreak</strong>. All rights reserved.</p>
-                <div class="small">
-                    <a href="#" class="text-secondary text-decoration-none me-3">Privacy Policy</a>
-                    <a href="#" class="text-secondary text-decoration-none me-3">Terms of Service</a>
-                    <a href="#" class="text-secondary text-decoration-none">Help & Support</a>
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <div class="site-main">
+            <header class="site-header">
+                <div class="header-announcement">
+                    <div class="announcement-copy">
+                        <i class="fas fa-circle-info"></i>
+                        <span>One click booking. Up to 15% off selected summer packages.</span>
+                    </div>
+                    <div class="announcement-actions d-none d-lg-flex">
+                        <span>Need Help?</span>
+                        <strong>+880 1345 533 865</strong>
+                    </div>
                 </div>
-            </div>
+
+                <div class="site-header-inner travel-header">
+                    <div class="header-brand-row">
+                        <div class="header-brand-wrap">
+                            <button class="menu-toggle" id="sidebarToggle" type="button" aria-label="Open menu">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                            <a class="brand-inline" href="{{ route('home') }}">
+                                <span class="brand-mark small-mark">TF</span>
+                                <span>
+                                    <strong>TourFreak</strong>
+                                    <small>Travel.co</small>
+                                </span>
+                            </a>
+                        </div>
+
+                        <div class="header-search-shell d-none d-lg-flex">
+                            <i class="fas fa-magnifying-glass"></i>
+                            <input type="text" value="" placeholder="Find your perfect tour package">
+                        </div>
+
+                        <div class="header-utility">
+                            <div class="utility-help d-none d-xl-flex">
+                                <span>EN</span>
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            @auth
+                                <a class="account-pill account-pill-dark" href="{{ route('dashboard') }}">
+                                    <span class="account-avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</span>
+                                    <span>{{ auth()->user()->name }}</span>
+                                </a>
+                            @else
+                                <a class="btn btn-dark header-login-btn" href="{{ route('login') }}">
+                                    <i class="fas fa-user me-2"></i>Login
+                                </a>
+                            @endauth
+                        </div>
+                    </div>
+
+                    <div class="header-nav-row">
+                        <nav class="header-nav gofly-nav d-none d-lg-flex">
+                            @foreach($publicNavRoutes as $item)
+                                <a href="{{ route($item['route']) }}" class="{{ request()->routeIs($item['route']) ? 'active' : '' }}">
+                                    {{ $item['label'] }}
+                                    @if(in_array($item['label'], ['Home', 'Rooms']))
+                                        <i class="fas fa-angle-down nav-caret"></i>
+                                    @endif
+                                </a>
+                            @endforeach
+                        </nav>
+
+                        <div class="header-mini-actions">
+                            @guest
+                                <a class="btn btn-outline-dark btn-sm" href="{{ route('register.create') }}">Register</a>
+                            @endguest
+                            <div class="mini-contact d-none d-lg-flex">
+                                <div class="mini-contact-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <span>Need Help?</span>
+                                    <strong>+880 1345 533 865</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @unless(request()->routeIs('home'))
+                    <div class="header-page-title">
+                        <p class="header-kicker">TourFreak</p>
+                        <h1 class="header-title">@yield('page_title', 'Discover Better Journeys')</h1>
+                    </div>
+                @endunless
+            </header>
+
+            <main class="page-content">
+                @yield('content')
+            </main>
+
+            <footer class="site-footer">
+                <div class="footer-grid">
+                    <div>
+                        <h5>TourFreak</h5>
+                        <p>Modern travel planning for rooms, tours, transport, and memorable experiences.</p>
+                    </div>
+                    <div>
+                        <h6>Quick Links</h6>
+                        <a href="{{ route('home') }}">Home</a>
+                        <a href="{{ route('room') }}">Rooms</a>
+                        <a href="{{ route('contact') }}">Contact</a>
+                        <a href="{{ route('about') }}">About</a>
+                    </div>
+                    <div>
+                        <h6>Account</h6>
+                        <a href="{{ route('dashboard') }}">Dashboard</a>
+                        <a href="{{ route('my.bookings') }}">Bookings</a>
+                        <a href="{{ route('settings.index') }}">Settings</a>
+                        <a href="{{ route('support.index') }}">Support</a>
+                    </div>
+                    <div>
+                        <h6>Contact</h6>
+                        <p>Dhaka, Bangladesh</p>
+                        <p>+880 123 456 789</p>
+                        <p>support@tourfreak.com</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <small>&copy; {{ date('Y') }} TourFreak. All rights reserved.</small>
+                </div>
+            </footer>
         </div>
-    </footer>
+    </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Sidebar Toggle -->
     <script>
-        const sidebar = document.getElementById("sidebar");
-        const overlay = document.getElementById("overlay");
-        const mainContent = document.getElementById("mainContent");
+        const sidebar = document.getElementById('siteSidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const openButton = document.getElementById('sidebarToggle');
+        const closeButton = document.getElementById('sidebarClose');
 
-        document.getElementById("sidebarToggle").addEventListener("click", function () {
-            sidebar.classList.toggle("active");
-            overlay.classList.toggle("active");
-            mainContent.classList.toggle("shifted");
+        const closeSidebar = () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        };
+
+        openButton?.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
         });
 
-        overlay.addEventListener("click", function () {
-            sidebar.classList.remove("active");
-            overlay.classList.remove("active");
-            mainContent.classList.remove("shifted");
-        });
-
-        // Navbar scroll effect
-        window.addEventListener('scroll', function () {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
+        closeButton?.addEventListener('click', closeSidebar);
+        overlay?.addEventListener('click', closeSidebar);
     </script>
+    @stack('scripts')
     @stack('script')
 </body>
 </html>

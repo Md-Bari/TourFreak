@@ -204,3 +204,4 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 Route::get('/verify-otp/{id}', [RegisterController::class, 'showOtpForm'])->name('otp.verify.form');
 Route::post('/verify-otp/{id}', [RegisterController::class, 'verifyOtp'])->name('otp.verify');
+Route::post('/verify-otp/{id}/resend', [RegisterController::class, 'resendOtp'])->name('otp.resend');

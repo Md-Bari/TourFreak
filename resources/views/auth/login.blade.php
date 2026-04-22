@@ -1,267 +1,185 @@
 @extends('index')
 
-@section('content')
+@section('title', 'Login')
+@section('page_title', 'Sign In')
+
+@push('style')
 <style>
-    /* ============================
-       GLOBAL VARIABLES & THEME
-    ============================ */
-    :root {
-        --primary-gradient: linear-gradient(135deg, #6a11cb, #2575fc);
-        --secondary-gradient: linear-gradient(135deg, #ff6a00, #ee0979);
-        --primary-color: #6a11cb;
-        --secondary-color: #2575fc;
-        --text-dark: #333;
-        --text-light: #fff;
-        --bg-light: #f8f9fa;
-        --card-radius: 18px;
-        --transition-speed: 0.3s;
-        --shadow-soft: 0 8px 25px rgba(0, 0, 0, 0.15);
-        --shadow-hover: 0 12px 35px rgba(0, 0, 0, 0.25);
+    .auth-shell {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(340px, 440px);
+        gap: 22px;
+        align-items: stretch;
     }
 
-    /* ============================
-       PAGE BACKGROUND
-    ============================ */
-    body {
-        background: linear-gradient(-45deg, #6a11cb, #2575fc, #c27df0, #ee0979);
-        background-size: 400% 400%;
-        animation: gradientMove 12s ease infinite;
-        font-family: 'Segoe UI', sans-serif;
-    }
-
-    @keyframes gradientMove {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-
-    /* ============================
-       AUTH SECTION
-    ============================ */
-    .auth-section {
-        min-height: calc(100vh - 140px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 50px 20px;
-        position: relative;
-    }
-
-    /* ============================
-       GLASSMORPHIC LOGIN CARD
-    ============================ */
-    .login-card {
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: var(--card-radius);
-        padding: 2rem;
-        max-width: 450px;
-        width: 100%;
-        box-shadow: var(--shadow-soft);
-        z-index: 1;
-        animation: fadeInUp 0.6s ease, floatCard 6s ease-in-out infinite;
-        position: relative;
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    @keyframes floatCard {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-    }
-
-    /* ============================
-       CARD HEADER
-    ============================ */
-    .login-card-header {
-        text-align: center;
-        margin-bottom: 1.5rem;
-    }
-    .login-card-header i {
-        font-size: 55px;
-        background: var(--primary-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        display: inline-block;
-        margin-bottom: 10px;
-        animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-    }
-    .login-card-header h2 {
-        font-weight: bold;
-        color: var(--text-light);
-    }
-    .login-card-header p {
-        color: rgba(255,255,255,0.8);
-        font-size: 14px;
-    }
-
-    /* ============================
-       FORM STYLING
-    ============================ */
-    .form-group {
-        margin-bottom: 1.2rem;
-    }
-    .form-control {
-        border-radius: 8px;
-        padding: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        background: rgba(255,255,255,0.1);
+    .auth-visual-login {
+        min-height: 640px;
+        border-radius: 34px;
+        padding: 38px;
         color: #fff;
-        transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
-        font-size: 15px;
-    }
-    .form-control:focus {
-        border-color: var(--secondary-color);
-        box-shadow: 0 0 10px rgba(106, 17, 203, 0.4);
-    }
-    .form-control::placeholder {
-        color: rgba(255, 255, 255, 0.7);
+        background:
+            linear-gradient(135deg, rgba(15, 23, 42, 0.72), rgba(15, 118, 110, 0.55)),
+            url("{{ asset('assets/images/bangladesh.jpeg') }}") center/cover no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 0 28px 70px rgba(15, 23, 42, 0.16);
     }
 
-    /* Password toggle icon */
-    .password-wrapper {
+    .auth-visual-login h2 {
+        margin: 0 0 16px;
+        font-size: clamp(2.4rem, 5vw, 4.5rem);
+        line-height: 0.92;
+        font-weight: 800;
+        letter-spacing: -0.06em;
+    }
+
+    .auth-card-login {
+        padding: 28px;
+        border-radius: 30px;
+        background: rgba(255,255,255,0.96);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.09);
+    }
+
+    .auth-card-login .form-label {
+        font-size: 0.88rem;
+        font-weight: 800;
+        color: #344054;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    .auth-card-login .form-control {
+        padding: 14px 16px;
+        border-radius: 18px;
+        border: 1px solid rgba(15, 23, 42, 0.1);
+        background: #f8fafc;
+    }
+
+    .auth-card-login .form-control:focus {
+        box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.12);
+        border-color: rgba(15, 118, 110, 0.55);
+        background: #fff;
+    }
+
+    .auth-submit-login {
+        width: 100%;
+        padding: 14px 18px;
+        border: 0;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #0f172a, #0f766e);
+        color: #fff;
+        font-weight: 800;
+        box-shadow: 0 18px 34px rgba(15, 23, 42, 0.16);
+    }
+
+    .password-toggle-wrap {
         position: relative;
     }
-    .password-wrapper .toggle-password {
+
+    .password-toggle-btn {
         position: absolute;
         top: 50%;
-        right: 12px;
+        right: 14px;
         transform: translateY(-50%);
-        cursor: pointer;
-        font-size: 18px;
-        color: #ddd;
-    }
-    .password-wrapper .toggle-password:hover {
-        color: #fff;
-    }
-
-    /* ============================
-       BUTTONS
-    ============================ */
-    .btn-primary {
-        background: var(--primary-gradient);
-        border: none;
-        padding: 12px;
-        font-weight: bold;
-        border-radius: 8px;
-        color: white;
-        transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-        width: 100%;
-        font-size: 16px;
-    }
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-hover);
-    }
-    .btn-secondary {
-        background: var(--secondary-gradient);
-        color: white;
-        padding: 12px;
-        border-radius: 8px;
-        border: none;
-        width: 100%;
-        font-weight: bold;
-        transition: transform var(--transition-speed), box-shadow var(--transition-speed);
-        margin-top: 10px;
-    }
-    .btn-secondary:hover {
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-hover);
+        border: 0;
+        background: transparent;
+        color: #667085;
+        margin: 0;
+        padding: 0;
     }
 
-    /* ============================
-       ALERT
-    ============================ */
-    .alert {
-        border-radius: 8px;
-        padding: 10px 15px;
-        font-size: 14px;
-        margin-bottom: 1rem;
-    }
-    .alert-danger {
-        background-color: rgba(255, 0, 0, 0.15);
-        border-left: 5px solid red;
-        color: #fff;
+    .auth-meta-note {
+        color: rgba(255,255,255,0.84);
+        line-height: 1.7;
+        max-width: 520px;
     }
 
-    /* ============================
-       LINKS
-    ============================ */
-    .auth-links {
+    .auth-footer-note {
+        margin-top: 16px;
+        color: var(--text-soft);
         text-align: center;
-        margin-top: 1rem;
-    }
-    .auth-links a {
-        color: #fff;
-        font-weight: 600;
-        text-decoration: none;
-        transition: color var(--transition-speed);
-    }
-    .auth-links a:hover {
-        color: #ffea00;
     }
 
-    /* ============================
-       ANIMATIONS
-    ============================ */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
+    @media (max-width: 991.98px) {
+        .auth-shell {
+            grid-template-columns: 1fr;
         }
-        to {
-            opacity: 1;
-            transform: translateY(0);
+
+        .auth-visual-login {
+            min-height: 400px;
         }
     }
 </style>
+@endpush
 
-<div class="auth-section">
-    <div class="login-card">
-        <!-- Header -->
-        <div class="login-card-header">
-            <i class="fas fa-user-circle"></i>
-            <h2>Welcome Back</h2>
-            <p>Please login to your account</p>
-        </div>
-
-        <!-- Errors -->
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                {{ $errors->first() }}
+@section('content')
+<div class="page-shell">
+    <div class="auth-shell">
+        <section class="auth-visual-login">
+            <div>
+                <span class="eyebrow text-white">Welcome back</span>
+                <h2>Plan your trip your way.</h2>
+                <p class="auth-meta-note">Login to continue with bookings, saved tours, notifications, and your personal travel dashboard.</p>
             </div>
-        @endif
 
-        <!-- Form -->
-        <form method="POST" action="{{ route('login.store') }}">
-            @csrf
-            <div class="form-group">
-                <input type="email" name="email" placeholder="Email address" value="{{ old('email') }}" class="form-control" required autofocus />
+            <div class="auth-badges">
+                <div class="auth-badge">
+                    <strong>Fast access</strong>
+                    <div>Trips, stays, and bookings</div>
+                </div>
+                <div class="auth-badge">
+                    <strong>Support center</strong>
+                    <div>Track tickets and updates</div>
+                </div>
             </div>
-            <div class="form-group password-wrapper">
-                <input type="password" name="password" placeholder="Password" class="form-control" required id="password" />
-                <span class="toggle-password" onclick="togglePassword()">👁️</span>
-            </div>
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
+        </section>
 
-        <!-- Extra links -->
-        <div class="auth-links">
-            <p>Don't have an account? <a href="{{ route('register.create') }}">Register here</a></p>
-            <p><a href="#">Forgot your password?</a></p>
-        </div>
+        <section class="auth-card-login">
+            <div class="auth-card-top">
+                <span class="eyebrow">Account access</span>
+                <h3>Login</h3>
+                <p class="text-muted mb-4">Use the same email you verified during registration.</p>
+            </div>
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    {{ $errors->first() }}
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('login.store') }}">
+                @csrf
+
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="email" value="{{ old('email') }}" class="form-control" required autofocus>
+                </div>
+
+                <div class="mb-4 password-toggle-wrap">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control pe-5" required id="password">
+                    <button type="button" class="password-toggle-btn" onclick="togglePassword()" aria-label="Toggle password visibility">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+
+                <button type="submit" class="auth-submit-login">Login</button>
+            </form>
+
+            <p class="auth-footer-note">Don't have an account? <a href="{{ route('register.create') }}">Register here</a></p>
+        </section>
     </div>
 </div>
+@endsection
 
-<!-- JS for password toggle -->
+@push('script')
 <script>
     function togglePassword() {
         const password = document.getElementById('password');
         password.type = password.type === 'password' ? 'text' : 'password';
     }
 </script>
-@endsection
+@endpush
